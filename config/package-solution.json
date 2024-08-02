@@ -1,0 +1,40 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/spfx-build/package-solution.schema.json",
+  "solution": {
+    "name": "system-goal-kpi-client-side-solution",
+    "id": "e6646fda-b442-4217-a7d2-9232c75240fb",
+    "version": "1.0.0.0",
+    "includeClientSideAssets": true,
+    "skipFeatureDeployment": true,
+    "isDomainIsolated": false,
+    "developer": {
+      "name": "",
+      "websiteUrl": "",
+      "privacyUrl": "",
+      "termsOfUseUrl": "",
+      "mpnId": "Undefined-1.19.0"
+    },
+    "metadata": {
+      "shortDescription": {
+        "default": "system-goal-kpi description"
+      },
+      "longDescription": {
+        "default": "system-goal-kpi description"
+      },
+      "screenshotPaths": [],
+      "videoUrl": "",
+      "categories": []
+    },
+    "features": [
+      {
+        "title": "system-goal-kpi Feature",
+        "description": "The feature that activates elements of the system-goal-kpi solution.",
+        "id": "c493e91c-7365-4145-a023-68ea4a20223a",
+        "version": "1.0.0.0"
+      }
+    ]
+  },
+  "paths": {
+    "zippedPackage": "solution/system-goal-kpi.sppkg"
+  }
+}
