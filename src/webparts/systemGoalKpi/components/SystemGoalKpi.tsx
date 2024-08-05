@@ -1,5 +1,7 @@
 import * as React from "react";
-// import styles from "./SystemGoalKpi.module.scss";
+import styles from "./SystemGoalKpi.module.scss";
+
+
 import type {
   IGoal,
   IGoalMetrix,
@@ -114,13 +116,13 @@ export default class SystemGoalKpi extends React.Component<
 
     return (
       <section>
-        <div>
+        <div style={{display: 'none'}}>
           <h1>Goals and SubGoals</h1>
           <div>
             {Object.keys(groupedData).map((subGoalId, index) => (
               <div key={index} className="subgoal-container">
                 <h3>Sub Goal ID: {subGoalId}</h3>
-                <h3>Sub Goal ID: {}</h3>
+                <h3>Sub Goal ID: { }</h3>
                 {groupedData[subGoalId].map(
                   (
                     metrix: {
@@ -158,6 +160,560 @@ export default class SystemGoalKpi extends React.Component<
                 )}
               </div>
             ))}
+          </div>
+        </div>
+        <div className={`${styles.dummy}`}></div>
+
+        <div className={`${styles.btn_container}`}>
+          <h3>System goals 2025</h3>
+          <div>
+          <div className={`${styles.cat} ${styles.action}`}>
+            <label>
+              <input type="checkbox" value="1" /><span>BILH</span>
+            </label>
+          </div>
+          </div>
+          <div className={`${styles.multi_btn_group}`}>
+          <div className={`${styles.inner_btn_group}`}>
+            <div className={`${styles.cat} ${styles.action}`}>
+              <label>
+                <input type="checkbox" value="1" /><span>Metro Boston Division</span>
+              </label>
+            </div>
+            <div className={`${styles.btn_group}`}>
+              <div className={`${styles.cat} ${styles.action}`}>
+                <label>
+                  <input type="checkbox" value="1" /><span>BIDMC</span>
+                </label>
+              </div>
+              <div className={`${styles.cat} ${styles.action}`}>
+                <label>
+                  <input type="checkbox" value="1" /><span>Joslin</span>
+                </label>
+              </div>
+              <div className={`${styles.cat} ${styles.action}`}>
+                <label>
+                  <input type="checkbox" value="1" /><span>MAH</span>
+                </label>
+              </div>
+              <div className={`${styles.cat} ${styles.action}`}>
+                <label>
+                  <input type="checkbox" value="1" /><span>NEBH</span>
+                </label>
+              </div>
+            </div>
+          </div>
+          <div className={`${styles.inner_btn_group}`}>
+            <div className={`${styles.cat} ${styles.action}`}>
+              <label>
+                <input type="checkbox" value="1" /><span>Community Division</span>
+              </label>
+            </div>
+            <div className={`${styles.btn_group}`}>
+              <div className={`${styles.cat} ${styles.action}`}>
+                <label>
+                  <input type="checkbox" value="1" /><span>AJH</span>
+                </label>
+              </div>
+              <div className={`${styles.cat} ${styles.action}`}>
+                <label>
+                  <input type="checkbox" value="1" /><span>Exeter</span>
+                </label>
+              </div>
+              <div className={`${styles.cat} ${styles.action}`}>
+                <label>
+                  <input type="checkbox" value="1" /><span>BIDM</span>
+                </label>
+              </div>
+              <div className={`${styles.cat} ${styles.action}`}>
+                <label>
+                  <input type="checkbox" value="1" /><span>BIDN</span>
+                </label>
+              </div>
+              <div className={`${styles.cat} ${styles.action}`}>
+                <label>
+                  <input type="checkbox" value="1" /><span>NE</span>
+                </label>
+              </div>
+              <div className={`${styles.cat} ${styles.action}`}>
+                <label>
+                  <input type="checkbox" value="1" /><span>BIDP</span>
+                </label>
+              </div>
+              <div className={`${styles.cat} ${styles.action}`}>
+                <label>
+                  <input type="checkbox" value="1" /><span>WH</span>
+                </label>
+              </div>
+            </div>
+          </div>
+          <div className={`${styles.inner_btn_group}`}>
+            <div className={`${styles.cat} ${styles.action}`}>
+              <label>
+                <input type="checkbox" value="1" /><span>LHMC Division</span>
+              </label>
+            </div>
+            <div className={`${styles.btn_group}`}>
+            <div className={`${styles.cat} ${styles.action}`}>
+              <label>
+                <input type="checkbox" value="1" /><span>LHMC</span>
+              </label>
+            </div>
+            </div>
+          </div>
+          <div className={`${styles.inner_btn_group}`}>
+            <div className={`${styles.cat} ${styles.action}`}>
+              <label>
+                <input type="checkbox" value="1" /><span>Diversified Services</span>
+              </label>
+            </div>
+            <div className={`${styles.btn_group}`}>
+              <div className={`${styles.cat} ${styles.action}`}>
+                <label>
+                  <input type="checkbox" value="1" /><span>Behavioral Health</span>
+                </label>
+              </div>
+              <div className={`${styles.cat} ${styles.action}`}>
+                <label>
+                  <input type="checkbox" value="1" /><span>Continuing Care
+                  </span>
+                </label>
+              </div>
+              <div className={`${styles.cat} ${styles.action}`}>
+                <label>
+                  <input type="checkbox" value="1" /><span>Primary Care</span>
+                </label>
+              </div>
+              <div className={`${styles.cat} ${styles.action}`}>
+                <label>
+                  <input type="checkbox" value="1" /><span>Performance Network</span>
+                </label>
+              </div>
+              <div className={`${styles.cat} ${styles.action}`}>
+                <label>
+                  <input type="checkbox" value="1" /><span>Pharmacy</span>
+                </label>
+              </div>
+            </div>
+          </div>
+          </div>
+        </div>
+
+        <div className={`${styles.system_goel_container}`}>
+          <div className={`${styles.box_model}`}>
+            <div className={`${styles.header}`}>People</div>
+            <div className={`${styles.inner_container}`}>
+              <div className={`${styles.inner_header}`}>Retention, recruitment, development</div>
+              <table>
+                <thead>
+                  <th>Nursing turnover rate (w/in 1 yr.)</th>
+                  <th>Actual</th>
+                  <th>Target</th>
+                  <th>&nbsp;</th>
+                  <th>Details</th>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><button>BIDMC</button></td>
+                    <td>80%</td>
+                    <td>70%</td>
+
+                    <td><span className={`${styles.success}`}></span></td>
+                    <td><button className={`${styles.details}`}>Click</button></td>
+                  </tr>
+                  <tr>
+                    <td><button>AJH</button></td>
+                    <td>78%</td>
+                    <td>61%</td>
+
+                    <td><span className={`${styles.success}`}></span></td>
+                    <td><button className={`${styles.details} ${styles.disabled}`}>Click</button></td>
+                  </tr>
+                  <tr>
+                    <td><button>BIDN</button></td>
+                    <td>67%</td>
+                    <td>60%</td>
+
+                    <td><span className={`${styles.error}`}></span></td>
+                    <td><button className={`${styles.details}`}>Click</button></td>
+                  </tr>
+                </tbody>
+              </table>
+              {/* 2nd table */}
+              <table>
+                <thead>
+                  <th>Allied health turnover (w/in 1 yr.)</th>
+                  <th>Actual</th>
+                  <th>Target</th>
+                  <th>&nbsp;</th>
+                  <th>Details</th>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><button>BIDMC</button></td>
+                    <td>93%</td>
+                    <td>81%</td>
+
+                    <td><span className={`${styles.success}`}></span></td>
+                    <td><button className={`${styles.details} ${styles.disabled}`}>Click</button></td>
+                  </tr>
+                  <tr>
+                    <td><button>AJH</button></td>
+                    <td>88%</td>
+                    <td>72%</td>
+
+                    <td><span className={`${styles.warning}`}></span></td>
+                    <td><button className={`${styles.details}`}>Click</button></td>
+                  </tr>
+                  <tr>
+                    <td><button>BIDN</button></td>
+                    <td>76%</td>
+                    <td>55%</td>
+
+                    <td><span className={`${styles.error}`}></span></td>
+                    <td><button className={`${styles.details}`}>Click</button></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          {/* 2nd box */}
+          <div className={`${styles.box_model}`}>
+            <div className={`${styles.header}`}>Quality & Experience</div>
+            <div className={`${styles.inner_container}`}>
+              <div className={`${styles.inner_header}`}>Throughput and Access</div>
+              <table>
+                <thead>
+                  <th>Nursing turnover rate (w/in 1 yr.)</th>
+                  <th>Actual</th>
+                  <th>Target</th>
+                  <th>&nbsp;</th>
+                  <th>Details</th>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><button>BIDMC</button></td>
+                    <td>80%</td>
+                    <td>70%</td>
+
+                    <td><span className={`${styles.success}`}></span></td>
+                    <td><button className={`${styles.details}`}>Click</button></td>
+                  </tr>
+                  <tr>
+                    <td><button>AJH</button></td>
+                    <td>78%</td>
+                    <td>61%</td>
+
+                    <td><span className={`${styles.success}`}></span></td>
+                    <td><button className={`${styles.details} ${styles.disabled}`}>Click</button></td>
+                  </tr>
+                  <tr>
+                    <td><button>BIDN</button></td>
+                    <td>67%</td>
+                    <td>60%</td>
+
+                    <td><span className={`${styles.error}`}></span></td>
+                    <td><button className={`${styles.details}`}>Click</button></td>
+                  </tr>
+                </tbody>
+              </table>
+              {/* 2nd table */}
+              <table>
+                <thead>
+                  <th>Allied health turnover (w/in 1 yr.)</th>
+                  <th>Actual</th>
+                  <th>Target</th>
+                  <th>&nbsp;</th>
+                  <th>Details</th>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><button>BIDMC</button></td>
+                    <td>93%</td>
+                    <td>81%</td>
+
+                    <td><span className={`${styles.success}`}></span></td>
+                    <td><button className={`${styles.details} ${styles.disabled}`}>Click</button></td>
+                  </tr>
+                  <tr>
+                    <td><button>AJH</button></td>
+                    <td>88%</td>
+                    <td>72%</td>
+
+                    <td><span className={`${styles.warning}`}></span></td>
+                    <td><button className={`${styles.details}`}>Click</button></td>
+                  </tr>
+                  <tr>
+                    <td><button>BIDN</button></td>
+                    <td>76%</td>
+                    <td>55%</td>
+
+                    <td><span className={`${styles.error}`}></span></td>
+                    <td><button className={`${styles.details}`}>Click</button></td>
+                  </tr>
+                </tbody>
+              </table>
+              {/* 3rd table */}
+              <table>
+                <thead>
+                  <th>Net hiring (critical areas)</th>
+                  <th>Actual</th>
+                  <th>Target</th>
+                  <th>&nbsp;</th>
+                  <th>Details</th>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><button>BIDMC</button></td>
+                    <td>580</td>
+                    <td>430</td>
+                    <td><span className={`${styles.success}`}></span></td>
+                    <td><button className={`${styles.details}`}>Click</button></td>
+                  </tr>
+                  <tr>
+                    <td><button>AJH</button></td>
+                    <td>300</td>
+                    <td>270</td>
+                    <td><span className={`${styles.warning}`}></span></td>
+                    <td><button className={`${styles.details}`}>Click</button></td>
+                  </tr>
+                  <tr>
+                    <td><button>BIDN</button></td>
+                    <td>300</td>
+                    <td>270</td>
+                    <td><span className={`${styles.success}`}></span></td>
+                    <td><button className={`${styles.details}`}>Click</button></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+          </div>
+
+          {/* 3rd box */}
+          <div className={`${styles.box_model}`}>
+            <div className={`${styles.header}`}>Overall</div>
+            <div className={`${styles.inner_container}`}>
+              <div className={`${styles.inner_header}`}>Retention, recruitment and development</div>
+              <table>
+                <thead>
+                  <th>Nursing turnover rate (w/in 1 yr.)</th>
+                  <th>Actual</th>
+                  <th>Target</th>
+                  <th>&nbsp;</th>
+                  <th>Details</th>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><button>BIDMC</button></td>
+                    <td>80%</td>
+                    <td>70%</td>
+                    <td><span className={`${styles.success}`}></span></td>
+                    <td><button className={`${styles.details}`}>Click</button></td>
+                  </tr>
+                  <tr>
+                    <td><button>AJH</button></td>
+                    <td>78%</td>
+                    <td>61%</td>
+
+                    <td><span className={`${styles.success}`}></span></td>
+                    <td><button className={`${styles.details} ${styles.disabled}`}>Click</button></td>
+                  </tr>
+                  <tr>
+                    <td><button>BIDN</button></td>
+                    <td>67%</td>
+                    <td>60%</td>
+
+                    <td><span className={`${styles.error}`}></span></td>
+                    <td><button className={`${styles.details}`}>Click</button></td>
+                  </tr>
+                </tbody>
+              </table>
+              {/* 2nd table */}
+              <table>
+                <thead>
+                  <th>Allied health turnover (w/in 1 yr.)</th>
+                  <th>Actual</th>
+                  <th>Target</th>
+                  <th>&nbsp;</th>
+                  <th>Details</th>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><button>BIDMC</button></td>
+                    <td>93%</td>
+                    <td>81%</td>
+
+                    <td><span className={`${styles.success}`}></span></td>
+                    <td><button className={`${styles.details} ${styles.disabled}`}>Click</button></td>
+                  </tr>
+                  <tr>
+                    <td><button>AJH</button></td>
+                    <td>88%</td>
+                    <td>72%</td>
+
+                    <td><span className={`${styles.warning}`}></span></td>
+                    <td><button className={`${styles.details}`}>Click</button></td>
+                  </tr>
+                  <tr>
+                    <td><button>BIDN</button></td>
+                    <td>76%</td>
+                    <td>55%</td>
+
+                    <td><span className={`${styles.error}`}></span></td>
+                    <td><button className={`${styles.details}`}>Click</button></td>
+                  </tr>
+                </tbody>
+              </table>
+              {/* 3rd table */}
+              <table>
+                <thead>
+                  <th>Net hiring (critical areas)</th>
+                  <th>Actual</th>
+                  <th>Target</th>
+                  <th>&nbsp;</th>
+                  <th>Details</th>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><button>BIDMC</button></td>
+                    <td>580</td>
+                    <td>430</td>
+                    <td><span className={`${styles.success}`}></span></td>
+                    <td><button className={`${styles.details}`}>Click</button></td>
+                  </tr>
+                  <tr>
+                    <td><button>AJH</button></td>
+                    <td>300</td>
+                    <td>270</td>
+                    <td><span className={`${styles.warning}`}></span></td>
+                    <td><button className={`${styles.details}`}>Click</button></td>
+                  </tr>
+                  <tr>
+                    <td><button>BIDN</button></td>
+                    <td>300</td>
+                    <td>270</td>
+                    <td><span className={`${styles.success}`}></span></td>
+                    <td><button className={`${styles.details}`}>Click</button></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+          </div>
+
+          {/* 4th box */}
+          <div className={`${styles.box_model}`}>
+            <div className={`${styles.header}`}>Quality & Experience</div>
+            <div className={`${styles.inner_container}`}>
+              <div className={`${styles.inner_header}`}>Strategy</div>
+              <table>
+                <thead>
+                  <th>Nursing turnover rate (w/in 1 yr.)</th>
+                  <th>Actual</th>
+                  <th>Target</th>
+                  <th>&nbsp;</th>
+                  <th>Details</th>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><button>BIDMC</button></td>
+                    <td>80%</td>
+                    <td>70%</td>
+
+                    <td><span className={`${styles.success}`}></span></td>
+                    <td><button className={`${styles.details}`}>Click</button></td>
+                  </tr>
+                  <tr>
+                    <td><button>AJH</button></td>
+                    <td>78%</td>
+                    <td>61%</td>
+
+                    <td><span className={`${styles.success}`}></span></td>
+                    <td><button className={`${styles.details} ${styles.disabled}`}>Click</button></td>
+                  </tr>
+                  <tr>
+                    <td><button>BIDN</button></td>
+                    <td>67%</td>
+                    <td>60%</td>
+
+                    <td><span className={`${styles.error}`}></span></td>
+                    <td><button className={`${styles.details}`}>Click</button></td>
+                  </tr>
+                </tbody>
+              </table>
+              {/* 2nd table */}
+              <table>
+                <thead>
+                  <th>Allied health turnover (w/in 1 yr.)</th>
+                  <th>Actual</th>
+                  <th>Target</th>
+                  <th>&nbsp;</th>
+                  <th>Details</th>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><button>BIDMC</button></td>
+                    <td>93%</td>
+                    <td>81%</td>
+
+                    <td><span className={`${styles.success}`}></span></td>
+                    <td><button className={`${styles.details} ${styles.disabled}`}>Click</button></td>
+                  </tr>
+                  <tr>
+                    <td><button>AJH</button></td>
+                    <td>88%</td>
+                    <td>72%</td>
+
+                    <td><span className={`${styles.warning}`}></span></td>
+                    <td><button className={`${styles.details}`}>Click</button></td>
+                  </tr>
+                  <tr>
+                    <td><button>BIDN</button></td>
+                    <td>76%</td>
+                    <td>55%</td>
+
+                    <td><span className={`${styles.error}`}></span></td>
+                    <td><button className={`${styles.details}`}>Click</button></td>
+                  </tr>
+                </tbody>
+              </table>
+              {/* 3rd table */}
+              <table>
+                <thead>
+                  <th>Net hiring (critical areas)</th>
+                  <th>Actual</th>
+                  <th>Target</th>
+                  <th>&nbsp;</th>
+                  <th>Details</th>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><button>BIDMC</button></td>
+                    <td>580</td>
+                    <td>430</td>
+                    <td><span className={`${styles.success}`}></span></td>
+                    <td><button className={`${styles.details}`}>Click</button></td>
+                  </tr>
+                  <tr>
+                    <td><button>AJH</button></td>
+                    <td>300</td>
+                    <td>270</td>
+                    <td><span className={`${styles.warning}`}></span></td>
+                    <td><button className={`${styles.details}`}>Click</button></td>
+                  </tr>
+                  <tr>
+                    <td><button>BIDN</button></td>
+                    <td>300</td>
+                    <td>270</td>
+                    <td><span className={`${styles.success}`}></span></td>
+                    <td><button className={`${styles.details}`}>Click</button></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
           </div>
         </div>
       </section>
