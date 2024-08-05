@@ -40,7 +40,7 @@ export default class SystemGoalKpi extends React.Component<
   // Get Main System Goal
   private getSystemGoalTitle = (SystemGoalId: number) => {
     const { dataSystemGoal } = this.state;
-    if (!dataSystemGoal) return "Unknown System Goal"; // Check if dataHospital is null
+    if (!dataSystemGoal) return "Unknown System Goal"; // Check if dataSystemGoal is null
     const systemGoal = dataSystemGoal.find(
       (systemGoal) => systemGoal.Id === SystemGoalId
     );
@@ -50,7 +50,7 @@ export default class SystemGoalKpi extends React.Component<
   // Get Goal
   private getGoalTitle = (GoalId: number) => {
     const { dataGoal } = this.state;
-    if (!dataGoal) return "Unknown Goal"; // Check if dataHospital is null
+    if (!dataGoal) return "Unknown Goal"; // Check if dataGoal is null
     const goal = dataGoal.find((goal) => goal.Id === GoalId);
     return goal ? goal.Title : "Unknown Goal";
   };
@@ -58,7 +58,7 @@ export default class SystemGoalKpi extends React.Component<
   // Get sub Goal
   private getSubGoalTitle = (SubGoalId: number) => {
     const { dataSubGoal } = this.state;
-    if (!dataSubGoal) return "Unknown SubGoal"; // Check if dataHospital is null
+    if (!dataSubGoal) return "Unknown SubGoal"; // Check if dataSubGoal is null
     const subgoal = dataSubGoal.find((subgoal) => subgoal.Id === SubGoalId);
     return subgoal ? subgoal.Title : "Unknown SubGoal";
   };
@@ -66,7 +66,7 @@ export default class SystemGoalKpi extends React.Component<
   // Get KPI
   private getKPITitle = (KpiId: number) => {
     const { dataKPI } = this.state;
-    if (!dataKPI) return "Unknown KPI"; // Check if dataHospital is null
+    if (!dataKPI) return "Unknown KPI"; // Check if dataKPI is null
     const kpi = dataKPI.find((kpi) => kpi.Id === KpiId);
     return kpi ? kpi.Title : "Unknown KPI";
   };
@@ -81,84 +81,113 @@ export default class SystemGoalKpi extends React.Component<
     return hospital ? hospital.Title : "Unknown Hospital";
   };
 
+  // Group data by SystemGoalId, then GoalId, then SubGoalId, and finally by KPIId
+  private groupData = (data: IGoalMetrix[]) => {
+    const groupedData: any = {};
+
+    data.forEach((item) => {
+      if (!groupedData[item.SystemGoalId]) {
+        groupedData[item.SystemGoalId] = {};
+      }
+      if (!groupedData[item.SystemGoalId][item.GoalId]) {
+        groupedData[item.SystemGoalId][item.GoalId] = {};
+      }
+      if (!groupedData[item.SystemGoalId][item.GoalId][item.SubGoalId]) {
+        groupedData[item.SystemGoalId][item.GoalId][item.SubGoalId] = {};
+      }
+      if (
+        !groupedData[item.SystemGoalId][item.GoalId][item.SubGoalId][item.KPIId]
+      ) {
+        groupedData[item.SystemGoalId][item.GoalId][item.SubGoalId][
+          item.KPIId
+        ] = [];
+      }
+      groupedData[item.SystemGoalId][item.GoalId][item.SubGoalId][
+        item.KPIId
+      ].push(item);
+    });
+
+    return groupedData;
+  };
+
   public render(): React.ReactElement<ISystemGoalKpiProps> {
     const {
       dataGoalMetrix,
-      dataHospital,
-      dataKPI,
-      dataSubGoal,
-      dataGoal,
-      dataSystemGoal,
+      // dataHospital,
+      // dataKPI,
+      // dataSubGoal,
+      // dataGoal,
+      // dataSystemGoal,
     } = this.state;
 
-    const groupBySubGoalId = (data: any[]) => {
-      return data.reduce((acc, item) => {
-        if (!acc[item.SubGoalId]) {
-          acc[item.SubGoalId] = [];
-        }
-        acc[item.SubGoalId].push(item);
+    const groupedData = this.groupData(dataGoalMetrix || []);
 
-        console.log("groupby Sub", acc);
-        return acc;
-      }, {});
-    };
-
-    console.log("final dataSystemGoal data=", dataSystemGoal);
-    console.log("final dataGoal data=", dataGoal);
-    console.log("final dataSubGoal data=", dataSubGoal);
-    console.log("final dataKPI data=", dataKPI);
-    console.log("final dataHospital data=", dataHospital);
-    console.log("final dataGoalMetrix data=", dataGoalMetrix);
-
-    const groupedData = groupBySubGoalId(dataGoalMetrix || []);
+    console.log("final groupedData=", groupedData);
 
     return (
       <section>
         <div>
-          <h1>Goals and SubGoals</h1>
-          <div>
-            {Object.keys(groupedData).map((subGoalId, index) => (
-              <div key={index} className="subgoal-container">
-                <h3>Sub Goal ID: {subGoalId}</h3>
-                <h3>Sub Goal ID: {}</h3>
-                {groupedData[subGoalId].map(
-                  (
-                    metrix: {
-                      SystemGoalId: any;
-                      SubGoalId: any;
-                      KPIId: any;
-                      GoalId: any;
-                      HospitalId: any;
-                      Actual: any;
-                      Target: any;
-                    },
-                    subIndex: React.Key | null | undefined
-                  ) => (
-                    <div key={subIndex} className="goal-item">
-                      <p>
-                        SystemGoalId ID:{" "}
-                        {this.getSystemGoalTitle(metrix.SystemGoalId)}
-                      </p>
-
-                      <p>Goal ID: {this.getGoalTitle(metrix.GoalId)}</p>
-                      <p>
-                        SubGoalId ID: {this.getSubGoalTitle(metrix.SubGoalId)}
-                      </p>
-
-                      <p>KPIId ID: {this.getKPITitle(metrix.KPIId)}</p>
-
-                      <p>
-                        Hospital Title:{" "}
-                        {this.getHospitalTitle(metrix.HospitalId)}
-                      </p>
-                      <p>Actual: {metrix.Actual}</p>
-                      <p>Target: {metrix.Target}</p>
-                    </div>
-                  )
-                )}
-              </div>
-            ))}
-          </div>
+          {Object.keys(groupedData).map((systemGoalId) => (
+            <div key={systemGoalId} className="systemgoal-container">
+              <h3>
+                System Goal: {this.getSystemGoalTitle(Number(systemGoalId))}
+              </h3>
+              {Object.keys(groupedData[systemGoalId]).map((goalId) => (
+                <div key={goalId} className="goal-container">
+                  <h4>Goal: {this.getGoalTitle(Number(goalId))}</h4>
+                  {Object.keys(groupedData[systemGoalId][goalId]).map(
+                    (subGoalId) => (
+                      <div key={subGoalId} className="subgoal-container">
+                        <h5>
+                          Sub Goal: {this.getSubGoalTitle(Number(subGoalId))}
+                        </h5>
+                        {Object.keys(
+                          groupedData[systemGoalId][goalId][subGoalId]
+                        ).map((kpiId) => (
+                          <div key={kpiId} className="kpi-container">
+                            <h6>KPI: {this.getKPITitle(Number(kpiId))}</h6>
+                            {groupedData[systemGoalId][goalId][subGoalId][
+                              kpiId
+                            ].map(
+                              (
+                                metrix: {
+                                  HospitalId: number;
+                                  Actual:
+                                    | boolean
+                                    | React.ReactChild
+                                    | React.ReactFragment
+                                    | React.ReactPortal
+                                    | null
+                                    | undefined;
+                                  Target:
+                                    | boolean
+                                    | React.ReactChild
+                                    | React.ReactFragment
+                                    | React.ReactPortal
+                                    | null
+                                    | undefined;
+                                },
+                                subIndex: React.Key | null | undefined
+                              ) => (
+                                <div key={subIndex} className="goal-item">
+                                  <p>
+                                    Hospital:{" "}
+                                    {this.getHospitalTitle(metrix.HospitalId)}
+                                  </p>
+                                  <p>Actual: {metrix.Actual}</p>
+                                  <p>Target: {metrix.Target}</p>
+                                </div>
+                              )
+                            )}
+                          </div>
+                        ))}
+                      </div>
+                    )
+                  )}
+                </div>
+              ))}
+            </div>
+          ))}
         </div>
       </section>
     );

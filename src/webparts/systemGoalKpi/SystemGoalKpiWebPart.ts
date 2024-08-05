@@ -34,7 +34,7 @@ export default class SystemGoalKpiWebPart extends BaseClientSideWebPart<ISystemG
 
   // Get List for System Goal
   public async getSystemGoalConfiguration(): Promise<ISystemGoal[]> {
-    const requestUrl = `${this.context.pageContext.web.absoluteUrl}/_api/web/Lists/GetByTitle('${this.properties.description}')/Items`;
+    const requestUrl = `${this.context.pageContext.web.absoluteUrl}/_api/web/Lists/GetByTitle('${this.properties.system_goal}')/Items`;
     console.log('Fetching description data from:', requestUrl);
     const response: SPHttpClientResponse = await this.context.spHttpClient.get(requestUrl, SPHttpClient.configurations.v1);
     const data = await response.json();
