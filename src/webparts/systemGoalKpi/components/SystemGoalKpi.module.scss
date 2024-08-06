@@ -86,6 +86,9 @@
         border: 0;
         border-spacing: 0;
         width: 100%;
+        .change_status {
+          color: #0078d4;
+        }
       }
       thead{
         background-color: #ebf7ff;
@@ -152,6 +155,7 @@
               pointer-events: none;
             }
           }
+          
         }
       }
     }
@@ -167,9 +171,34 @@
     align-items: center;
     margin-bottom: 16px;
     h3{
+      position: relative;
       font-size: 32px;
       font-weight: 600;
-      color: #0078d4;
+      background-position: 50%;
+      background-size: cover;
+      height: 100%;
+      top: 0;
+      width: 100%;
+      will-change: transform;
+      padding: 32px;
+      box-sizing: border-box;
+      border-radius: 12px;
+      box-shadow: 0px 0px 6px rgba(0, 0, 0, 0.1568627450980392);
+      overflow: hidden;
+      color: #fff;
+      background-image: url("https://img.freepik.com/free-photo/3d-rendering-arrow-hitting-target_23-2151266612.jpg?t=st=1722953325~exp=1722956925~hmac=e363e7387749de5c915da396c3b89dafaa6863c27c4b48ed17341a0245a5c6c0&w=1800");
+      span{
+        position: relative;
+      }
+      &::before {
+        position: absolute;
+        content: '';
+        background-color: rgba(0, 0, 0, 0.5);
+        width: 100%;
+        height: 100%;
+        top: 0;
+        left: 0;
+      }
     }
   div label input {margin-right: 100px;}
 
@@ -200,10 +229,11 @@
           color: #000;
           min-width: 160px;
           padding: 0 12px;
-          height: 32px;
+          min-height: 32px;
           display: inline-flex;
           justify-content: center;
           align-items: center;
+          box-sizing: border-box;
         }
       }
     }
@@ -235,11 +265,14 @@
     }
     &.secondary {
       background-color: #ebf7ff;
+      max-width: unset;
+      width: 100%;
+      float: unset;
       label {
+        width: 100%;
         input {
           & + span {
-            padding: 0 12px;
-            min-width: 160px;
+            min-width: 100%;
             height: 45px;
             font-size: 16px;
           }
@@ -287,8 +320,12 @@
           max-width: unset;
           width: calc(50% - 8px);
           float: unset;
-          label input+span {
-            min-width: 100%;
+          label {
+            width: 100%;
+            input+span {
+              min-width: 100%;
+              padding: 0;
+            }
           }
         }
        

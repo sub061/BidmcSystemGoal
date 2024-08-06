@@ -165,7 +165,7 @@ export default class SystemGoalKpi extends React.Component<
         <div className={`${styles.dummy}`}></div>
 
         <div className={`${styles.btn_container}`}>
-          <h3>System Goals 2025</h3>
+          <h3><span>System Goals 2025</span></h3>
           <div>
           <div className={`${styles.cat} ${styles.action} ${styles.primary}`}>
             <label>
@@ -315,7 +315,7 @@ export default class SystemGoalKpi extends React.Component<
                 <tbody>
                   <tr>
                     <td><button>BIDMC</button></td>
-                    <td>80%</td>
+                    <td className={`${styles.change_status}`}>80%</td>
                     <td>70%</td>
 
                     <td><span className={`${styles.success}`}></span></td>
@@ -324,7 +324,7 @@ export default class SystemGoalKpi extends React.Component<
                   <tr>
                     <td><button>AJH</button></td>
                     <td>78%</td>
-                    <td>61%</td>
+                    <td className={`${styles.change_status}`}>61%</td>
 
                     <td><span className={`${styles.success}`}></span></td>
                     <td><button className={`${styles.details} ${styles.disabled}`}>Click</button></td>
