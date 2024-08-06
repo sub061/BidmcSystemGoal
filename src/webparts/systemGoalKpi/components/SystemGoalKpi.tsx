@@ -165,9 +165,9 @@ export default class SystemGoalKpi extends React.Component<
         <div className={`${styles.dummy}`}></div>
 
         <div className={`${styles.btn_container}`}>
-          <h3>System goals 2025</h3>
+          <h3>System Goals 2025</h3>
           <div>
-          <div className={`${styles.cat} ${styles.action}`}>
+          <div className={`${styles.cat} ${styles.action} ${styles.primary}`}>
             <label>
               <input type="checkbox" value="1" /><span>BILH</span>
             </label>
@@ -175,7 +175,7 @@ export default class SystemGoalKpi extends React.Component<
           </div>
           <div className={`${styles.multi_btn_group}`}>
           <div className={`${styles.inner_btn_group}`}>
-            <div className={`${styles.cat} ${styles.action}`}>
+            <div className={`${styles.cat} ${styles.action} ${styles.secondary}`}>
               <label>
                 <input type="checkbox" value="1" /><span>Metro Boston Division</span>
               </label>
@@ -204,7 +204,7 @@ export default class SystemGoalKpi extends React.Component<
             </div>
           </div>
           <div className={`${styles.inner_btn_group}`}>
-            <div className={`${styles.cat} ${styles.action}`}>
+            <div className={`${styles.cat} ${styles.action}  ${styles.secondary}`}>
               <label>
                 <input type="checkbox" value="1" /><span>Community Division</span>
               </label>
@@ -248,7 +248,7 @@ export default class SystemGoalKpi extends React.Component<
             </div>
           </div>
           <div className={`${styles.inner_btn_group}`}>
-            <div className={`${styles.cat} ${styles.action}`}>
+            <div className={`${styles.cat} ${styles.action}  ${styles.secondary}`}>
               <label>
                 <input type="checkbox" value="1" /><span>LHMC Division</span>
               </label>
@@ -262,7 +262,7 @@ export default class SystemGoalKpi extends React.Component<
             </div>
           </div>
           <div className={`${styles.inner_btn_group}`}>
-            <div className={`${styles.cat} ${styles.action}`}>
+            <div className={`${styles.cat} ${styles.action}  ${styles.secondary}`}>
               <label>
                 <input type="checkbox" value="1" /><span>Diversified Services</span>
               </label>
@@ -493,9 +493,9 @@ export default class SystemGoalKpi extends React.Component<
 
           {/* 3rd box */}
           <div className={`${styles.box_model}`}>
-            <div className={`${styles.header}`}>Overall</div>
+            <div className={`${styles.header}`}>Finance and Operations</div>
             <div className={`${styles.inner_container}`}>
-              <div className={`${styles.inner_header}`}>Retention, recruitment and development</div>
+              <div className={`${styles.inner_header}`}>Overall</div>
               <table>
                 <thead>
                   <th>Nursing turnover rate (w/in 1 yr.)</th>
@@ -605,7 +605,7 @@ export default class SystemGoalKpi extends React.Component<
 
           {/* 4th box */}
           <div className={`${styles.box_model}`}>
-            <div className={`${styles.header}`}>Quality & Experience</div>
+            <div className={`${styles.header}`}>Strategy</div>
             <div className={`${styles.inner_container}`}>
               <div className={`${styles.inner_header}`}>Strategy</div>
               <table>
