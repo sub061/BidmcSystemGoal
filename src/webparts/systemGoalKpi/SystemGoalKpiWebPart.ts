@@ -9,7 +9,7 @@ import { BaseClientSideWebPart } from '@microsoft/sp-webpart-base';
 import { IReadonlyTheme } from '@microsoft/sp-component-base';
 import { SPHttpClient, SPHttpClientResponse } from '@microsoft/sp-http';
 import SystemGoalKpi from './components/SystemGoalKpi';
-import {  IGoalMetrix, IHospital, IGoal, IKPI, ISubGoal, ISystemGoal, ISystemGoalProps, IDivision, IOperatingModel } from './components/ISystemGoalKpiProps';
+import {  IGoalMetrix, IHospital, IGoal, IKPI, ISubGoal, ISystemGoal, ISystemGoalProps, IOperatingModel } from './components/ISystemGoalKpiProps';
 
 
 export interface ISystemGoalKpiWebPartProps {
@@ -74,13 +74,17 @@ export default class SystemGoalKpiWebPart extends BaseClientSideWebPart<ISystemG
   }
 
 // Get List for Division
-  public async getDivisionConfiguration(): Promise<IDivision[]> {
-    const requestUrl = `${this.context.pageContext.web.absoluteUrl}/_api/web/Lists/GetByTitle('${this.properties.division}')/Items`;
+  public async getDivisionConfiguration(): Promise<IHospital[]> {
+    const requestUrl = `${this.context.pageContext.web.absoluteUrl}/_api/web/Lists/GetByTitle('${this.properties.hospital}')/Items`;
     console.log('Fetching Division data from:', requestUrl);
     const response: SPHttpClientResponse = await this.context.spHttpClient.get(requestUrl, SPHttpClient.configurations.v1);
     const data = await response.json();
     console.log('Data fetched:', data);
-    return data.value; 
+    // Filter the data to include only those items where Division is not null
+    const filteredData = data.value.filter((item: IHospital) => item.DivisionId == null);
+    console.log('filter hospital Data fetched:', filteredData);
+    return filteredData; 
+    
   }
 
 
@@ -90,8 +94,12 @@ export default class SystemGoalKpiWebPart extends BaseClientSideWebPart<ISystemG
     console.log('Fetching hospital data from:', requestUrl);
     const response: SPHttpClientResponse = await this.context.spHttpClient.get(requestUrl, SPHttpClient.configurations.v1);
     const data = await response.json();
-    console.log('Data fetched:', data);
-    return data.value; 
+    console.log('hospital Data fetched:', data);
+
+// Filter the data to include only those items where Division is not null
+    const filteredData = data.value.filter((item: IHospital) => item.DivisionId !== null);
+console.log('filter hospital Data fetched:', filteredData);
+    return filteredData; 
   }
 
   // Get List for System Goal

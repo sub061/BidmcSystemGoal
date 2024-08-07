@@ -8,7 +8,7 @@ export interface ISystemGoalKpiProps {
   hospital: string;
   metrix: string;
   getGoalMetrix: IGoalMetrix[];
-  getDivision: IDivision[];
+  getDivision: IHospital[];
   getHospital: IHospital[];
   getKPI: IKPI[];
   getSubGoal: ISubGoal[];
@@ -21,7 +21,7 @@ export interface ISystemGoalProps {
   description: string;
   getOperatingModel:IOperatingModel[];
   getGoalMetrix: IGoalMetrix[];
-  getDivision : IDivision[]
+  getDivision : IHospital[]
   getHospital: IHospital[];
   getKPI: IKPI[];
   getSubGoal: ISubGoal[];
@@ -56,6 +56,8 @@ export interface IHospital{
   DivisionId: number;
   OrganizationId: number;
   Organization: string;
+  Division1: string;
+  Division1Id: number;
 }
 
 export interface IGoal{

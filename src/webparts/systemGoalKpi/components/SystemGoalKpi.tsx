@@ -2,7 +2,7 @@ import * as React from "react";
 import styles from "./SystemGoalKpi.module.scss";
 
 import type {
-  IDivision,
+  // IDivision,
   IGoal,
   IGoalMetrix,
   IHospital,
@@ -18,12 +18,13 @@ import type {
 export interface ISystemGoalKpiWpState {
   dataOperatingModel: IOperatingModel[] | null;
   dataGoalMetrix: IGoalMetrix[] | null;
-  dataDivision: IDivision[] | null;
+  dataDivision: IHospital[] | null;
   dataHospital: IHospital[] | null;
   dataKPI: IKPI[] | null;
   dataSubGoal: ISubGoal[] | null;
   dataGoal: IGoal[] | null;
   dataSystemGoal: ISystemGoal[] | null;
+  selectedHospitals: Set<number>;
 }
 
 export default class SystemGoalKpi extends React.Component<
@@ -41,9 +42,24 @@ export default class SystemGoalKpi extends React.Component<
       dataSubGoal: props.getSubGoal || null, // Initialize state with the passed prop or null
       dataGoal: props.getGoal || null, // Initialize state with the passed prop or null
       dataSystemGoal: props.getSystemGoal || null, // Initialize state with the passed prop or null
+      selectedHospitals: new Set(),
     };
     console.log("tsx file constructor");
   }
+
+  private handleHospitalCheckboxChange = (hospitalId: number) => {
+    this.setState((prevState) => {
+      const selectedHospitals = new Set(prevState.selectedHospitals);
+      console.log("selectedHospitals", selectedHospitals);
+      if (selectedHospitals.has(hospitalId)) {
+        selectedHospitals.delete(hospitalId);
+      } else {
+        selectedHospitals.add(hospitalId);
+        console.log("selectedHospitals", selectedHospitals);
+      }
+      return { selectedHospitals };
+    });
+  };
 
   // Get Main System Goal
   private getSystemGoalTitle = (organizationId: number) => {
@@ -180,21 +196,17 @@ export default class SystemGoalKpi extends React.Component<
       dataGoalMetrix,
       dataHospital,
       dataOperatingModel,
-      // dataKPI,
-      // dataSubGoal,
-      // dataGoal,
-      // dataSystemGoal,
+      selectedHospitals,
     } = this.state;
 
     const groupedOperatingModel = this.groupOperatingModel(
       dataOperatingModel || []
     );
     const groupedData = this.groupData(dataGoalMetrix || []);
-
     const groupedDivisionData = this.groupDivisionData(dataHospital || []);
+
     console.log("final groupedDivisionData dataHospital=", dataHospital);
     console.log("final groupedData=", groupedData);
-
     console.log("final groupedDivisionData=", groupedDivisionData);
     console.log("final Operating Model=", dataOperatingModel);
 
@@ -205,7 +217,6 @@ export default class SystemGoalKpi extends React.Component<
             <div>
               <div className="btn_container">
                 <h3>
-                  {" "}
                   <span>{this.getOperatingModel(Number(Id))}</span>
                 </h3>
                 <div>
@@ -219,7 +230,6 @@ export default class SystemGoalKpi extends React.Component<
                           </span>
                         </label>
                       </div>
-
                       <div className="multi_btn_group">
                         {Object.keys(groupedDivisionData[organizationId]).map(
                           (divisionId) => (
@@ -229,14 +239,20 @@ export default class SystemGoalKpi extends React.Component<
                                 className="cat action secondary"
                               >
                                 <label>
-                                  <input type="checkbox" value="1" />
+                                  <input
+                                    type="checkbox"
+                                    value={divisionId}
+                                    onChange={() =>
+                                      this.handleHospitalCheckboxChange(
+                                        Number(divisionId)
+                                      )
+                                    }
+                                  />
                                   <span>
-                                    {" "}
                                     {this.getDivisionTitle(Number(divisionId))}
                                   </span>
                                 </label>
                               </div>
-
                               <div className="btn_group">
                                 {Object.keys(
                                   groupedDivisionData[organizationId][
@@ -245,7 +261,15 @@ export default class SystemGoalKpi extends React.Component<
                                 ).map((hospitalId) => (
                                   <div className="cat action">
                                     <label key={hospitalId}>
-                                      <input type="checkbox" value="1" />
+                                      <input
+                                        type="checkbox"
+                                        value={hospitalId}
+                                        onChange={() =>
+                                          this.handleHospitalCheckboxChange(
+                                            Number(hospitalId)
+                                          )
+                                        }
+                                      />
                                       <span>
                                         {this.getHospitalTitle(
                                           Number(hospitalId)
@@ -263,7 +287,6 @@ export default class SystemGoalKpi extends React.Component<
                   ))}
                 </div>
               </div>
-
               <div>
                 {Object.keys(groupedData).map((organizationId) => (
                   <div key={organizationId} className="system_goel_container">
@@ -273,33 +296,39 @@ export default class SystemGoalKpi extends React.Component<
                           {this.getGoalTitle(Number(goalId))}
                         </div>
                         <div>
-                          <div>
-                            {Object.keys(
-                              groupedData[organizationId][goalId]
-                            ).map((subGoalId) => (
+                          {Object.keys(groupedData[organizationId][goalId]).map(
+                            (subGoalId) => (
                               <div key={subGoalId} className="inner_container">
                                 <div className="inner_header">
                                   {this.getSubGoalTitle(Number(subGoalId))}
                                 </div>
-
                                 {Object.keys(
                                   groupedData[organizationId][goalId][subGoalId]
                                 ).map((kpiId) => (
-                                  <table>
+                                  <table key={kpiId}>
                                     <thead>
-                                      <th key={kpiId}>
-                                        {this.getKPITitle(Number(kpiId))}
-                                      </th>
-                                      <th>Actual</th>
-                                      <th>Target</th>
-                                      <th>&nbsp;</th>
-                                      <th>Details</th>
+                                      <tr>
+                                        <th>
+                                          {this.getKPITitle(Number(kpiId))}
+                                        </th>
+                                        <th>Actual</th>
+                                        <th>Target</th>
+                                        <th>&nbsp;</th>
+                                        <th>Details</th>
+                                      </tr>
                                     </thead>
                                     <tbody>
-                                      <div>
-                                        {groupedData[organizationId][goalId][
-                                          subGoalId
-                                        ][kpiId].map(
+                                      {groupedData[organizationId][goalId][
+                                        subGoalId
+                                      ][kpiId]
+                                        .filter(
+                                          (metrix: { HospitalId: number }) =>
+                                            selectedHospitals.size === 0 ||
+                                            selectedHospitals.has(
+                                              metrix.HospitalId
+                                            )
+                                        )
+                                        .map(
                                           (
                                             metrix: {
                                               HospitalId: number;
@@ -326,7 +355,6 @@ export default class SystemGoalKpi extends React.Component<
                                             <tr key={subIndex}>
                                               <td>
                                                 <button>
-                                                  {" "}
                                                   {this.getHospitalTitle(
                                                     metrix.HospitalId
                                                   )}
@@ -334,7 +362,6 @@ export default class SystemGoalKpi extends React.Component<
                                               </td>
                                               <td>{metrix.Actual}</td>
                                               <td>{metrix.Target}</td>
-
                                               <td>
                                                 <span className="success"></span>
                                               </td>
@@ -346,13 +373,12 @@ export default class SystemGoalKpi extends React.Component<
                                             </tr>
                                           )
                                         )}
-                                      </div>
                                     </tbody>
                                   </table>
                                 ))}
                               </div>
-                            ))}
-                          </div>
+                            )
+                          )}
                         </div>
                       </div>
                     ))}
