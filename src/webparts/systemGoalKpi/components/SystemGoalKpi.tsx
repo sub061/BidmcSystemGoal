@@ -235,28 +235,28 @@ export default class SystemGoalKpi extends React.Component<
                           </button>
                           <ul className="dropdown-menu">
                             <li>
-                            <input type="checkbox" className="form-check-input" id="dropdownCheck2" /> 
-                              <label className="dropdown-item" htmlFor="dropdownCheck2">
+                            <input type="checkbox" className="form-check-input" id="People" checked /> 
+                              <label className="dropdown-item" htmlFor="People">
                               People
                               </label>
                             </li>
                             <li>
-                            <input type="checkbox" className="form-check-input" id="dropdownCheck2" />
-                              <a className="dropdown-item" href="#">
+                            <input type="checkbox" className="form-check-input" id="Quality" checked />
+                              <label htmlFor="Quality" className="dropdown-item" >
                                Quality and Experience
-                              </a>
+                              </label>
                             </li>
                             <li>
-                            <input type="checkbox" className="form-check-input" id="dropdownCheck2" />
-                              <a className="dropdown-item" href="#">
+                            <input type="checkbox" className="form-check-input" id="Finance" checked />
+                              <label htmlFor="Finance" className="dropdown-item">
                                 Finance and Operations
-                              </a>
+                              </label>
                             </li>
                             <li>
-                            <input type="checkbox" className="form-check-input" id="dropdownCheck2" />
-                              <a className="dropdown-item" href="#">
+                            <input type="checkbox" className="form-check-input" id="Strategy" checked />
+                              <label htmlFor="Strategy" className="dropdown-item" >
                                 Strategy
-                              </a>
+                              </label>
                             </li>
                           </ul>
                         </div>
@@ -340,7 +340,6 @@ export default class SystemGoalKpi extends React.Component<
                                       <th>Details</th>
                                     </thead>
                                     <tbody>
-                                      <div>
                                         {groupedData[organizationId][goalId][
                                           subGoalId
                                         ][kpiId].map(
@@ -390,7 +389,6 @@ export default class SystemGoalKpi extends React.Component<
                                             </tr>
                                           )
                                         )}
-                                      </div>
                                     </tbody>
                                   </table>
                                 ))}
