@@ -1,36 +1,3 @@
-/*
-  Your use of the content in the files referenced here is subject to the terms of the license at http://aka.ms/fabric-assets-license
-*/
-.systemGoalKpi {
-  overflow: hidden;
-  padding: 1em;
-  color: "[theme:bodyText, default: #323130]";
-  color: var(--bodyText);
-}
-.systemGoalKpi.teams {
-  font-family: "Segoe UI", -apple-system, BlinkMacSystemFont, "Roboto", "Helvetica Neue", sans-serif;
-}
-
-.welcome {
-  text-align: center;
-}
-
-.welcomeImage {
-  width: 100%;
-  max-width: 420px;
-}
-
-.links a {
-  text-decoration: none;
-  color: "[theme:link, default:#03787c]";
-  color: var(--link);
-}
-.links a:hover {
-  text-decoration: underline;
-  color: "[theme:linkHovered, default: #014446]";
-  color: var(--linkHovered);
-}
-
 .dummy {
   opacity: 1;
 }
@@ -84,9 +51,10 @@
   border: 0;
   border-spacing: 0;
   width: 100%;
+  table-layout: fixed;
 }
 .system_goel_container .box_model .inner_container table .change_status {
-  color: #0078d4;
+  color: #323130;
 }
 .system_goel_container .box_model .inner_container thead {
   background-color: #ebf7ff;
@@ -94,29 +62,40 @@
   font-size: 12px;
 }
 .system_goel_container .box_model .inner_container thead th {
-  padding: 0 16px;
-  font-size: 16px;
+  padding: 8px;
+  font-size: 15px;
   font-weight: normal;
   vertical-align: middle;
   text-align: center;
-  width: 87px;
+  min-width: 90px;
+  width: 90px;
+  max-width: 90px;
 }
 .system_goel_container .box_model .inner_container thead th:first-child {
   text-align: left;
-  width: 100%;
+  width: 200px;
+  min-width: 200px;
+  max-width: 200px;
 }
 .system_goel_container .box_model .inner_container tbody tr {
   height: 44px;
 }
 .system_goel_container .box_model .inner_container tbody td {
-  padding: 0 16px;
+  padding: 8px;
   font-size: 12px;
   font-weight: 600;
   vertical-align: middle;
   text-align: center;
+  color: #0078d4;
+  min-width: 90px;
+  width: 90px;
+  max-width: 90px;
 }
 .system_goel_container .box_model .inner_container tbody td:first-child {
   text-align: left;
+  width: 200px;
+  min-width: 200px;
+  max-width: 200px;
 }
 .system_goel_container .box_model .inner_container tbody td span {
   width: 12px;
@@ -136,7 +115,7 @@
 .system_goel_container .box_model .inner_container tbody td button {
   box-shadow: 0px 2px 3px rgba(0, 0, 0, 0.1568627451);
   background-color: #e3f3ff;
-  width: 60px;
+  min-width: 60px;
   height: 24px;
   border-radius: 3px;
   font-size: 12px;
@@ -153,36 +132,64 @@
   opacity: 0.5;
   pointer-events: none;
 }
-.system_goel_container .dropdown {
-  flex: 1;
+
+.with_goal_filter {
+  display: flex;
+  justify-content: center;
+  position: relative;
+  margin-bottom: 16px;
 }
-.system_goel_container .dropdown .btn {
+.with_goal_filter .dropdown {
+  position: absolute;
+  right: 0;
+  min-width: 200px;
+}
+.with_goal_filter .dropdown .btn {
   display: flex;
   align-items: center;
   justify-content: space-between;
   min-width: 100%;
-  gap: 16px;
+  height: 40px;
+  gap: 6px;
   border: 1px solid #d2d2d2;
   box-shadow: 0px 0px 6px rgba(0, 0, 0, 0.1);
   border-radius: 3px;
 }
-.system_goel_container .dropdown .btn.dropdown-toggle:after {
+.with_goal_filter .dropdown .btn.dropdown-toggle:after {
   border: 0 !important;
   content: "\f107";
   display: inline-block;
   font-family: "Font Awesome 5 free";
   font-weight: 900;
 }
-.system_goel_container .dropdown .dropdown-menu {
+.with_goal_filter .dropdown .dropdown-menu {
   width: 100%;
 }
-.system_goel_container .dropdown .dropdown-menu .dropdown-item {
-  white-space: pre-wrap;
+.with_goal_filter .dropdown .dropdown-menu li {
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 8px;
+  padding: 8px;
 }
-.system_goel_container .dropdown .dropdown-menu .dropdown-item:hover {
+.with_goal_filter .dropdown .dropdown-menu li input[type=checkbox] {
+  margin: 0;
+  width: 20px;
+  height: 20px;
+  border-radius: 2px;
+}
+.with_goal_filter .dropdown .dropdown-menu li:hover {
   background-color: #def0f8;
 }
-.system_goel_container .dropdown .dropdown-menu .group_list .title {
+.with_goal_filter .dropdown .dropdown-menu .dropdown-item {
+  white-space: pre-wrap;
+  padding: 0;
+  font-size: 15px;
+}
+.with_goal_filter .dropdown .dropdown-menu .dropdown-item:hover {
+  background-color: #def0f8;
+}
+.with_goal_filter .dropdown .dropdown-menu .group_list .title {
   font-weight: 600;
   background-color: #0078d4;
   color: #fff;
@@ -191,15 +198,15 @@
   display: flex;
   align-items: center;
 }
-.system_goel_container .dropdown .dropdown-menu .group_list ul {
+.with_goal_filter .dropdown .dropdown-menu .group_list ul {
   list-style: none;
   margin: 0;
   padding: 0;
 }
-.system_goel_container .dropdown .dropdown-menu .group_list ul .dropdown-item {
+.with_goal_filter .dropdown .dropdown-menu .group_list ul .dropdown-item {
   padding-left: 22px;
 }
-.system_goel_container .dropdown .dropdown-menu .group_list .inner_group .inner_title {
+.with_goal_filter .dropdown .dropdown-menu .group_list .inner_group .inner_title {
   font-weight: 600;
   background-color: #70a8d2;
   color: #fff;
@@ -209,7 +216,7 @@
   display: flex;
   align-items: center;
 }
-.system_goel_container .dropdown .dropdown-menu .group_list .inner_group ul .dropdown-item {
+.with_goal_filter .dropdown .dropdown-menu .group_list .inner_group ul .dropdown-item {
   padding-left: 28px;
   font-size: 13px;
 }
@@ -230,8 +237,8 @@
   background-position: 50%;
   background-size: cover;
   height: 100%;
-  top: 0;
   width: 100%;
+  text-align: center;
   will-change: transform;
   padding: 32px;
   box-sizing: border-box;
@@ -312,6 +319,7 @@
 }
 .btn_container .cat.secondary label {
   width: 100%;
+  height: 100%;
 }
 .btn_container .cat.secondary label input + span {
   min-width: 100%;
@@ -354,8 +362,10 @@
 }
 .btn_container .multi_btn_group .inner_btn_group .btn_group .cat label {
   width: 100%;
+  height: 100%;
 }
 .btn_container .multi_btn_group .inner_btn_group .btn_group .cat label input + span {
   min-width: 100%;
+  height: 100%;
   padding: 0;
 }/*# sourceMappingURL=SystemGoalKpi.module.css.map */
