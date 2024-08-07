@@ -9,7 +9,7 @@ import { BaseClientSideWebPart } from '@microsoft/sp-webpart-base';
 import { IReadonlyTheme } from '@microsoft/sp-component-base';
 import { SPHttpClient, SPHttpClientResponse } from '@microsoft/sp-http';
 import SystemGoalKpi from './components/SystemGoalKpi';
-import {  IGoalMetrix, IHospital, IGoal, IKPI, ISubGoal, ISystemGoal, ISystemGoalProps } from './components/ISystemGoalKpiProps';
+import {  IGoalMetrix, IHospital, IGoal, IKPI, ISubGoal, ISystemGoal, ISystemGoalProps, IDivision, IOperatingModel } from './components/ISystemGoalKpiProps';
 
 
 export interface ISystemGoalKpiWebPartProps {
@@ -17,6 +17,7 @@ export interface ISystemGoalKpiWebPartProps {
   goal: string;
   system_goal: string;
   sub_goal: string;
+  division: string;
   hospital: string;
   kpi: string;
   metrix: string;
@@ -72,6 +73,17 @@ export default class SystemGoalKpiWebPart extends BaseClientSideWebPart<ISystemG
     return data.value; 
   }
 
+// Get List for Division
+  public async getDivisionConfiguration(): Promise<IDivision[]> {
+    const requestUrl = `${this.context.pageContext.web.absoluteUrl}/_api/web/Lists/GetByTitle('${this.properties.division}')/Items`;
+    console.log('Fetching Division data from:', requestUrl);
+    const response: SPHttpClientResponse = await this.context.spHttpClient.get(requestUrl, SPHttpClient.configurations.v1);
+    const data = await response.json();
+    console.log('Data fetched:', data);
+    return data.value; 
+  }
+
+
   // Get List for System Goal
   public async getHospitalConfiguration(): Promise<IHospital[]> {
     const requestUrl = `${this.context.pageContext.web.absoluteUrl}/_api/web/Lists/GetByTitle('${this.properties.hospital}')/Items`;
@@ -92,6 +104,17 @@ export default class SystemGoalKpiWebPart extends BaseClientSideWebPart<ISystemG
     return data.value; 
   }
 
+
+  // Get List for Operating Model
+  public async getOperatingModelConfiguration(): Promise<IOperatingModel[]> {
+    const requestUrl = `${this.context.pageContext.web.absoluteUrl}/_api/web/Lists/GetByTitle('Operating Model')/Items`;
+    console.log('Fetching goal data from:', requestUrl);
+    const response: SPHttpClientResponse = await this.context.spHttpClient.get(requestUrl, SPHttpClient.configurations.v1);
+    const data = await response.json();
+    console.log('Data fetched:', data);
+    return data.value; 
+  }
+
  public render(): void {
     console.log('render called');
     if (!this.domElement) {
@@ -105,8 +128,10 @@ export default class SystemGoalKpiWebPart extends BaseClientSideWebPart<ISystemG
   
   protected async renderContent(): Promise<void> {
     try {
+      const getOperatingModel = await this.getOperatingModelConfiguration();
       const getGoalMetrix = await this.getGoalMetrixConfiguration();
       const getHospital = await this.getHospitalConfiguration();
+      const getDivision = await this.getDivisionConfiguration();
       const getKPI = await this.getKPIConfiguration();
       const getSubGoal = await this.getSubGoalConfiguration();
       const getGoal = await this.getGoalConfiguration();
@@ -119,8 +144,10 @@ export default class SystemGoalKpiWebPart extends BaseClientSideWebPart<ISystemG
       const element: React.ReactElement<ISystemGoalProps> = React.createElement(
         SystemGoalKpi,
         {
-          description: this.properties.description,          
+          description: this.properties.description,  
+          getOperatingModel: getOperatingModel,
           getGoalMetrix: getGoalMetrix,
+          getDivision: getDivision,
           getHospital: getHospital,
           getKPI: getKPI,
           getSubGoal: getSubGoal,
@@ -196,6 +223,10 @@ export default class SystemGoalKpiWebPart extends BaseClientSideWebPart<ISystemG
                 
                 PropertyPaneTextField('kpi', {
                   label: 'KPI'
+                },
+                ),
+                 PropertyPaneTextField('division', {
+                  label: 'Division'
                 },
                 ),
                 PropertyPaneTextField('hospital', {
