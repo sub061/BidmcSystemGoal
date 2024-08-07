@@ -1,5 +1,9 @@
 import * as React from "react";
 import styles from "./SystemGoalKpi.module.scss";
+import "@fortawesome/fontawesome-free/css/all.min.css";
+import "bootstrap/dist/css/bootstrap.min.css";
+
+import "bootstrap/dist/js/bootstrap.min.js";
 
 import type {
   // IDivision,
