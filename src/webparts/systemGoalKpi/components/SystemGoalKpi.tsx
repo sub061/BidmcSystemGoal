@@ -222,14 +222,93 @@ export default class SystemGoalKpi extends React.Component<
                 <div>
                   {Object.keys(groupedDivisionData).map((organizationId) => (
                     <>
-                      <div className="cat action primary">
-                        <label>
-                          <input type="checkbox" value="1" />
-                          <span>
-                            {this.getSystemGoalTitle(Number(organizationId))}
-                          </span>
-                        </label>
+                      <div className="with_goal_filter">
+                        <div className="cat action primary">
+                          <label>
+                            <input type="checkbox" value="1" />
+                            <span>
+                              {this.getSystemGoalTitle(Number(organizationId))}
+                            </span>
+                          </label>
+                        </div>
+                        <div className="dropdown">
+                          <button
+                            className="btn dropdown-toggle"
+                            type="button"
+                            data-bs-toggle="dropdown"
+                            aria-expanded="false"
+                          >
+                            <i className="fas fa-filter"></i>
+                            <span
+                              style={{
+                                flex: "1",
+                                textAlign: "left",
+                                position: "relative",
+                                top: "-1px",
+                              }}
+                            >
+                              {" "}
+                              System Goal
+                            </span>
+                          </button>
+                          <ul className="dropdown-menu">
+                            <li>
+                              <input
+                                type="checkbox"
+                                className="form-check-input"
+                                id="People"
+                                checked
+                              />
+                              <label className="dropdown-item" htmlFor="People">
+                                People
+                              </label>
+                            </li>
+                            <li>
+                              <input
+                                type="checkbox"
+                                className="form-check-input"
+                                id="Quality"
+                                checked
+                              />
+                              <label
+                                htmlFor="Quality"
+                                className="dropdown-item"
+                              >
+                                Quality and Experience
+                              </label>
+                            </li>
+                            <li>
+                              <input
+                                type="checkbox"
+                                className="form-check-input"
+                                id="Finance"
+                                checked
+                              />
+                              <label
+                                htmlFor="Finance"
+                                className="dropdown-item"
+                              >
+                                Finance and Operations
+                              </label>
+                            </li>
+                            <li>
+                              <input
+                                type="checkbox"
+                                className="form-check-input"
+                                id="Strategy"
+                                checked
+                              />
+                              <label
+                                htmlFor="Strategy"
+                                className="dropdown-item"
+                              >
+                                Strategy
+                              </label>
+                            </li>
+                          </ul>
+                        </div>
                       </div>
+
                       <div className="multi_btn_group">
                         {Object.keys(groupedDivisionData[organizationId]).map(
                           (divisionId) => (
@@ -253,6 +332,7 @@ export default class SystemGoalKpi extends React.Component<
                                   </span>
                                 </label>
                               </div>
+
                               <div className="btn_group">
                                 {Object.keys(
                                   groupedDivisionData[organizationId][
@@ -296,8 +376,10 @@ export default class SystemGoalKpi extends React.Component<
                           {this.getGoalTitle(Number(goalId))}
                         </div>
                         <div>
-                          {Object.keys(groupedData[organizationId][goalId]).map(
-                            (subGoalId) => (
+                          <div>
+                            {Object.keys(
+                              groupedData[organizationId][goalId]
+                            ).map((subGoalId) => (
                               <div key={subGoalId} className="inner_container">
                                 <div className="inner_header">
                                   {this.getSubGoalTitle(Number(subGoalId))}
@@ -377,8 +459,8 @@ export default class SystemGoalKpi extends React.Component<
                                   </table>
                                 ))}
                               </div>
-                            )
-                          )}
+                            ))}
+                          </div>
                         </div>
                       </div>
                     ))}
