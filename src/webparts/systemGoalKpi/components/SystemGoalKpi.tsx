@@ -1,5 +1,11 @@
 import * as React from "react";
 import styles from "./SystemGoalKpi.module.scss";
+import 'bootstrap/dist/css/bootstrap.min.css';
+import 'bootstrap/dist/js/bootstrap.min.js';
+import '@fortawesome/fontawesome-free/css/all.min.css';
+
+
+
 
 
 import type {
@@ -116,7 +122,7 @@ export default class SystemGoalKpi extends React.Component<
 
     return (
       <section>
-        <div style={{display: 'none'}}>
+        <div style={{ display: 'none' }}>
           <h1>Goals and SubGoals</h1>
           <div>
             {Object.keys(groupedData).map((subGoalId, index) => (
@@ -167,135 +173,135 @@ export default class SystemGoalKpi extends React.Component<
         <div className={`${styles.btn_container}`}>
           <h3><span>System Goals 2025</span></h3>
           <div>
-          <div className={`${styles.cat} ${styles.action} ${styles.primary}`}>
-            <label>
-              <input type="checkbox" value="1" /><span>BILH</span>
-            </label>
-          </div>
+            <div className={`${styles.cat} ${styles.action} ${styles.primary}`}>
+              <label>
+                <input type="checkbox" value="1" /><span>BILH</span>
+              </label>
+            </div>
           </div>
           <div className={`${styles.multi_btn_group}`}>
-          <div className={`${styles.inner_btn_group}`}>
-            <div className={`${styles.cat} ${styles.action} ${styles.secondary}`}>
-              <label>
-                <input type="checkbox" value="1" /><span>Metro Boston Division</span>
-              </label>
-            </div>
-            <div className={`${styles.btn_group}`}>
-              <div className={`${styles.cat} ${styles.action}`}>
+            <div className={`${styles.inner_btn_group}`}>
+              <div className={`${styles.cat} ${styles.action} ${styles.secondary}`}>
                 <label>
-                  <input type="checkbox" value="1" /><span>BIDMC</span>
+                  <input type="checkbox" value="1" /><span>Metro Boston Division</span>
                 </label>
               </div>
-              <div className={`${styles.cat} ${styles.action}`}>
-                <label>
-                  <input type="checkbox" value="1" /><span>Joslin</span>
-                </label>
-              </div>
-              <div className={`${styles.cat} ${styles.action}`}>
-                <label>
-                  <input type="checkbox" value="1" /><span>MAH</span>
-                </label>
-              </div>
-              <div className={`${styles.cat} ${styles.action}`}>
-                <label>
-                  <input type="checkbox" value="1" /><span>NEBH</span>
-                </label>
-              </div>
-            </div>
-          </div>
-          <div className={`${styles.inner_btn_group}`}>
-            <div className={`${styles.cat} ${styles.action}  ${styles.secondary}`}>
-              <label>
-                <input type="checkbox" value="1" /><span>Community Division</span>
-              </label>
-            </div>
-            <div className={`${styles.btn_group}`}>
-              <div className={`${styles.cat} ${styles.action}`}>
-                <label>
-                  <input type="checkbox" value="1" /><span>AJH</span>
-                </label>
-              </div>
-              <div className={`${styles.cat} ${styles.action}`}>
-                <label>
-                  <input type="checkbox" value="1" /><span>Exeter</span>
-                </label>
-              </div>
-              <div className={`${styles.cat} ${styles.action}`}>
-                <label>
-                  <input type="checkbox" value="1" /><span>BIDM</span>
-                </label>
-              </div>
-              <div className={`${styles.cat} ${styles.action}`}>
-                <label>
-                  <input type="checkbox" value="1" /><span>BIDN</span>
-                </label>
-              </div>
-              <div className={`${styles.cat} ${styles.action}`}>
-                <label>
-                  <input type="checkbox" value="1" /><span>NE</span>
-                </label>
-              </div>
-              <div className={`${styles.cat} ${styles.action}`}>
-                <label>
-                  <input type="checkbox" value="1" /><span>BIDP</span>
-                </label>
-              </div>
-              <div className={`${styles.cat} ${styles.action}`}>
-                <label>
-                  <input type="checkbox" value="1" /><span>WH</span>
-                </label>
+              <div className={`${styles.btn_group}`}>
+                <div className={`${styles.cat} ${styles.action}`}>
+                  <label>
+                    <input type="checkbox" value="1" /><span>BIDMC</span>
+                  </label>
+                </div>
+                <div className={`${styles.cat} ${styles.action}`}>
+                  <label>
+                    <input type="checkbox" value="1" /><span>Joslin</span>
+                  </label>
+                </div>
+                <div className={`${styles.cat} ${styles.action}`}>
+                  <label>
+                    <input type="checkbox" value="1" /><span>MAH</span>
+                  </label>
+                </div>
+                <div className={`${styles.cat} ${styles.action}`}>
+                  <label>
+                    <input type="checkbox" value="1" /><span>NEBH</span>
+                  </label>
+                </div>
               </div>
             </div>
-          </div>
-          <div className={`${styles.inner_btn_group}`}>
-            <div className={`${styles.cat} ${styles.action}  ${styles.secondary}`}>
-              <label>
-                <input type="checkbox" value="1" /><span>LHMC Division</span>
-              </label>
-            </div>
-            <div className={`${styles.btn_group}`}>
-            <div className={`${styles.cat} ${styles.action}`}>
-              <label>
-                <input type="checkbox" value="1" /><span>LHMC</span>
-              </label>
-            </div>
-            </div>
-          </div>
-          <div className={`${styles.inner_btn_group}`}>
-            <div className={`${styles.cat} ${styles.action}  ${styles.secondary}`}>
-              <label>
-                <input type="checkbox" value="1" /><span>Diversified Services</span>
-              </label>
-            </div>
-            <div className={`${styles.btn_group}`}>
-              <div className={`${styles.cat} ${styles.action}`}>
+            <div className={`${styles.inner_btn_group}`}>
+              <div className={`${styles.cat} ${styles.action}  ${styles.secondary}`}>
                 <label>
-                  <input type="checkbox" value="1" /><span>Behavioral Health</span>
+                  <input type="checkbox" value="1" /><span>Community Division</span>
                 </label>
               </div>
-              <div className={`${styles.cat} ${styles.action}`}>
-                <label>
-                  <input type="checkbox" value="1" /><span>Continuing Care
-                  </span>
-                </label>
-              </div>
-              <div className={`${styles.cat} ${styles.action}`}>
-                <label>
-                  <input type="checkbox" value="1" /><span>Primary Care</span>
-                </label>
-              </div>
-              <div className={`${styles.cat} ${styles.action}`}>
-                <label>
-                  <input type="checkbox" value="1" /><span>Performance Network</span>
-                </label>
-              </div>
-              <div className={`${styles.cat} ${styles.action}`}>
-                <label>
-                  <input type="checkbox" value="1" /><span>Pharmacy</span>
-                </label>
+              <div className={`${styles.btn_group}`}>
+                <div className={`${styles.cat} ${styles.action}`}>
+                  <label>
+                    <input type="checkbox" value="1" /><span>AJH</span>
+                  </label>
+                </div>
+                <div className={`${styles.cat} ${styles.action}`}>
+                  <label>
+                    <input type="checkbox" value="1" /><span>Exeter</span>
+                  </label>
+                </div>
+                <div className={`${styles.cat} ${styles.action}`}>
+                  <label>
+                    <input type="checkbox" value="1" /><span>BIDM</span>
+                  </label>
+                </div>
+                <div className={`${styles.cat} ${styles.action}`}>
+                  <label>
+                    <input type="checkbox" value="1" /><span>BIDN</span>
+                  </label>
+                </div>
+                <div className={`${styles.cat} ${styles.action}`}>
+                  <label>
+                    <input type="checkbox" value="1" /><span>NE</span>
+                  </label>
+                </div>
+                <div className={`${styles.cat} ${styles.action}`}>
+                  <label>
+                    <input type="checkbox" value="1" /><span>BIDP</span>
+                  </label>
+                </div>
+                <div className={`${styles.cat} ${styles.action}`}>
+                  <label>
+                    <input type="checkbox" value="1" /><span>WH</span>
+                  </label>
+                </div>
               </div>
             </div>
-          </div>
+            <div className={`${styles.inner_btn_group}`}>
+              <div className={`${styles.cat} ${styles.action}  ${styles.secondary}`}>
+                <label>
+                  <input type="checkbox" value="1" /><span>LHMC Division</span>
+                </label>
+              </div>
+              <div className={`${styles.btn_group}`}>
+                <div className={`${styles.cat} ${styles.action}`}>
+                  <label>
+                    <input type="checkbox" value="1" /><span>LHMC</span>
+                  </label>
+                </div>
+              </div>
+            </div>
+            <div className={`${styles.inner_btn_group}`}>
+              <div className={`${styles.cat} ${styles.action}  ${styles.secondary}`}>
+                <label>
+                  <input type="checkbox" value="1" /><span>Diversified Services</span>
+                </label>
+              </div>
+              <div className={`${styles.btn_group}`}>
+                <div className={`${styles.cat} ${styles.action}`}>
+                  <label>
+                    <input type="checkbox" value="1" /><span>Behavioral Health</span>
+                  </label>
+                </div>
+                <div className={`${styles.cat} ${styles.action}`}>
+                  <label>
+                    <input type="checkbox" value="1" /><span>Continuing Care
+                    </span>
+                  </label>
+                </div>
+                <div className={`${styles.cat} ${styles.action}`}>
+                  <label>
+                    <input type="checkbox" value="1" /><span>Primary Care</span>
+                  </label>
+                </div>
+                <div className={`${styles.cat} ${styles.action}`}>
+                  <label>
+                    <input type="checkbox" value="1" /><span>Performance Network</span>
+                  </label>
+                </div>
+                <div className={`${styles.cat} ${styles.action}`}>
+                  <label>
+                    <input type="checkbox" value="1" /><span>Pharmacy</span>
+                  </label>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
 
