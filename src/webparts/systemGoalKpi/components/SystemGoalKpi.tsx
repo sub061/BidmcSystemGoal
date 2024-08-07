@@ -202,13 +202,16 @@ export default class SystemGoalKpi extends React.Component<
       <section>
         {Object.keys(groupedOperatingModel).map((Id) => (
           <>
-            <span>{this.getOperatingModel(Number(Id))}</span>
             <div>
               <div className="btn_container">
+                <h3>
+                  {" "}
+                  <span>{this.getOperatingModel(Number(Id))}</span>
+                </h3>
                 <div>
                   {Object.keys(groupedDivisionData).map((organizationId) => (
                     <>
-                      <div className="cat  action">
+                      <div className="cat action primary">
                         <label>
                           <input type="checkbox" value="1" />
                           <span>
@@ -221,7 +224,10 @@ export default class SystemGoalKpi extends React.Component<
                         {Object.keys(groupedDivisionData[organizationId]).map(
                           (divisionId) => (
                             <div className="inner_btn_group">
-                              <div key={divisionId} className="cat action">
+                              <div
+                                key={divisionId}
+                                className="cat action secondary"
+                              >
                                 <label>
                                   <input type="checkbox" value="1" />
                                   <span>
