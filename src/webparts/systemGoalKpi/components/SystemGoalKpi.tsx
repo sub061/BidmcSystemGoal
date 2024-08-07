@@ -1,5 +1,9 @@
 import * as React from "react";
 import styles from "./SystemGoalKpi.module.scss";
+import '@fortawesome/fontawesome-free/css/all.min.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
+
+import 'bootstrap/dist/js/bootstrap.min.js';
 
 import type {
   IDivision,
@@ -160,7 +164,7 @@ export default class SystemGoalKpi extends React.Component<
       }
       if (
         !groupedData[item.OrganizationId][item.GoalId][item.SubGoalId][
-          item.KPIId
+        item.KPIId
         ]
       ) {
         groupedData[item.OrganizationId][item.GoalId][item.SubGoalId][
@@ -211,14 +215,53 @@ export default class SystemGoalKpi extends React.Component<
                 <div>
                   {Object.keys(groupedDivisionData).map((organizationId) => (
                     <>
-                      <div className="cat action primary">
-                        <label>
-                          <input type="checkbox" value="1" />
-                          <span>
-                            {this.getSystemGoalTitle(Number(organizationId))}
-                          </span>
-                        </label>
+                      <div className="with_goal_filter">
+                        <div className="cat action primary">
+                          <label>
+                            <input type="checkbox" value="1" />
+                            <span>
+                              {this.getSystemGoalTitle(Number(organizationId))}
+                            </span>
+                          </label>
+                        </div>
+                        <div className="dropdown">
+                          <button
+                            className="btn dropdown-toggle"
+                            type="button"
+                            data-bs-toggle="dropdown"
+                            aria-expanded="false"
+                          >
+                           <i className="fas fa-filter"></i><span style={{flex: '1', textAlign: 'left', position: 'relative', top: '-1px'}}> System Goal</span>
+                          </button>
+                          <ul className="dropdown-menu">
+                            <li>
+                            <input type="checkbox" className="form-check-input" id="dropdownCheck2" /> 
+                              <label className="dropdown-item" htmlFor="dropdownCheck2">
+                              People
+                              </label>
+                            </li>
+                            <li>
+                            <input type="checkbox" className="form-check-input" id="dropdownCheck2" />
+                              <a className="dropdown-item" href="#">
+                               Quality and Experience
+                              </a>
+                            </li>
+                            <li>
+                            <input type="checkbox" className="form-check-input" id="dropdownCheck2" />
+                              <a className="dropdown-item" href="#">
+                                Finance and Operations
+                              </a>
+                            </li>
+                            <li>
+                            <input type="checkbox" className="form-check-input" id="dropdownCheck2" />
+                              <a className="dropdown-item" href="#">
+                                Strategy
+                              </a>
+                            </li>
+                          </ul>
+                        </div>
                       </div>
+
 
                       <div className="multi_btn_group">
                         {Object.keys(groupedDivisionData[organizationId]).map(
@@ -240,7 +283,7 @@ export default class SystemGoalKpi extends React.Component<
                               <div className="btn_group">
                                 {Object.keys(
                                   groupedDivisionData[organizationId][
-                                    divisionId
+                                  divisionId
                                   ]
                                 ).map((hospitalId) => (
                                   <div className="cat action">
@@ -262,6 +305,7 @@ export default class SystemGoalKpi extends React.Component<
                     </>
                   ))}
                 </div>
+
               </div>
 
               <div>
@@ -304,19 +348,19 @@ export default class SystemGoalKpi extends React.Component<
                                             metrix: {
                                               HospitalId: number;
                                               Actual:
-                                                | boolean
-                                                | React.ReactChild
-                                                | React.ReactFragment
-                                                | React.ReactPortal
-                                                | null
-                                                | undefined;
+                                              | boolean
+                                              | React.ReactChild
+                                              | React.ReactFragment
+                                              | React.ReactPortal
+                                              | null
+                                              | undefined;
                                               Target:
-                                                | boolean
-                                                | React.ReactChild
-                                                | React.ReactFragment
-                                                | React.ReactPortal
-                                                | null
-                                                | undefined;
+                                              | boolean
+                                              | React.ReactChild
+                                              | React.ReactFragment
+                                              | React.ReactPortal
+                                              | null
+                                              | undefined;
                                             },
                                             subIndex:
                                               | React.Key
