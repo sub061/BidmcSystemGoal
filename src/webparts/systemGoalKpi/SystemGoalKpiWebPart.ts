@@ -14,6 +14,7 @@ import {  IGoalMetrix, IHospital, IGoal, IKPI, ISubGoal, ISystemGoal, ISystemGoa
 
 export interface ISystemGoalKpiWebPartProps {
   description: string;
+  title: string;
   goal: string;
   system_goal: string;
   sub_goal: string;
@@ -88,6 +89,17 @@ export default class SystemGoalKpiWebPart extends BaseClientSideWebPart<ISystemG
   }
 
 
+   // Get List for full hospital list
+  public async getAllHospitalConfiguration(): Promise<IHospital[]> {
+    const requestUrl = `${this.context.pageContext.web.absoluteUrl}/_api/web/Lists/GetByTitle('${this.properties.hospital}')/Items`;
+    console.log('Fetching hospital data from:', requestUrl);
+    const response: SPHttpClientResponse = await this.context.spHttpClient.get(requestUrl, SPHttpClient.configurations.v1);
+    const data = await response.json();
+    console.log('hospital Data fetched:', data);
+ 
+    return data.value; 
+  }
+
   // Get List for System Goal
   public async getHospitalConfiguration(): Promise<IHospital[]> {
     const requestUrl = `${this.context.pageContext.web.absoluteUrl}/_api/web/Lists/GetByTitle('${this.properties.hospital}')/Items`;
@@ -144,6 +156,12 @@ console.log('filter hospital Data fetched:', filteredData);
       const getSubGoal = await this.getSubGoalConfiguration();
       const getGoal = await this.getGoalConfiguration();
       const getSystemGoal = await this.getSystemGoalConfiguration();
+      const getAllHospital = await this.getAllHospitalConfiguration();
+      
+      const pageTitle = this.properties.title;
+
+      console.log("page title", pageTitle);
+      
       
       console.log('Banner data:', getGoalMetrix);
 
@@ -152,6 +170,7 @@ console.log('filter hospital Data fetched:', filteredData);
       const element: React.ReactElement<ISystemGoalProps> = React.createElement(
         SystemGoalKpi,
         {
+          title:pageTitle,
           description: this.properties.description,  
           getOperatingModel: getOperatingModel,
           getGoalMetrix: getGoalMetrix,
@@ -160,7 +179,9 @@ console.log('filter hospital Data fetched:', filteredData);
           getKPI: getKPI,
           getSubGoal: getSubGoal,
           getGoal: getGoal,
-          getSystemGoal: getSystemGoal  ,
+          getSystemGoal: getSystemGoal,
+          getAllHospital:getAllHospital,
+          
         }
       );
 
@@ -214,35 +235,48 @@ console.log('filter hospital Data fetched:', filteredData);
             {
             
               groupFields: [
+
+                 PropertyPaneTextField('title', {
+                   label: 'Title',
+                  // value: 'BILH Operating Model' // Set default value here
+                },
+                ),
                 PropertyPaneTextField('system_goal', {
-                  label: 'System Goal'
+                  label: 'System Goal',
+                 // value: 'Organization' // Set default value here
                 },
                 ),
                 
                 PropertyPaneTextField('goal', {
-                  label: 'Goal'
+                  label: 'Goal',
+                 // value: 'Goal' // Set default value here
                 },
                 ),
                 
                 PropertyPaneTextField('sub_goal', {
-                  label: 'Sub Goal'
+                  label: 'Sub Goal',
+                  //value: 'Sub Goal' // Set default value here
                 },
                 ),
                 
                 PropertyPaneTextField('kpi', {
-                  label: 'KPI'
+                  label: 'KPI',
+                 // value: 'KPI' // Set default value here
                 },
                 ),
                  PropertyPaneTextField('division', {
-                  label: 'Division'
+                   label: 'Division',
+                  // value: 'Division' // Set default value here
                 },
                 ),
                 PropertyPaneTextField('hospital', {
-                  label: 'Hospital'
+                  label: 'Hospital',
+                 // value: 'Hospital' // Set default value here
                 },
                 ),
                 PropertyPaneTextField('metrix', {
-                  label: 'Metrix'
+                  label: 'Metrix',
+                 // value: 'Goal Metrix' // Set default value here
                 },
                 )
 

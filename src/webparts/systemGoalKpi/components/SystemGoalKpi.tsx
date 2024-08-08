@@ -20,6 +20,7 @@ import type {
 // import * as React from "react";
 
 export interface ISystemGoalKpiWpState {
+  title: string;
   dataOperatingModel: IOperatingModel[] | null;
   dataGoalMetrix: IGoalMetrix[] | null;
   dataDivision: IHospital[] | null;
@@ -29,6 +30,7 @@ export interface ISystemGoalKpiWpState {
   dataGoal: IGoal[] | null;
   dataSystemGoal: ISystemGoal[] | null;
   selectedHospitals: Set<number>;
+  dataAllHospital: IHospital[] | null;
 }
 
 export default class SystemGoalKpi extends React.Component<
@@ -38,6 +40,8 @@ export default class SystemGoalKpi extends React.Component<
   public constructor(props: ISystemGoalKpiProps) {
     super(props);
     this.state = {
+      title: props.title,
+      dataAllHospital: props.getAllHospital || null,
       dataOperatingModel: props.getOperatingModel || null,
       dataGoalMetrix: props.getGoalMetrix || null, // Initialize state with the passed prop or null
       dataDivision: props.getDivision || null, // Initialize state with the passed prop or null
@@ -119,14 +123,23 @@ export default class SystemGoalKpi extends React.Component<
   };
 
   // get Hospital
+  //dataAllHospital;
   private getHospitalTitle = (hospitalId: number) => {
-    const { dataHospital } = this.state;
-    if (!dataHospital) return "Unknown Hospital"; // Check if dataHospital is null
-    const hospital = dataHospital.find(
+    const { dataAllHospital } = this.state;
+    if (!dataAllHospital) return "Unknown Hospital"; // Check if dataHospital is null
+    const hospital = dataAllHospital.find(
       (hospital) => hospital.Id === hospitalId
     );
     return hospital ? hospital.Title : "Unknown Hospital";
   };
+  // private getHospitalTitle = (hospitalId: number) => {
+  //   const { dataHospital } = this.state;
+  //   if (!dataHospital) return "Unknown Hospital"; // Check if dataHospital is null
+  //   const hospital = dataHospital.find(
+  //     (hospital) => hospital.Id === hospitalId
+  //   );
+  //   return hospital ? hospital.Title : "Unknown Hospital";
+  // };
 
   // Group data by OperatingModel
   private groupOperatingModel = (data: IOperatingModel[]) => {
@@ -213,15 +226,27 @@ export default class SystemGoalKpi extends React.Component<
     console.log("final groupedData=", groupedData);
     console.log("final groupedDivisionData=", groupedDivisionData);
     console.log("final Operating Model=", dataOperatingModel);
+    console.log("title", this.props.title);
 
     return (
       <section>
+        <div
+          style={{
+            width: "100%",
+            fontSize: "36px",
+            textAlign: "center",
+            marginBottom: "32px",
+          }}
+        >
+          {this.props.title}
+        </div>
+
         {Object.keys(groupedOperatingModel).map((Id) => (
           <>
             <div>
               <div className="btn_container">
                 <h3>
-                  <span>{this.getOperatingModel(Number(Id))}</span>
+                  <span>{this.getOperatingModel(Number(Id))} </span>
                 </h3>
                 <div>
                   {Object.keys(groupedDivisionData).map((organizationId) => (
@@ -231,7 +256,7 @@ export default class SystemGoalKpi extends React.Component<
                           <label>
                             <input type="checkbox" value="1" />
                             <span>
-                              {this.getSystemGoalTitle(Number(organizationId))}
+                              {this.getSystemGoalTitle(Number(organizationId))}{" "}
                             </span>
                           </label>
                         </div>
@@ -259,6 +284,7 @@ export default class SystemGoalKpi extends React.Component<
                             <li>
                               <input
                                 type="checkbox"
+                                name="People"
                                 className="form-check-input"
                                 id="People"
                                 checked
@@ -270,6 +296,7 @@ export default class SystemGoalKpi extends React.Component<
                             <li>
                               <input
                                 type="checkbox"
+                                name="Quality"
                                 className="form-check-input"
                                 id="Quality"
                                 checked
@@ -286,6 +313,7 @@ export default class SystemGoalKpi extends React.Component<
                                 type="checkbox"
                                 className="form-check-input"
                                 id="Finance"
+                                name="Finance"
                                 checked
                               />
                               <label
@@ -300,6 +328,7 @@ export default class SystemGoalKpi extends React.Component<
                                 type="checkbox"
                                 className="form-check-input"
                                 id="Strategy"
+                                name="Strategy"
                                 checked
                               />
                               <label

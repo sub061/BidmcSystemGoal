@@ -1,5 +1,6 @@
 export interface ISystemGoalKpiProps {
   description: string;
+  title: string;
   system_goal: string;
   goal: string;
   sub_goal: string;
@@ -14,11 +15,13 @@ export interface ISystemGoalKpiProps {
   getSubGoal: ISubGoal[];
   getGoal: IGoal[];
   getSystemGoal: ISystemGoal[];
-  getOperatingModel:IOperatingModel[];
+  getOperatingModel: IOperatingModel[];
+  getAllHospital: IHospital[];
 }
 
 export interface ISystemGoalProps {
   description: string;
+  title: string;
   getOperatingModel:IOperatingModel[];
   getGoalMetrix: IGoalMetrix[];
   getDivision : IHospital[]
@@ -27,6 +30,7 @@ export interface ISystemGoalProps {
   getSubGoal: ISubGoal[];
   getGoal: IGoal[];
   getSystemGoal: ISystemGoal[];
+  getAllHospital: IHospital[];
 }
 
 export interface IDivision{
