@@ -76,9 +76,9 @@
 }
 .system_goel_container .box_model .inner_container thead th:first-child {
   text-align: left;
-  width: unset;
-  min-width: unset;
-  max-width: unset;
+  width: 280px;
+  min-width: 280px;
+  max-width: 280px;
 }
 .system_goel_container .box_model .inner_container thead .kpi_name_title {
   width: unset;
@@ -109,9 +109,9 @@
 }
 .system_goel_container .box_model .inner_container tbody td:first-child {
   text-align: left;
-  width: 200px;
-  min-width: 200px;
-  max-width: 200px;
+  width: 280px;
+  min-width: 280px;
+  max-width: 280px;
 }
 .system_goel_container .box_model .inner_container tbody td span {
   width: 12px;
@@ -131,11 +131,12 @@
 .system_goel_container .box_model .inner_container tbody td button {
   box-shadow: 0px 2px 3px rgba(0, 0, 0, 0.1568627451);
   background-color: #e3f3ff;
-  min-width: 60px;
+  min-width: 100%;
   height: 24px;
   border-radius: 3px;
   font-size: 12px;
   font-weight: 400;
+  white-space: nowrap;
   cursor: pointer;
   border: 0;
 }
@@ -158,7 +159,7 @@
 .with_goal_filter .dropdown {
   position: absolute;
   right: 0;
-  min-width: 200px;
+  min-width: 230px;
 }
 .with_goal_filter .dropdown .btn {
   display: flex;
