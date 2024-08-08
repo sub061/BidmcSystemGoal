@@ -261,7 +261,7 @@ export default class SystemGoalKpi extends React.Component<
                                 type="checkbox"
                                 className="form-check-input"
                                 id="People"
-                                checked
+                                defaultChecked
                               />
                               <label className="dropdown-item" htmlFor="People">
                                 People
@@ -272,7 +272,7 @@ export default class SystemGoalKpi extends React.Component<
                                 type="checkbox"
                                 className="form-check-input"
                                 id="Quality"
-                                checked
+                                defaultChecked
                               />
                               <label
                                 htmlFor="Quality"
@@ -286,7 +286,7 @@ export default class SystemGoalKpi extends React.Component<
                                 type="checkbox"
                                 className="form-check-input"
                                 id="Finance"
-                                checked
+                                defaultChecked
                               />
                               <label
                                 htmlFor="Finance"
@@ -300,7 +300,7 @@ export default class SystemGoalKpi extends React.Component<
                                 type="checkbox"
                                 className="form-check-input"
                                 id="Strategy"
-                                checked
+                                defaultChecked
                               />
                               <label
                                 htmlFor="Strategy"
@@ -394,9 +394,10 @@ export default class SystemGoalKpi extends React.Component<
                                   <table key={kpiId}>
                                     <thead>
                                       <tr>
-                                        <th>
-                                          {this.getKPITitle(Number(kpiId))}
-                                        </th>
+                                        <th colSpan={5} className="kpi_name_title">{this.getKPITitle(Number(kpiId))}</th>
+                                      </tr>
+                                      <tr>
+                                      <th>&nbsp;</th>
                                         <th>Actual</th>
                                         <th>Target</th>
                                         <th>&nbsp;</th>

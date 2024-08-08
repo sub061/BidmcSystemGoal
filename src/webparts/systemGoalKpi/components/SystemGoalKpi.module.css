@@ -2,6 +2,10 @@
   opacity: 1;
 }
 
+#workbenchPageContent {
+  max-width: 1500px;
+}
+
 .system_goel_container {
   font-family: "SegoeUI", "Segoe UI", sans-serif;
   font-size: 16px;
@@ -54,10 +58,9 @@
   table-layout: fixed;
 }
 .system_goel_container .box_model .inner_container table .change_status {
-  color: #323130;
+  color: #0078d4;
 }
 .system_goel_container .box_model .inner_container thead {
-  background-color: #ebf7ff;
   height: 60px;
   font-size: 12px;
 }
@@ -73,9 +76,22 @@
 }
 .system_goel_container .box_model .inner_container thead th:first-child {
   text-align: left;
-  width: 200px;
-  min-width: 200px;
-  max-width: 200px;
+  width: unset;
+  min-width: unset;
+  max-width: unset;
+}
+.system_goel_container .box_model .inner_container thead .kpi_name_title {
+  width: unset;
+  min-width: unset;
+  max-width: unset;
+  border-bottom: 1px solid #e5e5e5;
+  background-color: #ebf7ff;
+}
+.system_goel_container .box_model .inner_container thead .kpi_name_title:first-child {
+  text-align: left;
+  width: unset;
+  min-width: unset;
+  max-width: unset;
 }
 .system_goel_container .box_model .inner_container tbody tr {
   height: 44px;
@@ -86,7 +102,7 @@
   font-weight: 600;
   vertical-align: middle;
   text-align: center;
-  color: #0078d4;
+  color: #323130;
   min-width: 90px;
   width: 90px;
   max-width: 90px;
