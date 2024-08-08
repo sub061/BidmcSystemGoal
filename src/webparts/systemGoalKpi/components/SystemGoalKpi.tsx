@@ -17,6 +17,8 @@ import type {
   ISystemGoalProps,
   IOperatingModel,
 } from "./ISystemGoalKpiProps";
+import { useState } from "react";
+// import { useState } from "react";
 // import * as React from "react";
 
 export interface ISystemGoalKpiWpState {
@@ -132,6 +134,7 @@ export default class SystemGoalKpi extends React.Component<
     );
     return hospital ? hospital.Title : "Unknown Hospital";
   };
+
   // private getHospitalTitle = (hospitalId: number) => {
   //   const { dataHospital } = this.state;
   //   if (!dataHospital) return "Unknown Hospital"; // Check if dataHospital is null
@@ -227,6 +230,22 @@ export default class SystemGoalKpi extends React.Component<
     console.log("final groupedDivisionData=", groupedDivisionData);
     console.log("final Operating Model=", dataOperatingModel);
     console.log("title", this.props.title);
+
+    // const ToggleDivs = () => {
+    //   const [visibleDivs, setVisibleDivs] = useState({
+    //     People: true,
+    //     Quality: true,
+    //     Finance: true,
+    //     Strategy: true,
+    //   });
+
+    //   const handleCheckboxChange = (event: { target: { id: any; checked: any; }; }) => {
+    //     const { id, checked } = event.target;
+    //     setVisibleDivs((prevVisibleDivs) => ({
+    //       ...prevVisibleDivs,
+    //       [id]: checked,
+    //     }));
+    //   };
 
     return (
       <section>
@@ -402,7 +421,16 @@ export default class SystemGoalKpi extends React.Component<
                 {Object.keys(groupedData).map((organizationId) => (
                   <div key={organizationId} className="system_goel_container">
                     {Object.keys(groupedData[organizationId]).map((goalId) => (
-                      <div key={goalId} className="box_model">
+                      <div
+                        id={
+                          this.getGoalTitle(Number(goalId)).replace(
+                            /\s+/g,
+                            ""
+                          ) + "Div"
+                        }
+                        key={goalId}
+                        className="box_model"
+                      >
                         <div className="header">
                           {this.getGoalTitle(Number(goalId))}
                         </div>
@@ -421,10 +449,15 @@ export default class SystemGoalKpi extends React.Component<
                                   <table key={kpiId}>
                                     <thead>
                                       <tr>
-                                        <th colSpan={5} className="kpi_name_title">{this.getKPITitle(Number(kpiId))}</th>
+                                        <th
+                                          colSpan={5}
+                                          className="kpi_name_title"
+                                        >
+                                          {this.getKPITitle(Number(kpiId))}
+                                        </th>
                                       </tr>
                                       <tr>
-                                      <th>&nbsp;</th>
+                                        <th>&nbsp;</th>
                                         <th>Actual</th>
                                         <th>Target</th>
                                         <th>&nbsp;</th>
