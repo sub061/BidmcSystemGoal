@@ -160,12 +160,25 @@
 }
 
 .system_goal_operating_model{
+  .table_title{
+    font-size: 24px;
+    margin: 32px 0 0;
+    padding: 12px;
+    text-align: center;
+    width: 100%;
+    background-color: #0e5f9b;
+    color: #fff;
+    border: 1px solid #e5e5e5;
+    border-bottom: 0
+  }
   table{
     width: 100%;
     th,td{
       padding: 8px;
     }
     &.main_table{
+      border: 1px solid #e5e5e5;
+      border-top: 0;
       th{
         width: 200px;
         vertical-align: middle;
@@ -184,6 +197,11 @@
           font-size: 14px;
         }
       }
+      tbody{
+        tr{
+          border-bottom: 1px solid #e5e5e5;
+        }
+      }
       th,td{
         background-color: transparent;
         color: #000;
@@ -192,10 +210,29 @@
         &:first-child {
           width: auto;
           text-align: left;
+          
         }
         &:last-child {
-          width: 250px;
+          width: 220px;
           text-align: left;
+        }
+      }
+      td{
+        &:first-child {
+          font-weight: 600;
+          div{
+            font-style: italic;
+            color:#959595;
+            font-weight: unset;
+          }
+        }
+        &.cell_blue {
+          background-color: #0078d4;
+          color: #fff;
+
+        }
+        &.cell_green {
+          background-color: #9fce62;
         }
       }
       textarea {

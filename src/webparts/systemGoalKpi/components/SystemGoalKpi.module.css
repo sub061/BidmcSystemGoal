@@ -150,11 +150,26 @@
   pointer-events: none;
 }
 
+.system_goal_operating_model .table_title {
+  font-size: 24px;
+  margin: 32px 0 0;
+  padding: 12px;
+  text-align: center;
+  width: 100%;
+  background-color: #0e5f9b;
+  color: #fff;
+  border: 1px solid #e5e5e5;
+  border-bottom: 0;
+}
 .system_goal_operating_model table {
   width: 100%;
 }
 .system_goal_operating_model table th, .system_goal_operating_model table td {
   padding: 8px;
+}
+.system_goal_operating_model table.main_table {
+  border: 1px solid #e5e5e5;
+  border-top: 0;
 }
 .system_goal_operating_model table.main_table th {
   width: 200px;
@@ -174,6 +189,9 @@
 .system_goal_operating_model table .child_table thead th {
   font-size: 14px;
 }
+.system_goal_operating_model table .child_table tbody tr {
+  border-bottom: 1px solid #e5e5e5;
+}
 .system_goal_operating_model table .child_table th, .system_goal_operating_model table .child_table td {
   background-color: transparent;
   color: #000;
@@ -185,8 +203,23 @@
   text-align: left;
 }
 .system_goal_operating_model table .child_table th:last-child, .system_goal_operating_model table .child_table td:last-child {
-  width: 250px;
+  width: 220px;
   text-align: left;
+}
+.system_goal_operating_model table .child_table td:first-child {
+  font-weight: 600;
+}
+.system_goal_operating_model table .child_table td:first-child div {
+  font-style: italic;
+  color: #959595;
+  font-weight: unset;
+}
+.system_goal_operating_model table .child_table td.cell_blue {
+  background-color: #0078d4;
+  color: #fff;
+}
+.system_goal_operating_model table .child_table td.cell_green {
+  background-color: #9fce62;
 }
 .system_goal_operating_model table .child_table textarea {
   align-items: center;

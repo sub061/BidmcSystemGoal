@@ -485,8 +485,10 @@ export default class SystemGoalKpi extends React.Component<
               </div>
               <div>
                <div className="system_goal_operating_model">
+                <div className="table_title">Quality Experience</div>
                 <table className="main_table">
                   <tbody>
+                    {/* 1 */}
                     <tr className="single_row">
                       <th>Inpatient</th>
                       <td style={{padding: '0'}}>
@@ -507,11 +509,11 @@ export default class SystemGoalKpi extends React.Component<
                             <div>YTD 24: [month-month]</div>
                           </td>
                           <td>200996</td>
-                          <td>200996</td>
-                          <td>200996</td>
-                          <td>200996</td>
-                          <td>200996</td>
-                          <td className="point">200996</td>
+                          <td>191620</td>
+                          <td>190599</td>
+                          <td>187530</td>
+                          <td>184460</td>
+                          <td className="cell_blue">0</td>
                           <td>
                             <textarea></textarea>
                           </td>
@@ -520,6 +522,7 @@ export default class SystemGoalKpi extends React.Component<
                         </table>
                       </td>
                     </tr>
+                    {/* 2 */}
                     <tr className="single_row">
                       <th>Ambulatory Measures</th>
                       <td style={{padding: '0'}}>
@@ -544,7 +547,7 @@ export default class SystemGoalKpi extends React.Component<
                           <td>76.1</td>
                           <td>78.1</td>
                           <td>80.1</td>
-                          <td className="point">0</td>
+                          <td className="cell_blue">0</td>
                           <td>
                             <textarea></textarea>
                           </td>
@@ -554,12 +557,12 @@ export default class SystemGoalKpi extends React.Component<
                          <td>DM BP (%)
                          <div className="small_title">YTD 24: [month-month]</div>
                           </td>
-                          <td>70.8</td>
-                          <td>52.6</td>
-                          <td>76.1</td>
-                          <td>78.1</td>
-                          <td>80.1</td>
-                          <td className="point">0</td>
+                          <td>73.5</td>
+                          <td>53.8</td>
+                          <td>71.7</td>
+                          <td>73.7</td>
+                          <td>75.7</td>
+                          <td className="cell_blue">0</td>
                           <td>
                             <textarea></textarea>
                           </td>
@@ -569,12 +572,12 @@ export default class SystemGoalKpi extends React.Component<
                          <td>DM A1c (%)
                          <div className="small_title">YTD 24: [month-month]</div>
                           </td>
-                          <td>70.8</td>
-                          <td>52.6</td>
-                          <td>76.1</td>
-                          <td>78.1</td>
-                          <td>80.1</td>
-                          <td className="point">0</td>
+                          <td>76.8</td>
+                          <td>40.7</td>
+                          <td>69.1</td>
+                          <td>71.1</td>
+                          <td>73.1</td>
+                          <td className="cell_blue">0</td>
                           <td>
                             <textarea></textarea>
                           </td>
@@ -583,6 +586,7 @@ export default class SystemGoalKpi extends React.Component<
                         </table>
                       </td>
                     </tr>
+                    {/* 3 */}
                     <tr className="single_row">
                       <th>Patient Experince</th>
                       <td style={{padding: '0'}}>
@@ -602,12 +606,12 @@ export default class SystemGoalKpi extends React.Component<
                          <td>Inpatient: Responsiveness (%)
                             <div className="small_title">YTD 24: [month-month]</div>
                           </td>
-                          <td>70.8</td>
-                          <td>52.6</td>
-                          <td>76.1</td>
-                          <td>78.1</td>
-                          <td>80.1</td>
-                          <td className="point">0</td>
+                          <td>59.5</td>
+                          <td>57.75</td>
+                          <td>59.49</td>
+                          <td>59.51</td>
+                          <td>62.61</td>
+                          <td className="cell_blue">0</td>
                           <td>
                             <textarea></textarea>
                           </td>
@@ -617,12 +621,46 @@ export default class SystemGoalKpi extends React.Component<
                          <td>Ambulatory: Visit rating (%)
                          <div className="small_title">YTD 24: [month-month]</div>
                           </td>
-                          <td>70.8</td>
-                          <td>52.6</td>
-                          <td>76.1</td>
-                          <td>78.1</td>
-                          <td>80.1</td>
-                          <td className="point">0</td>
+                          <td>87.7</td>
+                          <td>88.93</td>
+                          <td>87.7</td>
+                          <td>87.8</td>
+                          <td className="cell_green">87.9</td>
+                          <td className="cell_blue">0</td>
+                          <td>
+                            <textarea></textarea>
+                          </td>
+                         </tr>
+                         </tbody>
+                        </table>
+                      </td>
+                    </tr>
+                    {/* 4 */}
+                    <tr className="single_row">
+                      <th>Inpatient</th>
+                      <td style={{padding: '0'}}>
+                        <table className="child_table">
+                          <thead>
+                            <th>Measure</th>
+                            <th>Baseline <br></br> (FY 23)</th>
+                            <th>FYTD24</th>
+                            <th>Threshold</th>
+                            <th>Target</th>
+                            <th>Max</th>
+                            <th>Points</th>
+                            <th>Comments</th>
+                          </thead>
+                         <tbody>
+                         <tr>
+                         <td>Readmissions (%)
+                            <div className="small_title">YTD 24: [month-month]</div>
+                          </td>
+                          <td>10.71</td>
+                          <td>10.69</td>
+                          <td>10.25</td>
+                          <td>10.05</td>
+                          <td>9.85</td>
+                          <td className="cell_blue">0</td>
                           <td>
                             <textarea></textarea>
                           </td>
