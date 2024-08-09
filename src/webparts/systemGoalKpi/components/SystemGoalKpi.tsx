@@ -33,6 +33,7 @@ export interface ISystemGoalKpiWpState {
   dataSystemGoal: ISystemGoal[] | null;
   selectedHospitals: Set<number>;
   dataAllHospital: IHospital[] | null;
+  checkedSystemGoals: { [key: string]: boolean }; // Track checkbox state
 }
 
 export default class SystemGoalKpi extends React.Component<
@@ -53,6 +54,12 @@ export default class SystemGoalKpi extends React.Component<
       dataGoal: props.getGoal || null, // Initialize state with the passed prop or null
       dataSystemGoal: props.getSystemGoal || null, // Initialize state with the passed prop or null
       selectedHospitals: new Set(),
+      checkedSystemGoals: {
+        People: true,
+        Quality: true,
+        Finance: true,
+        Strategy: true,
+      },
     };
     console.log("tsx file constructor");
   }
@@ -158,6 +165,43 @@ export default class SystemGoalKpi extends React.Component<
     return groupOperatingModel;
   };
 
+  private handleDivisionCheckboxChange = (
+    divisionId: number,
+    organizationId: number
+  ) => {
+    this.setState((prevState) => {
+      const selectedHospitals = new Set(prevState.selectedHospitals);
+      const divisionHospitals = Object.keys(
+        prevState.dataHospital || {}
+      ).filter((hospitalId) =>
+        prevState.dataHospital?.find(
+          (hospital) =>
+            hospital.Id === Number(hospitalId) &&
+            hospital.DivisionId === divisionId &&
+            hospital.OrganizationId === organizationId
+        )
+      );
+
+      if (
+        divisionHospitals.every((hospitalId) =>
+          selectedHospitals.has(Number(hospitalId))
+        )
+      ) {
+        // If all hospitals in this division are already selected, deselect them
+        divisionHospitals.forEach((hospitalId) =>
+          selectedHospitals.delete(Number(hospitalId))
+        );
+      } else {
+        // Otherwise, select all hospitals in this division
+        divisionHospitals.forEach((hospitalId) =>
+          selectedHospitals.add(Number(hospitalId))
+        );
+      }
+
+      return { selectedHospitals };
+    });
+  };
+
   // Group data by divisionId, then HospitalId
   private groupDivisionData = (data: IHospital[]) => {
     const groupDivisionData: any = {};
@@ -178,6 +222,15 @@ export default class SystemGoalKpi extends React.Component<
     });
 
     return groupDivisionData;
+  };
+
+  private handleSystemGoalCheckboxChange = (goal: string) => {
+    this.setState((prevState) => ({
+      checkedSystemGoals: {
+        ...prevState.checkedSystemGoals,
+        [goal]: !prevState.checkedSystemGoals[goal],
+      },
+    }));
   };
 
   // Group data by organizationId, then GoalId, then SubGoalId, and finally by KPIId
@@ -217,7 +270,16 @@ export default class SystemGoalKpi extends React.Component<
       dataHospital,
       dataOperatingModel,
       selectedHospitals,
+      checkedSystemGoals,
     } = this.state;
+
+    // Example class names to be added
+    const divClassMap: { [key: string]: string } = {
+      People: "d-none",
+      QualityandExperience: "d-none",
+      FinanceandOperations: "d-none",
+      Strategy: "d-none",
+    };
 
     const groupedOperatingModel = this.groupOperatingModel(
       dataOperatingModel || []
@@ -306,7 +368,10 @@ export default class SystemGoalKpi extends React.Component<
                                 name="People"
                                 className="form-check-input"
                                 id="People"
-                                defaultChecked
+                                checked={checkedSystemGoals["People"]}
+                                onChange={() =>
+                                  this.handleSystemGoalCheckboxChange("People")
+                                }
                               />
                               <label className="dropdown-item" htmlFor="People">
                                 People
@@ -315,13 +380,18 @@ export default class SystemGoalKpi extends React.Component<
                             <li>
                               <input
                                 type="checkbox"
-                                name="Quality"
+                                name="QualityandExperience"
                                 className="form-check-input"
-                                id="Quality"
-                                defaultChecked
+                                id="QualityandExperience"
+                                checked={checkedSystemGoals["People"]}
+                                onChange={() =>
+                                  this.handleSystemGoalCheckboxChange(
+                                    "QualityandExperience"
+                                  )
+                                }
                               />
                               <label
-                                htmlFor="Quality"
+                                htmlFor="QualityandExperience"
                                 className="dropdown-item"
                               >
                                 Quality and Experience
@@ -331,11 +401,18 @@ export default class SystemGoalKpi extends React.Component<
                               <input
                                 type="checkbox"
                                 className="form-check-input"
-                                id="Finance"
-                                defaultChecked
+                                id="FinanceandOperations"
+                                checked={
+                                  checkedSystemGoals["FinanceandOperations"]
+                                }
+                                onChange={() =>
+                                  this.handleSystemGoalCheckboxChange(
+                                    "FinanceandOperations"
+                                  )
+                                }
                               />
                               <label
-                                htmlFor="Finance"
+                                htmlFor="FinanceandOperations"
                                 className="dropdown-item"
                               >
                                 Finance and Operations
@@ -346,7 +423,12 @@ export default class SystemGoalKpi extends React.Component<
                                 type="checkbox"
                                 className="form-check-input"
                                 id="Strategy"
-                                defaultChecked
+                                checked={checkedSystemGoals["Strategy"]}
+                                onChange={() =>
+                                  this.handleSystemGoalCheckboxChange(
+                                    "Strategy"
+                                  )
+                                }
                               />
                               <label
                                 htmlFor="Strategy"
@@ -372,10 +454,20 @@ export default class SystemGoalKpi extends React.Component<
                                     type="checkbox"
                                     value={divisionId}
                                     onChange={() =>
-                                      this.handleHospitalCheckboxChange(
-                                        Number(divisionId)
+                                      this.handleDivisionCheckboxChange(
+                                        Number(divisionId),
+                                        Number(organizationId)
                                       )
                                     }
+                                    checked={Object.keys(
+                                      groupedDivisionData[organizationId][
+                                        divisionId
+                                      ]
+                                    ).every((hospitalId) =>
+                                      this.state.selectedHospitals.has(
+                                        Number(hospitalId)
+                                      )
+                                    )}
                                   />
                                   <span>
                                     {this.getDivisionTitle(Number(divisionId))}
@@ -399,6 +491,9 @@ export default class SystemGoalKpi extends React.Component<
                                             Number(hospitalId)
                                           )
                                         }
+                                        checked={this.state.selectedHospitals.has(
+                                          Number(hospitalId)
+                                        )}
                                       />
                                       <span>
                                         {this.getHospitalTitle(
@@ -429,7 +524,24 @@ export default class SystemGoalKpi extends React.Component<
                           ) + "Div"
                         }
                         key={goalId}
-                        className="box_model"
+                        className={`box_model ${
+                          Object.keys(checkedSystemGoals).some(
+                            (goal) =>
+                              !checkedSystemGoals[goal] &&
+                              divClassMap[goal] &&
+                              this.getGoalTitle(Number(goalId)).includes(goal)
+                          )
+                            ? divClassMap[
+                                Object.keys(checkedSystemGoals).find(
+                                  (goal) =>
+                                    !checkedSystemGoals[goal] &&
+                                    this.getGoalTitle(Number(goalId)).includes(
+                                      goal
+                                    )
+                                ) || ""
+                              ]
+                            : ""
+                        }`}
                       >
                         <div className="header">
                           {this.getGoalTitle(Number(goalId))}
