@@ -88,29 +88,6 @@ export default class SystemGoalKpi extends React.Component<
     return systemGoal ? systemGoal.Title : "Unknown System Goal";
   };
 
-  // Get Goal
-  private getGoalTitle = (GoalId: number) => {
-    const { dataGoal } = this.state;
-    if (!dataGoal) return "Unknown Goal"; // Check if dataGoal is null
-    const goal = dataGoal.find((goal) => goal.Id === GoalId);
-    return goal ? goal.Title : "Unknown Goal";
-  };
-
-  // Get sub Goal
-  private getSubGoalTitle = (SubGoalId: number) => {
-    const { dataSubGoal } = this.state;
-    if (!dataSubGoal) return "Unknown SubGoal"; // Check if dataSubGoal is null
-    const subgoal = dataSubGoal.find((subgoal) => subgoal.Id === SubGoalId);
-    return subgoal ? subgoal.Title : "Unknown SubGoal";
-  };
-
-  // Get KPI
-  private getKPITitle = (KpiId: number) => {
-    const { dataKPI } = this.state;
-    if (!dataKPI) return "Unknown KPI"; // Check if dataKPI is null
-    const kpi = dataKPI.find((kpi) => kpi.Id === KpiId);
-    return kpi ? kpi.Title : "Unknown KPI";
-  };
 
   // Get KPI
   private getOperatingModel = (Id: number) => {
@@ -269,17 +246,11 @@ export default class SystemGoalKpi extends React.Component<
       dataGoalMetrix,
       dataHospital,
       dataOperatingModel,
-      selectedHospitals,
       checkedSystemGoals,
     } = this.state;
 
     // Example class names to be added
-    const divClassMap: { [key: string]: string } = {
-      People: "d-none",
-      QualityandExperience: "d-none",
-      FinanceandOperations: "d-none",
-      Strategy: "d-none",
-    };
+   
 
     const groupedOperatingModel = this.groupOperatingModel(
       dataOperatingModel || []
@@ -513,136 +484,156 @@ export default class SystemGoalKpi extends React.Component<
                 </div>
               </div>
               <div>
-                {Object.keys(groupedData).map((organizationId) => (
-                  <div key={organizationId} className="system_goel_container">
-                    {Object.keys(groupedData[organizationId]).map((goalId) => (
-                      <div
-                        id={
-                          this.getGoalTitle(Number(goalId)).replace(
-                            /\s+/g,
-                            ""
-                          ) + "Div"
-                        }
-                        key={goalId}
-                        className={`box_model ${
-                          Object.keys(checkedSystemGoals).some(
-                            (goal) =>
-                              !checkedSystemGoals[goal] &&
-                              divClassMap[goal] &&
-                              this.getGoalTitle(Number(goalId)).includes(goal)
-                          )
-                            ? divClassMap[
-                                Object.keys(checkedSystemGoals).find(
-                                  (goal) =>
-                                    !checkedSystemGoals[goal] &&
-                                    this.getGoalTitle(Number(goalId)).includes(
-                                      goal
-                                    )
-                                ) || ""
-                              ]
-                            : ""
-                        }`}
-                      >
-                        <div className="header">
-                          {this.getGoalTitle(Number(goalId))}
-                        </div>
-                        <div>
-                          <div>
-                            {Object.keys(
-                              groupedData[organizationId][goalId]
-                            ).map((subGoalId) => (
-                              <div key={subGoalId} className="inner_container">
-                                <div className="inner_header">
-                                  {this.getSubGoalTitle(Number(subGoalId))}
-                                </div>
-                                {Object.keys(
-                                  groupedData[organizationId][goalId][subGoalId]
-                                ).map((kpiId) => (
-                                  <table key={kpiId}>
-                                    <thead>
-                                      <tr>
-                                        <th
-                                          colSpan={5}
-                                          className="kpi_name_title"
-                                        >
-                                          {this.getKPITitle(Number(kpiId))}
-                                        </th>
-                                      </tr>
-                                      <tr>
-                                        <th>&nbsp;</th>
-                                        <th>Actual</th>
-                                        <th>Target</th>
-                                        <th>&nbsp;</th>
-                                        <th>Details</th>
-                                      </tr>
-                                    </thead>
-                                    <tbody>
-                                      {groupedData[organizationId][goalId][
-                                        subGoalId
-                                      ][kpiId]
-                                        .filter(
-                                          (metrix: { HospitalId: number }) =>
-                                            selectedHospitals.size === 0 ||
-                                            selectedHospitals.has(
-                                              metrix.HospitalId
-                                            )
-                                        )
-                                        .map(
-                                          (
-                                            metrix: {
-                                              HospitalId: number;
-                                              Actual:
-                                                | boolean
-                                                | React.ReactChild
-                                                | React.ReactFragment
-                                                | React.ReactPortal
-                                                | null
-                                                | undefined;
-                                              Target:
-                                                | boolean
-                                                | React.ReactChild
-                                                | React.ReactFragment
-                                                | React.ReactPortal
-                                                | null
-                                                | undefined;
-                                            },
-                                            subIndex:
-                                              | React.Key
-                                              | null
-                                              | undefined
-                                          ) => (
-                                            <tr key={subIndex}>
-                                              <td>
-                                                <button>
-                                                  {this.getHospitalTitle(
-                                                    metrix.HospitalId
-                                                  )}
-                                                </button>
-                                              </td>
-                                              <td>{metrix.Actual}</td>
-                                              <td>{metrix.Target}</td>
-                                              <td>
-                                                <span className="success"></span>
-                                              </td>
-                                              <td>
-                                                <button className="details">
-                                                  Click
-                                                </button>
-                                              </td>
-                                            </tr>
-                                          )
-                                        )}
-                                    </tbody>
-                                  </table>
-                                ))}
-                              </div>
-                            ))}
-                          </div>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                ))}
+               <div className="system_goal_operating_model">
+                <table className="main_table">
+                  <tbody>
+                    <tr className="single_row">
+                      <th>Inpatient</th>
+                      <td style={{padding: '0'}}>
+                        <table className="child_table">
+                          <thead>
+                            <th>Measure</th>
+                            <th>Baseline <br></br> (FY 23)</th>
+                            <th>FYTD24</th>
+                            <th>Threshold</th>
+                            <th>Target</th>
+                            <th>Max</th>
+                            <th>Points</th>
+                            <th>Comments</th>
+                          </thead>
+                         <tbody>
+                         <tr>
+                         <td>Excess Days
+                            <div>YTD 24: [month-month]</div>
+                          </td>
+                          <td>200996</td>
+                          <td>200996</td>
+                          <td>200996</td>
+                          <td>200996</td>
+                          <td>200996</td>
+                          <td className="point">200996</td>
+                          <td>
+                            <textarea></textarea>
+                          </td>
+                         </tr>
+                         </tbody>
+                        </table>
+                      </td>
+                    </tr>
+                    <tr className="single_row">
+                      <th>Ambulatory Measures</th>
+                      <td style={{padding: '0'}}>
+                        <table className="child_table">
+                          <thead>
+                            <th>Measure</th>
+                            <th>Baseline <br></br> (FY 23)</th>
+                            <th>FYTD24</th>
+                            <th>Threshold</th>
+                            <th>Target</th>
+                            <th>Max</th>
+                            <th>Points</th>
+                            <th>Comments</th>
+                          </thead>
+                         <tbody>
+                         <tr>
+                         <td>HTN BP Control (%)
+                            <div className="small_title">YTD 24: [month-month]</div>
+                          </td>
+                          <td>70.8</td>
+                          <td>52.6</td>
+                          <td>76.1</td>
+                          <td>78.1</td>
+                          <td>80.1</td>
+                          <td className="point">0</td>
+                          <td>
+                            <textarea></textarea>
+                          </td>
+                         </tr>
+                         {/* 2nd row */}
+                         <tr>
+                         <td>DM BP (%)
+                         <div className="small_title">YTD 24: [month-month]</div>
+                          </td>
+                          <td>70.8</td>
+                          <td>52.6</td>
+                          <td>76.1</td>
+                          <td>78.1</td>
+                          <td>80.1</td>
+                          <td className="point">0</td>
+                          <td>
+                            <textarea></textarea>
+                          </td>
+                         </tr>
+                         {/* 3nd row */}
+                         <tr>
+                         <td>DM A1c (%)
+                         <div className="small_title">YTD 24: [month-month]</div>
+                          </td>
+                          <td>70.8</td>
+                          <td>52.6</td>
+                          <td>76.1</td>
+                          <td>78.1</td>
+                          <td>80.1</td>
+                          <td className="point">0</td>
+                          <td>
+                            <textarea></textarea>
+                          </td>
+                         </tr>
+                         </tbody>
+                        </table>
+                      </td>
+                    </tr>
+                    <tr className="single_row">
+                      <th>Patient Experince</th>
+                      <td style={{padding: '0'}}>
+                        <table className="child_table">
+                          <thead>
+                            <th>Measure</th>
+                            <th>Baseline <br></br> (FY 23)</th>
+                            <th>FYTD24</th>
+                            <th>Threshold</th>
+                            <th>Target</th>
+                            <th>Max</th>
+                            <th>Points</th>
+                            <th>Comments</th>
+                          </thead>
+                         <tbody>
+                         <tr>
+                         <td>Inpatient: Responsiveness (%)
+                            <div className="small_title">YTD 24: [month-month]</div>
+                          </td>
+                          <td>70.8</td>
+                          <td>52.6</td>
+                          <td>76.1</td>
+                          <td>78.1</td>
+                          <td>80.1</td>
+                          <td className="point">0</td>
+                          <td>
+                            <textarea></textarea>
+                          </td>
+                         </tr>
+                         {/* 2nd row */}
+                         <tr>
+                         <td>Ambulatory: Visit rating (%)
+                         <div className="small_title">YTD 24: [month-month]</div>
+                          </td>
+                          <td>70.8</td>
+                          <td>52.6</td>
+                          <td>76.1</td>
+                          <td>78.1</td>
+                          <td>80.1</td>
+                          <td className="point">0</td>
+                          <td>
+                            <textarea></textarea>
+                          </td>
+                         </tr>
+                         </tbody>
+                        </table>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+               </div>
               </div>
             </div>
           </>
