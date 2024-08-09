@@ -47,9 +47,14 @@ export interface IGoalMetrix{
   SubGoalId: number;
   KPIId: number;
   HospitalId: number;
+  DivisionId: number;
   Actual: string;
   Target: string;
   URL: string;
+  ActualVerified: boolean;
+  ActualVerify: boolean | true;
+  TargerVerified: boolean;
+  Comment: string;
 
 }
 

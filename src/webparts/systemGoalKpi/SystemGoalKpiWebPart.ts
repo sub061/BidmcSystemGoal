@@ -131,7 +131,6 @@ console.log('filter hospital Data fetched:', filteredData);
     console.log('Fetching goal data from:', requestUrl);
     const response: SPHttpClientResponse = await this.context.spHttpClient.get(requestUrl, SPHttpClient.configurations.v1);
     const data = await response.json();
-    console.log('Data fetched:', data);
     return data.value; 
   }
 
