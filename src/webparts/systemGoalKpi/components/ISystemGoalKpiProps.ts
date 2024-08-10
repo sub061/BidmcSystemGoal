@@ -77,7 +77,8 @@ export interface IKPI{
   Id: number;
   Title: string;
   SubGoalId: number;
-   SubGoal: string;
+  SubGoal: string;
+  GoalId: number;
 }
 export interface ISubGoal{
   Id: number;

@@ -27,9 +27,9 @@ export interface ISystemGoalKpiWebPartProps {
 export default class SystemGoalKpiWebPart extends BaseClientSideWebPart<ISystemGoalKpiWebPartProps> {
 
  public async onInit(): Promise<void> {
-    console.log('onInit called');
+    // console.log('onInit called');
     await super.onInit();
-    console.log('onInit finished');
+    // console.log('onInit finished');
   }
 
 
@@ -37,53 +37,53 @@ export default class SystemGoalKpiWebPart extends BaseClientSideWebPart<ISystemG
   // Get List for System Goal
   public async getSystemGoalConfiguration(): Promise<ISystemGoal[]> {
     const requestUrl = `${this.context.pageContext.web.absoluteUrl}/_api/web/Lists/GetByTitle('${this.properties.system_goal}')/Items`;
-    console.log('Fetching description data from:', requestUrl);
+    // console.log('Fetching description data from:', requestUrl);
     const response: SPHttpClientResponse = await this.context.spHttpClient.get(requestUrl, SPHttpClient.configurations.v1);
     const data = await response.json();
-    console.log('Data fetched:', data);
+    // console.log('Data fetched:', data);
     return data.value; 
   }
 
   // Get List for System Goal
   public async getGoalConfiguration(): Promise<IGoal[]> {
     const requestUrl = `${this.context.pageContext.web.absoluteUrl}/_api/web/Lists/GetByTitle('${this.properties.goal}')/Items`;
-    console.log('Fetching goal data from:', requestUrl);
+    // console.log('Fetching goal data from:', requestUrl);
     const response: SPHttpClientResponse = await this.context.spHttpClient.get(requestUrl, SPHttpClient.configurations.v1);
     const data = await response.json();
-    console.log('Data fetched:', data);
+    // console.log('Data fetched:', data);
     return data.value; 
   }
 
   // Get List for System Goal
   public async getSubGoalConfiguration(): Promise<ISubGoal[]> {
     const requestUrl = `${this.context.pageContext.web.absoluteUrl}/_api/web/Lists/GetByTitle('${this.properties.sub_goal}')/Items`;
-    console.log('Fetching sub_goal data from:', requestUrl);
+    // console.log('Fetching sub_goal data from:', requestUrl);
     const response: SPHttpClientResponse = await this.context.spHttpClient.get(requestUrl, SPHttpClient.configurations.v1);
     const data = await response.json();
-    console.log('Data fetched:', data);
+    // console.log('Data fetched:', data);
     return data.value; 
   }
 
   // Get List for System Goal
   public async getKPIConfiguration(): Promise<IKPI[]> {
     const requestUrl = `${this.context.pageContext.web.absoluteUrl}/_api/web/Lists/GetByTitle('${this.properties.kpi}')/Items`;
-    console.log('Fetching kpi data from:', requestUrl);
+    // console.log('Fetching kpi data from:', requestUrl);
     const response: SPHttpClientResponse = await this.context.spHttpClient.get(requestUrl, SPHttpClient.configurations.v1);
     const data = await response.json();
-    console.log('Data fetched:', data);
+    // console.log('Data fetched:', data);
     return data.value; 
   }
 
 // Get List for Division
   public async getDivisionConfiguration(): Promise<IHospital[]> {
     const requestUrl = `${this.context.pageContext.web.absoluteUrl}/_api/web/Lists/GetByTitle('${this.properties.hospital}')/Items`;
-    console.log('Fetching Division data from:', requestUrl);
+    // console.log('Fetching Division data from:', requestUrl);
     const response: SPHttpClientResponse = await this.context.spHttpClient.get(requestUrl, SPHttpClient.configurations.v1);
     const data = await response.json();
-    console.log('Data fetched:', data);
+    // console.log('Data fetched:', data);
     // Filter the data to include only those items where Division is not null
     const filteredData = data.value.filter((item: IHospital) => item.DivisionId == null);
-    console.log('filter hospital Data fetched:', filteredData);
+    // console.log('filter hospital Data fetched:', filteredData);
     return filteredData; 
     
   }
@@ -92,10 +92,10 @@ export default class SystemGoalKpiWebPart extends BaseClientSideWebPart<ISystemG
    // Get List for full hospital list
   public async getAllHospitalConfiguration(): Promise<IHospital[]> {
     const requestUrl = `${this.context.pageContext.web.absoluteUrl}/_api/web/Lists/GetByTitle('${this.properties.hospital}')/Items`;
-    console.log('Fetching hospital data from:', requestUrl);
+    // console.log('Fetching hospital data from:', requestUrl);
     const response: SPHttpClientResponse = await this.context.spHttpClient.get(requestUrl, SPHttpClient.configurations.v1);
     const data = await response.json();
-    console.log('hospital Data fetched:', data);
+    // console.log('hospital Data fetched:', data);
  
     return data.value; 
   }
@@ -103,24 +103,24 @@ export default class SystemGoalKpiWebPart extends BaseClientSideWebPart<ISystemG
   // Get List for System Goal
   public async getHospitalConfiguration(): Promise<IHospital[]> {
     const requestUrl = `${this.context.pageContext.web.absoluteUrl}/_api/web/Lists/GetByTitle('${this.properties.hospital}')/Items`;
-    console.log('Fetching hospital data from:', requestUrl);
+    // console.log('Fetching hospital data from:', requestUrl);
     const response: SPHttpClientResponse = await this.context.spHttpClient.get(requestUrl, SPHttpClient.configurations.v1);
     const data = await response.json();
-    console.log('hospital Data fetched:', data);
+    // console.log('hospital Data fetched:', data);
 
 // Filter the data to include only those items where Division is not null
     const filteredData = data.value.filter((item: IHospital) => item.DivisionId !== null);
-console.log('filter hospital Data fetched:', filteredData);
+// console.log('filter hospital Data fetched:', filteredData);
     return filteredData; 
   }
 
   // Get List for System Goal
   public async getGoalMetrixConfiguration(): Promise<IGoalMetrix[]> {
-    const requestUrl = `${this.context.pageContext.web.absoluteUrl}/_api/web/Lists/GetByTitle('${this.properties.metrix}')/Items`;
-    console.log('Fetching goal data from:', requestUrl);
+    const requestUrl = `${this.context.pageContext.web.absoluteUrl}/_api/web/Lists/GetByTitle('${this.properties.metrix}')/Items?$top=5000`;
+    // console.log('Fetching goal data from:', requestUrl);
     const response: SPHttpClientResponse = await this.context.spHttpClient.get(requestUrl, SPHttpClient.configurations.v1);
     const data = await response.json();
-    console.log('Data fetched:', data);
+    // console.log('Data fetched:', data);
     return data.value; 
   }
 
@@ -128,16 +128,16 @@ console.log('filter hospital Data fetched:', filteredData);
   // Get List for Operating Model
   public async getOperatingModelConfiguration(): Promise<IOperatingModel[]> {
     const requestUrl = `${this.context.pageContext.web.absoluteUrl}/_api/web/Lists/GetByTitle('Operating Model')/Items`;
-    console.log('Fetching goal data from:', requestUrl);
+    // console.log('Fetching goal data from:', requestUrl);
     const response: SPHttpClientResponse = await this.context.spHttpClient.get(requestUrl, SPHttpClient.configurations.v1);
     const data = await response.json();
     return data.value; 
   }
 
  public render(): void {
-    console.log('render called');
+    // console.log('render called');
     if (!this.domElement) {
-      console.error('domElement is not available');
+      // console.error('domElement is not available');
       return;
     }
     if(this.domElement) this.renderContent();
@@ -159,10 +159,10 @@ console.log('filter hospital Data fetched:', filteredData);
       
       const pageTitle = this.properties.title;
 
-      console.log("page title", pageTitle);
+      // console.log("page title", pageTitle);
       
       
-      console.log('Banner data:', getGoalMetrix);
+      // console.log('Banner data:', getGoalMetrix);
 
 
 
@@ -185,16 +185,16 @@ console.log('filter hospital Data fetched:', filteredData);
       );
 
       const domElement = document.querySelector('[data-sp-web-part-id="0d46ba9c-5483-423a-8bd0-a366a99a6608"]');
-      console.log("Dom element ---->", domElement)
-      console.log("element ---->", element);
+      // console.log("Dom element ---->", domElement)
+      // console.log("element ---->", element);
 
       if (domElement) {
         ReactDom.render(element, domElement);
       } else {
-        console.error('The specified DOM element is not found.');
+        // console.error('The specified DOM element is not found.');
       }
     } catch (error) {
-      console.error('Error during render:', error);
+      // console.error('Error during render:', error);
     }
   }
 

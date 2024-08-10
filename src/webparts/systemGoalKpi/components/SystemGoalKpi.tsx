@@ -32,8 +32,10 @@ export interface ISystemGoalKpiWpState {
   dataGoal: IGoal[] | null;
   dataSystemGoal: ISystemGoal[] | null;
   selectedHospitals: Set<number>;
+  selectedHospitalsNew: Set<number>;
   dataAllHospital: IHospital[] | null;
   checkedSystemGoals: { [key: string]: boolean }; // Track checkbox state
+  checkedSystemGoalsNew: Set<number>;
   selectedDivisions: Set<number>;
   selectedOrganizations: Set<number>; // Add this line
   // Add other properties here
@@ -58,42 +60,22 @@ export default class SystemGoalKpi extends React.Component<
       dataGoal: props.getGoal || null, // Initialize state with the passed prop or null
       dataSystemGoal: props.getSystemGoal || null, // Initialize state with the passed prop or null
       selectedHospitals: new Set(),
+      selectedHospitalsNew: new Set([1,2,3,4]),
       checkedSystemGoals: {
         People: true,
         ["Quality&Experience"]: true,
         FinanceandOperations: true,
         Strategy: true,
       },
+      checkedSystemGoalsNew: new Set([1,2,3,4]),
       selectedDivisions: new Set(),
       selectedOrganizations: new Set(), // Initialize this
       groupedDivisionData: {}, // Ensure this matches your actual data type
     };
-    console.log("tsx file constructor");
+    // console.log("tsx file constructor");
   }
 
-  private handleHospitalCheckboxChange = (hospitalId: number) => {
-    this.setState((prevState) => {
-      const selectedHospitals = new Set(prevState.selectedHospitals);
-      console.log("selectedHospitals", selectedHospitals);
-      if (selectedHospitals.has(hospitalId)) {
-        selectedHospitals.delete(hospitalId);
-      } else {
-        selectedHospitals.add(hospitalId);
-        console.log("selectedHospitals", selectedHospitals);
-      }
-      return { selectedHospitals };
-    });
-  };
 
-  // Get Main System Goal
-  private getSystemGoalTitle = (organizationId: number) => {
-    const { dataSystemGoal } = this.state;
-    if (!dataSystemGoal) return "Unknown System Goal"; // Check if dataSystemGoal is null
-    const systemGoal = dataSystemGoal.find(
-      (systemGoal) => systemGoal.Id === organizationId
-    );
-    return systemGoal ? systemGoal.Title : "Unknown System Goal";
-  };
 
   // Get Goal
   private getGoalTitle = (GoalId: number) => {
@@ -111,23 +93,7 @@ export default class SystemGoalKpi extends React.Component<
     return subgoal ? subgoal.Title : "Unknown SubGoal";
   };
 
-  // Get KPI
-  private getKPITitle = (KpiId: number) => {
-    const { dataKPI } = this.state;
-    if (!dataKPI) return "Unknown KPI"; // Check if dataKPI is null
-    const kpi = dataKPI.find((kpi) => kpi.Id === KpiId);
-    return kpi ? kpi.Title : "Unknown KPI";
-  };
 
-  // Get KPI
-  private getOperatingModel = (Id: number) => {
-    const { dataOperatingModel } = this.state;
-    if (!dataOperatingModel) return "Unknown KPI"; // Check if dataKPI is null
-    const OperatingModel = dataOperatingModel.find(
-      (OperatingModel) => OperatingModel.Id === Id
-    );
-    return OperatingModel ? OperatingModel.Title : "Unknown Operating Model";
-  };
   // get Division
   private getDivisionTitle = (divisionId: number) => {
     const { dataDivision } = this.state;
@@ -138,76 +104,6 @@ export default class SystemGoalKpi extends React.Component<
     return division ? division.Title : "Unknown Hospital";
   };
 
-  // get Hospital
-  //dataAllHospital;
-  private getHospitalTitle = (hospitalId: number) => {
-    const { dataAllHospital } = this.state;
-    if (!dataAllHospital) return "Unknown Hospital"; // Check if dataHospital is null
-    const hospital = dataAllHospital.find(
-      (hospital) => hospital.Id === hospitalId
-    );
-    return hospital ? hospital.Title : "Unknown Hospital";
-  };
-
-  // private getHospitalTitle = (hospitalId: number) => {
-  //   const { dataHospital } = this.state;
-  //   if (!dataHospital) return "Unknown Hospital"; // Check if dataHospital is null
-  //   const hospital = dataHospital.find(
-  //     (hospital) => hospital.Id === hospitalId
-  //   );
-  //   return hospital ? hospital.Title : "Unknown Hospital";
-  // };
-
-  // Group data by OperatingModel
-  private groupOperatingModel = (data: IOperatingModel[]) => {
-    const groupOperatingModel: any = {};
-
-    data.forEach((item) => {
-      if (!groupOperatingModel[item.Id]) {
-        groupOperatingModel[item.Id] = {};
-      }
-      // groupOperatingModel[item.Id].push(item);
-    });
-
-    return groupOperatingModel;
-  };
-
-  private handleDivisionCheckboxChange = (
-    divisionId: number,
-    organizationId: number
-  ) => {
-    this.setState((prevState) => {
-      const selectedHospitals = new Set(prevState.selectedHospitals);
-      const divisionHospitals = Object.keys(
-        prevState.dataHospital || {}
-      ).filter((hospitalId) =>
-        prevState.dataHospital?.find(
-          (hospital) =>
-            hospital.Id === Number(hospitalId) &&
-            hospital.DivisionId === divisionId &&
-            hospital.OrganizationId === organizationId
-        )
-      );
-
-      if (
-        divisionHospitals.every((hospitalId) =>
-          selectedHospitals.has(Number(hospitalId))
-        )
-      ) {
-        // If all hospitals in this division are already selected, deselect them
-        divisionHospitals.forEach((hospitalId) =>
-          selectedHospitals.delete(Number(hospitalId))
-        );
-      } else {
-        // Otherwise, select all hospitals in this division
-        divisionHospitals.forEach((hospitalId) =>
-          selectedHospitals.add(Number(hospitalId))
-        );
-      }
-
-      return { selectedHospitals };
-    });
-  };
 
   handleOrganizationCheckboxChange = (organizationId: number) => {
     const { groupedDivisionData, selectedOrganizations } = this.state;
@@ -249,187 +145,205 @@ export default class SystemGoalKpi extends React.Component<
     });
   };
 
-  // Group data by divisionId, then HospitalId
-  private groupDivisionData = (data: IHospital[]) => {
-    const groupDivisionData: any = {};
 
-    data.forEach((item) => {
-      if (!groupDivisionData[item.OrganizationId]) {
-        groupDivisionData[item.OrganizationId] = {};
+
+  /***
+   * New Functions
+   * @author Ganesh
+   * 
+   * 
+   */
+  
+  private prepareHospitalHirerachy = (data: IHospital[]) => {
+    const result: any = [];
+
+    data.forEach(hospital => {
+      // Find the organization in the result array
+      let organization = result.find((org: any) => org.id === hospital.OrganizationId);
+  
+      // If the organization doesn't exist, create it
+      if (!organization) {
+        organization = {
+          name: 'BILH', // Adjust the organization name as needed
+          id: hospital.OrganizationId,
+          division: []
+        };
+        result.push(organization);
       }
-      if (!groupDivisionData[item.OrganizationId][item.DivisionId]) {
-        groupDivisionData[item.OrganizationId][item.DivisionId] = {};
+  
+      // Find the division in the organization's divisions array
+      let division = organization.division.find((div: any) => div.id === hospital.DivisionId);
+  
+      // If the division doesn't exist, create it
+      if (!division) {
+        division = {
+          name: this.getDivisionTitle(hospital.DivisionId), // Adjust the division name as needed
+          id: hospital.DivisionId,
+          hospitals: []
+        };
+        organization.division.push(division);
       }
-      if (!groupDivisionData[item.OrganizationId][item.DivisionId][item.Id]) {
-        groupDivisionData[item.OrganizationId][item.DivisionId][item.Id] = [];
-      }
-      groupDivisionData[item.OrganizationId][item.DivisionId][item.Id].push(
-        item
-      );
+  
+      // Add the hospital to the division
+      division.hospitals.push({
+        id: hospital.Id,
+        title: hospital.Title
+      });
     });
 
-    // Sort the divisions and hospitals within each organization
-    Object.keys(groupDivisionData).forEach((organizationId) => {
-      const divisions = groupDivisionData[organizationId];
-      const sortedDivisionIds = Object.keys(divisions).sort((a, b) => {
-        return this.getDivisionTitle(Number(a)).localeCompare(
-          this.getDivisionTitle(Number(b))
-        );
+    return result;
+  }
+
+
+  private getGoalHirerachy = (data: IKPI[]) => {
+    const result: any = [];
+    data.forEach(kpi => {
+      // Find the goal in the result array
+      let goal = result.find((g: any) => g.id === kpi.GoalId);
+  
+      // If the goal doesn't exist, create it
+      if (!goal) {
+        goal = {
+          name: this.getGoalTitle(kpi.GoalId), // Adjust the goal name as needed
+          id: kpi.GoalId,
+          subGoal: []
+        };
+        result.push(goal);
+      }
+  
+      // Find the subGoal in the goal's subGoals array
+      let subGoal = goal.subGoal.find((sg: any) => sg.id === kpi.SubGoalId);
+  
+      // If the subGoal doesn't exist, create it
+      if (!subGoal) {
+        subGoal = {
+          name: this.getSubGoalTitle(kpi.SubGoalId), // Adjust the subGoal name as needed
+          id: kpi.SubGoalId,
+          kpi: []
+        };
+        goal.subGoal.push(subGoal);
+      }
+  
+      // Add the KPI to the subGoal
+      subGoal.kpi.push({
+        id: kpi.Id,
+        title: kpi.Title
       });
-
-      sortedDivisionIds.forEach((divisionId) => {
-        const hospitals = divisions[divisionId];
-        const sortedHospitalIds = Object.keys(hospitals).sort((a, b) => {
-          return this.getHospitalTitle(Number(a)).localeCompare(
-            this.getHospitalTitle(Number(b))
-          );
-        });
-
-        // Reassign sorted hospitals
-        const sortedHospitals: any = {};
-        sortedHospitalIds.forEach((hospitalId) => {
-          sortedHospitals[hospitalId] = hospitals[hospitalId];
-        });
-
-        divisions[divisionId] = sortedHospitals;
-      });
-
-      // Reassign sorted divisions
-      const sortedDivisions: any = {};
-      sortedDivisionIds.forEach((divisionId) => {
-        sortedDivisions[divisionId] = divisions[divisionId];
-      });
-
-      groupDivisionData[organizationId] = sortedDivisions;
     });
 
-    return groupDivisionData;
+    return result;
+    
+  }
+
+
+  private handleHospitalChange = (hospitalId: number) => {
+    this.setState(prevState => {
+      const updatedSelection = new Set(prevState.selectedHospitalsNew);
+      if (updatedSelection.has(hospitalId)) {
+        updatedSelection.delete(hospitalId);
+      } else {
+        updatedSelection.add(hospitalId);
+      }
+      return { selectedHospitalsNew: updatedSelection };
+    });
   };
 
-  private handleSystemGoalCheckboxChange = (goal: string) => {
-    this.setState((prevState) => ({
-      checkedSystemGoals: {
-        ...prevState.checkedSystemGoals,
-        [goal]: !prevState.checkedSystemGoals[goal],
-      },
-    }));
-  };
-
-  // Group data by organizationId, then GoalId, then SubGoalId, and finally by KPIId
-  private groupData = (data: IGoalMetrix[]) => {
-    console.log("AAAAAAAAAAAAAAAAA", JSON.stringify(data));
-    const obj: { [key: number]: any } = {};
-    const newData = data.reduce((acc, item) => {
-      const divisionId = item.DivisionId;
-      if (!acc[divisionId]) {
-        acc[divisionId] = [];
-      }
-      acc[divisionId].push(item);
-      return acc;
-    }, obj);
-
-    console.log("new Data", newData);
-
-    const groupedData: any = {};
-    data.map((item: IGoalMetrix) => {
-      if (!groupedData[item.OrganizationId]) {
-        groupedData[item.OrganizationId] = {};
-      }
-      if (!groupedData[item.OrganizationId][item.GoalId]) {
-        groupedData[item.OrganizationId][item.GoalId] = {};
-      }
-      if (!groupedData[item.OrganizationId][item.GoalId][item.SubGoalId]) {
-        groupedData[item.OrganizationId][item.GoalId][item.SubGoalId] = {};
-      }
-      if (
-        !groupedData[item.OrganizationId][item.GoalId][item.SubGoalId][
-          item.KPIId
-        ]
-      ) {
-        groupedData[item.OrganizationId][item.GoalId][item.SubGoalId][
-          item.KPIId
-        ] = [];
-      }
-
-      groupedData[item.OrganizationId][item.GoalId][item.SubGoalId][
-        item.KPIId
-      ].push(item);
-    });
-
-    console.log("Ganesh", groupedData);
-
-    // Sort the KPIs within each sub-goal, goal, and organization
-    Object.keys(groupedData).forEach((organizationId) => {
-      Object.keys(groupedData[organizationId]).forEach((goalId) => {
-        Object.keys(groupedData[organizationId][goalId]).forEach(
-          (subGoalId) => {
-            groupedData[organizationId][goalId][subGoalId] = Object.keys(
-              groupedData[organizationId][goalId][subGoalId]
-            )
-              .sort((a, b) => {
-                return this.getKPITitle(Number(a)).localeCompare(
-                  this.getKPITitle(Number(b))
-                );
-              })
-              .reduce((sortedKPIs: any, kpiId) => {
-                sortedKPIs[kpiId] =
-                  groupedData[organizationId][goalId][subGoalId][kpiId];
-                return sortedKPIs;
-              }, {});
+  private handleDivisionChange = (divisionId: number, hirerachicalHospitalData: any) => {
+    this.setState(prevState => {
+      const updatedSelection = new Set(prevState.selectedHospitalsNew);
+      const hospitalsToToggle: any[] = [];
+      
+      hirerachicalHospitalData.forEach((org: any) => {
+        org.division.forEach((div: any) => {
+          if (div.id === divisionId) {
+            div.hospitals.forEach((hospital: any) => {
+              hospitalsToToggle.push(hospital.id);
+            });
           }
-        );
+        });
       });
-    });
 
-    console.log("groupedData groupedData", groupedData);
-    return groupedData;
+      const allSelected = hospitalsToToggle.every(id => updatedSelection.has(id));
+
+      if (allSelected) {
+        hospitalsToToggle.forEach(id => updatedSelection.delete(id));
+      } else {
+        hospitalsToToggle.forEach(id => updatedSelection.add(id));
+      }
+
+      return { selectedHospitalsNew: updatedSelection };
+    });
   };
+
+  private handleOrganizationChange = (organizationId: number, hirerachicalHospitalData: any) => {
+    this.setState(prevState => {
+      const updatedSelection = new Set(prevState.selectedHospitalsNew);
+      const hospitalsToToggle: any[] = [];
+
+      hirerachicalHospitalData.forEach((org: any) => {
+        if (org.id === organizationId) {
+          org.division.forEach((div: any) => {
+            div.hospitals.forEach((hospital: any) => {
+              hospitalsToToggle.push(hospital.id);
+            });
+          });
+        }
+      });
+
+      const allSelected = hospitalsToToggle.every(id => updatedSelection.has(id));
+
+      if (allSelected) {
+        hospitalsToToggle.forEach(id => updatedSelection.delete(id));
+      } else {
+        hospitalsToToggle.forEach(id => updatedSelection.add(id));
+      }
+
+      return { selectedHospitalsNew: updatedSelection };
+    });
+  };
+
+  private handleGoalChange = (goalId: number) => {
+    this.setState(prevState => {
+      const updatedSelection = new Set(prevState.checkedSystemGoalsNew);
+      if (updatedSelection.has(goalId)) {
+        updatedSelection.delete(goalId);
+      } else {
+        updatedSelection.add(goalId);
+      }
+      return { checkedSystemGoalsNew: updatedSelection };
+    });
+  }
+
+  private findMatrixValues = (subGoalId: number, kpiId: number, hospitalId:number, matrix: any, key: string) => {
+    console.log(matrix);
+    console.log(subGoalId, kpiId, hospitalId);
+    const a =  matrix.find((item: any) => 
+      item.KPIId === kpiId && 
+      item.HospitalId === hospitalId && 
+      item.SubGoalId === subGoalId
+    );
+    return a ? a[key] : null;
+  }
+
 
   public render(): React.ReactElement<ISystemGoalKpiProps> {
     const {
       dataGoalMetrix,
-      dataHospital,
-      dataOperatingModel,
-      selectedHospitals,
-      checkedSystemGoals,
+      selectedHospitalsNew,
+      checkedSystemGoalsNew,
+      dataAllHospital,
+      dataKPI
     } = this.state;
 
-    // Example class names to be added
-    const divClassMap: { [key: string]: string } = {
-      People: "d-none",
-      ["Quality&Experience"]: "d-none",
-      FinanceandOperations: "d-none",
-      Strategy: "d-none",
-    };
+    console.log(JSON.stringify(dataGoalMetrix));
 
-    const groupedOperatingModel = this.groupOperatingModel(
-      dataOperatingModel || []
-    );
-    const groupedData = this.groupData(dataGoalMetrix || []);
-    const groupedDivisionData = this.groupDivisionData(dataHospital || []);
+    const hirerachicalHospitalData =  this.prepareHospitalHirerachy(dataAllHospital || []);
+    console.log(hirerachicalHospitalData)
 
-    console.log("final groupedDivisionData dataHospital=", dataHospital);
-    console.log("final groupedData=", groupedData);
-    console.log("final groupedDivisionData=", groupedDivisionData);
-    console.log("final Operating Model=", dataOperatingModel);
-    console.log("title", this.props.title);
-    console.log("checkedSystemGoals", checkedSystemGoals);
+    const goalHirerachyData = this.getGoalHirerachy(dataKPI || []);
+    console.log(goalHirerachyData)
 
-    // const ToggleDivs = () => {
-    //   const [visibleDivs, setVisibleDivs] = useState({
-    //     People: true,
-    //     Quality: true,
-    //     Finance: true,
-    //     Strategy: true,
-    //   });
 
-    //   const handleCheckboxChange = (event: { target: { id: any; checked: any; }; }) => {
-    //     const { id, checked } = event.target;
-    //     setVisibleDivs((prevVisibleDivs) => ({
-    //       ...prevVisibleDivs,
-    //       [id]: checked,
-    //     }));
-    //   };
 
     return (
       <section>
@@ -444,472 +358,236 @@ export default class SystemGoalKpi extends React.Component<
           {this.props.title}
         </div>
 
-        {Object.keys(groupedOperatingModel).map((Id) => (
-          <>
+        <div>
+          <div className="btn_container">
+            <h3>
+              <span>System Goal 2025</span>
+            </h3>
             <div>
-              <div className="btn_container">
-                <h3>
-                  <span>{this.getOperatingModel(Number(Id))} </span>
-                </h3>
-                <div>
-                  {Object.keys(groupedDivisionData).map((organizationId) => (
-                    <>
-                      <div className="with_goal_filter">
-                        <div className="cat action primary">
+            {hirerachicalHospitalData.map((organization: any) => (
+              <>
+              <div className="with_goal_filter">
+                    
+                    <div className="cat action primary">
+                      <label>
+                        <input type="checkbox" value={organization.id} 
+                        checked={organization.division.every((divison: any) =>
+                          divison.hospitals.every((hospital: any) => selectedHospitalsNew.has(hospital.id))
+                        )}
+                        onChange={() => this.handleOrganizationChange(organization.id, hirerachicalHospitalData)}/>
+                        <span>{organization.name}</span>
+                      </label>
+                    </div>
+                    <div className="dropdown">
+                      <button
+                        className="btn dropdown-toggle"
+                        type="button"
+                        data-bs-toggle="dropdown"
+                        aria-expanded="false"
+                      >
+                        <i className="fas fa-filter"></i>
+                        <span
+                          style={{
+                            flex: "1",
+                            textAlign: "left",
+                            position: "relative",
+                            top: "-1px",
+                          }}
+                        >
+                          {" "}
+                          System Goal
+                        </span>
+                      </button>
+                      <ul className="dropdown-menu">
+                        <li>
+                          <input
+                            type="checkbox"
+                            name="People"
+                            className="form-check-input"
+                            id="People"
+                            checked={checkedSystemGoalsNew.has(1)}
+                            onChange={() =>
+                              this.handleGoalChange(1)
+                            }
+                          />
+                          <label className="dropdown-item" htmlFor="People">
+                            People
+                          </label>
+                        </li>
+                        <li>
+                          <input
+                            type="checkbox"
+                            name="Quality&Experience"
+                            className="form-check-input"
+                            id="Quality&Experience"
+                            checked={checkedSystemGoalsNew.has(2)}
+                            onChange={() =>
+                              this.handleGoalChange(2)
+                            }
+                          />
+                          <label
+                            htmlFor="Quality&Experience"
+                            className="dropdown-item"
+                          >
+                            Quality & Experience
+                          </label>
+                        </li>
+                        <li>
+                          <input
+                            type="checkbox"
+                            className="form-check-input"
+                            id="FinanceandOperations"
+                            checked={checkedSystemGoalsNew.has(3)}
+                            onChange={() =>
+                              this.handleGoalChange(3)
+                            }
+                          />
+                          <label
+                            htmlFor="FinanceandOperations"
+                            className="dropdown-item"
+                          >
+                            Finance and Operations
+                          </label>
+                        </li>
+                        <li>
+                          <input
+                            type="checkbox"
+                            className="form-check-input"
+                            id="Strategy"
+                            checked={checkedSystemGoalsNew.has(4)}
+                            onChange={() =>
+                              this.handleGoalChange(4)
+                            }
+                          />
+                          <label htmlFor="Strategy" className="dropdown-item">
+                            Strategy
+                          </label>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                  <div className="multi_btn_group">
+                    {hirerachicalHospitalData[0].division.map((division: any)=>(
+                      <div className="inner_btn_group">
+                        <div className="cat action secondary">
                           <label>
-                            <input
-                              type="checkbox"
-                              value={organizationId}
-                              onChange={() =>
-                                this.handleOrganizationCheckboxChange(
-                                  Number(organizationId)
-                                )
-                              }
-                              checked={Object.keys(
-                                groupedDivisionData[organizationId]
-                              ).every((divisionId) =>
-                                Object.keys(
-                                  groupedDivisionData[organizationId][
-                                    divisionId
-                                  ]
-                                ).every((hospitalId) =>
-                                  this.state.selectedHospitals.has(
-                                    Number(hospitalId)
-                                  )
-                                )
-                              )}
-                            />
-                            <span>
-                              {this.getSystemGoalTitle(Number(organizationId))}{" "}
-                            </span>
+                            <input type="checkbox" value={division.id} 
+                            checked={division.hospitals.every((hospital: any) => selectedHospitalsNew.has(hospital.id))}
+                            onChange={() => this.handleDivisionChange(division.id, hirerachicalHospitalData)}/>
+                            <span>{division.name}</span>
                           </label>
                         </div>
-                        <div className="dropdown">
-                          <button
-                            className="btn dropdown-toggle"
-                            type="button"
-                            data-bs-toggle="dropdown"
-                            aria-expanded="false"
-                          >
-                            <i className="fas fa-filter"></i>
-                            <span
-                              style={{
-                                flex: "1",
-                                textAlign: "left",
-                                position: "relative",
-                                top: "-1px",
-                              }}
-                            >
-                              {" "}
-                              System Goal
-                            </span>
-                          </button>
-                          <ul className="dropdown-menu">
-                            <li>
-                              <input
-                                type="checkbox"
-                                name="People"
-                                className="form-check-input"
-                                id="People"
-                                checked={checkedSystemGoals["People"]}
-                                onChange={() =>
-                                  this.handleSystemGoalCheckboxChange("People")
-                                }
-                              />
-                              <label className="dropdown-item" htmlFor="People">
-                                People
+                        <div className="btn_group">
+                          {division.hospitals.map((hospital: any) => (
+                            <div className="cat action">
+                              <label key="">
+                                <input type="checkbox" value={hospital.id}
+                                  checked={selectedHospitalsNew.has(hospital.id)}
+                                  onChange={() => this.handleHospitalChange(hospital.id)}/>
+                                <span>{hospital.title}{hospital.id}</span>
                               </label>
-                            </li>
-                            <li>
-                              <input
-                                type="checkbox"
-                                name="Quality&Experience"
-                                className="form-check-input"
-                                id="Quality&Experience"
-                                checked={
-                                  checkedSystemGoals["Quality&Experience"]
-                                }
-                                onChange={() =>
-                                  this.handleSystemGoalCheckboxChange(
-                                    "Quality&Experience"
-                                  )
-                                }
-                              />
-                              <label
-                                htmlFor="Quality&Experience"
-                                className="dropdown-item"
-                              >
-                                Quality & Experience
-                              </label>
-                            </li>
-                            <li>
-                              <input
-                                type="checkbox"
-                                className="form-check-input"
-                                id="FinanceandOperations"
-                                checked={
-                                  checkedSystemGoals["FinanceandOperations"]
-                                }
-                                onChange={() =>
-                                  this.handleSystemGoalCheckboxChange(
-                                    "FinanceandOperations"
-                                  )
-                                }
-                              />
-                              <label
-                                htmlFor="FinanceandOperations"
-                                className="dropdown-item"
-                              >
-                                Finance and Operations
-                              </label>
-                            </li>
-                            <li>
-                              <input
-                                type="checkbox"
-                                className="form-check-input"
-                                id="Strategy"
-                                checked={checkedSystemGoals["Strategy"]}
-                                onChange={() =>
-                                  this.handleSystemGoalCheckboxChange(
-                                    "Strategy"
-                                  )
-                                }
-                              />
-                              <label
-                                htmlFor="Strategy"
-                                className="dropdown-item"
-                              >
-                                Strategy
-                              </label>
-                            </li>
-                          </ul>
-                        </div>
-                      </div>
-
-                      <div className="multi_btn_group">
-                        {Object.keys(groupedDivisionData[organizationId]).map(
-                          (divisionId) => (
-                            <div className="inner_btn_group">
-                              <div
-                                key={divisionId}
-                                className="cat action secondary"
-                              >
-                                <label>
-                                  <input
-                                    type="checkbox"
-                                    value={divisionId}
-                                    onChange={() =>
-                                      this.handleDivisionCheckboxChange(
-                                        Number(divisionId),
-                                        Number(organizationId)
-                                      )
-                                    }
-                                    checked={Object.keys(
-                                      groupedDivisionData[organizationId][
-                                        divisionId
-                                      ]
-                                    ).every((hospitalId) =>
-                                      this.state.selectedHospitals.has(
-                                        Number(hospitalId)
-                                      )
-                                    )}
-                                  />
-                                  <span>
-                                    {this.getDivisionTitle(Number(divisionId))}
-                                  </span>
-                                </label>
-                              </div>
-
-                              <div className="btn_group">
-                                {Object.keys(
-                                  groupedDivisionData[organizationId][
-                                    divisionId
-                                  ]
-                                ).map((hospitalId) => (
-                                  <div className="cat action">
-                                    <label key={hospitalId}>
-                                      <input
-                                        type="checkbox"
-                                        value={hospitalId}
-                                        onChange={() =>
-                                          this.handleHospitalCheckboxChange(
-                                            Number(hospitalId)
-                                          )
-                                        }
-                                        checked={this.state.selectedHospitals.has(
-                                          Number(hospitalId)
-                                        )}
-                                      />
-                                      <span>
-                                        {this.getHospitalTitle(
-                                          Number(hospitalId)
-                                        )}
-                                      </span>
-                                    </label>
-                                  </div>
-                                ))}
-                              </div>
                             </div>
-                          )
-                        )}
-                      </div>
-                    </>
-                  ))}
-                </div>
-              </div>
-              <div>
-                {Object.keys(groupedData).map((organizationId) => (
-                  <div key={organizationId} className="system_goel_container">
-                    {Object.keys(groupedData[organizationId]).map((goalId) => (
-                      <div
-                        id={
-                          this.getGoalTitle(Number(goalId)).replace(
-                            /\s+/g,
-                            ""
-                          ) + "Div"
-                        }
-                        key={goalId}
-                        className={`box_model ${
-                          Object.keys(checkedSystemGoals).some(
-                            (goal) =>
-                              !checkedSystemGoals[goal] &&
-                              divClassMap[goal] &&
-                              this.getGoalTitle(Number(goalId)).includes(goal)
-                          )
-                            ? divClassMap[
-                                Object.keys(checkedSystemGoals).find(
-                                  (goal) =>
-                                    !checkedSystemGoals[goal] &&
-                                    this.getGoalTitle(Number(goalId)).includes(
-                                      goal
-                                    )
-                                ) || ""
-                              ]
-                            : ""
-                        }`}
-                      >
-                        <div className="header">
-                          {this.getGoalTitle(Number(goalId))}
-                        </div>
-                        <div>
-                          <div>
-                            {Object.keys(
-                              groupedData[organizationId][goalId]
-                            ).map((subGoalId) => (
-                              <div key={subGoalId} className="inner_container">
-                                <div className="inner_header">
-                                  {this.getSubGoalTitle(Number(subGoalId))}
-                                </div>
-                                {Object.keys(
-                                  groupedData[organizationId][goalId][subGoalId]
-                                ).map((kpiId) => (
-                                  <table key={kpiId}>
-                                    <thead>
-                                      <tr>
-                                        <th
-                                          colSpan={5}
-                                          className="kpi_name_title"
-                                        >
-                                          {this.getKPITitle(Number(kpiId))}
-                                        </th>
-                                      </tr>
-                                      <tr>
-                                        <th>&nbsp;</th>
-                                        <th>Actual</th>
-                                        <th>Target</th>
-                                        <th>&nbsp;</th>
-                                        <th>Details</th>
-                                      </tr>
-                                    </thead>
-                                    <tbody>
-                                      {groupedData[organizationId][goalId][
-                                        subGoalId
-                                      ][kpiId]
-                                        .filter(
-                                          (metrix: {
-                                            HospitalId: number;
-                                            DivisionId: number;
-                                          }) =>
-                                            selectedHospitals.size === 0 ||
-                                            selectedHospitals.has(
-                                              metrix.HospitalId
-                                            )
-                                        )
-                                        // .sort(
-                                        //   (
-                                        //     a: {
-                                        //       DivisionId: number;
-                                        //       HospitalId: number;
-                                        //       OrganizationId: number;
-                                        //     },
-                                        //     b: {
-                                        //       DivisionId: number;
-                                        //       HospitalId: number;
-                                        //       OrganizationId: number;
-                                        //     }
-                                        //   ) => {
-                                        //     // First sort by DivisionId in ascending order
-                                        //     if (a.DivisionId !== b.DivisionId) {
-                                        //       return (
-                                        //         a.DivisionId - b.DivisionId
-                                        //       );
-                                        //     }
-
-                                        //     // Then sort by Hospital Name in ascending order
-                                        //     const hospitalNameA =
-                                        //       this.getHospitalTitle(
-                                        //         a.HospitalId
-                                        //       );
-                                        //     const hospitalNameB =
-                                        //       this.getHospitalTitle(
-                                        //         b.HospitalId
-                                        //       );
-                                        //     return hospitalNameA.localeCompare(
-                                        //       hospitalNameB
-                                        //     );
-                                        //   }
-                                        // )
-                                        // .reduce(
-                                        //   (
-                                        //     acc: {
-                                        //       organizationData: any[];
-                                        //       otherData: any[];
-                                        //     },
-                                        //     metrix: { OrganizationId: number }
-                                        //   ) => {
-                                        //     // Split the data into two groups based on OrganizationId
-                                        //     if (
-                                        //       metrix.OrganizationId ===
-                                        //       Number(organizationId)
-                                        //     ) {
-                                        //       acc.organizationData.push(metrix);
-                                        //     } else {
-                                        //       acc.otherData.push(metrix);
-                                        //     }
-                                        //     return acc;
-                                        //   },
-                                        //   {
-                                        //     otherData: [],
-                                        //     organizationData: [],
-                                        //   }
-                                        // ) // Initial value for acc
-                                        // .otherData.concat(
-                                        //   groupedData[organizationId][goalId][
-                                        //     subGoalId
-                                        //   ][kpiId].reduce(
-                                        //     (
-                                        //       acc: { organizationData: any[] },
-                                        //       metrix: any
-                                        //     ) => {
-                                        //       acc.organizationData.push(metrix);
-                                        //       return acc;
-                                        //     },
-                                        //     {
-                                        //       organizationData: [],
-                                        //     }
-                                        //   ).organizationData
-                                        // )
-                                        .map(
-                                          (
-                                            metrix: {
-                                              HospitalId: number;
-                                              DivisionId: number;
-                                              OrganizationId: number;
-                                              Actual:
-                                                | boolean
-                                                | React.ReactChild
-                                                | React.ReactFragment
-                                                | React.ReactPortal
-                                                | null
-                                                | undefined;
-                                              Target:
-                                                | boolean
-                                                | React.ReactChild
-                                                | React.ReactFragment
-                                                | React.ReactPortal
-                                                | null
-                                                | undefined;
-                                              ActualVerified:
-                                                | boolean
-                                                | React.ReactChild
-                                                | React.ReactFragment
-                                                | React.ReactPortal
-                                                | null
-                                                | undefined;
-                                              TargetVerified:
-                                                | boolean
-                                                | React.ReactChild
-                                                | React.ReactFragment
-                                                | React.ReactPortal
-                                                | null
-                                                | undefined;
-                                              ActualVerify:
-                                                | boolean
-                                                | React.ReactChild
-                                                | React.ReactFragment
-                                                | React.ReactPortal
-                                                | null
-                                                | undefined;
-                                            },
-                                            subIndex:
-                                              | React.Key
-                                              | null
-                                              | undefined
-                                          ) => (
-                                            <tr key={subIndex}>
-                                              <td>
-                                                <button>
-                                                  {this.getHospitalTitle(
-                                                    metrix.HospitalId
-                                                  )}
-                                                </button>
-                                              </td>
-                                              <td
-                                                className={
-                                                  metrix.ActualVerified == " "
-                                                    ? "change_status"
-                                                    : ""
-                                                }
-                                              >
-                                                {metrix.Actual}
-                                              </td>
-                                              <td
-                                                className={
-                                                  metrix.TargetVerified == null
-                                                    ? "change_status"
-                                                    : ""
-                                                }
-                                              >
-                                                {metrix.Target}
-                                              </td>
-                                              <td>
-                                                <span className="success">
-                                                  {metrix.ActualVerify}
-                                                </span>
-                                              </td>
-                                              <td>
-                                                <button className="details">
-                                                  Click
-                                                </button>
-                                              </td>
-                                            </tr>
-                                          )
-                                        )}
-                                    </tbody>
-                                  </table>
-                                ))}
-                              </div>
-                            ))}
-                          </div>
+                          ))}
                         </div>
                       </div>
                     ))}
                   </div>
-                ))}
-              </div>
+
+
+
+                  <div>
+                    <div className="system_goel_container">
+                      {/** Box Model */}
+                      {goalHirerachyData.map((goal: any)=> (
+                       <div className={`box_model ${!checkedSystemGoalsNew.has(goal.id) ? 'd-none' : ''}`}>
+                       <div className="header">{goal.name}</div>
+                       <div>
+                       <div>
+                        {goal.subGoal.map((subGoal: any) => (
+                          <div className="inner_container">
+                            <div className="inner_header">
+                              {subGoal.name}
+                            </div>
+
+                            {/** KPI's Table */}
+                            {subGoal.kpi.map((kpi: any)=> (
+                              <table>
+                              <thead>
+                                <tr><th  colSpan={5} className="kpi_name_title">{kpi.title}</th></tr>
+                                <tr>
+                                  <th>&nbsp;</th>
+                                  <th>Actual</th>
+                                  <th>Target</th>
+                                  <th>&nbsp;</th>
+                                  <th>Details</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                {hirerachicalHospitalData[0].division.map((division: any) => {
+                                  const allHospitalsSelected = division.hospitals.every((hospital: any) =>
+                                    selectedHospitalsNew.has(hospital.id)
+                                  );
+                                 return(<React.Fragment key={division.id}>
+                                  {division.hospitals.map((hospital: any) => (
+                                    <tr className={!selectedHospitalsNew.has(hospital.id) ? 'd-none' : ''}>
+                                    <td>
+                                      <button>{hospital.title}</button>
+                                    </td>
+                                    <td className="">{this.findMatrixValues(subGoal.id, kpi.id, hospital.id, dataGoalMetrix, 'Actual')}</td>
+                                    <td className="change_status">{this.findMatrixValues(subGoal.id, kpi.id, hospital.id, dataGoalMetrix, 'Target')}</td>
+                                    <td>
+                                    <span className="success"></span>
+                                    </td>
+                                    <td>
+                                    <button className="details">Click</button>
+                                    </td>
+                                  </tr>
+                                  ))}
+                                   {allHospitalsSelected && (
+                                  <tr>
+                                    <td>
+                                      <button>{division.name} (Average)</button>
+                                    </td>
+                                    <td className="">42.38%</td>
+                                    <td className="change_status">42.38%</td>
+                                    <td>
+                                    <span className="success"></span>
+                                    </td>
+                                    <td>
+                                    <button className="details">Click</button>
+                                    </td>
+                                  </tr>
+                                )}
+                                  </React.Fragment>)
+                                })}
+                              </tbody>
+                            </table>
+                            ))}
+                          
+                          </div>
+                        ))}
+                         
+                       </div>
+                       </div>
+                     </div>
+                      ))}
+                    </div>
+                  </div>
+              </>
+            ))}
+                  
             </div>
-          </>
-        ))}
+          </div>
+        </div>
+
+
+
+
+
+
+
+
+
         <div className={styles.dummy}></div>
       </section>
     );
