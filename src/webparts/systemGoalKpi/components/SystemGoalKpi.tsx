@@ -65,21 +65,22 @@ export default class SystemGoalKpi extends React.Component<
         Strategy: true,
       },
       selectedDivisions: new Set(),
-      selectedOrganizations: new Set(), // Initialize this
+      //selectedOrganizations: new Set(), // Initialize this
       groupedDivisionData: {}, // Ensure this matches your actual data type
+      selectedOrganizations: new Set<number>(),
     };
-    console.log("tsx file constructor");
+    // console.log("tsx file constructor");
   }
 
   private handleHospitalCheckboxChange = (hospitalId: number) => {
     this.setState((prevState) => {
       const selectedHospitals = new Set(prevState.selectedHospitals);
-      console.log("selectedHospitals", selectedHospitals);
+      // console.log("selectedHospitals", selectedHospitals);
       if (selectedHospitals.has(hospitalId)) {
         selectedHospitals.delete(hospitalId);
       } else {
         selectedHospitals.add(hospitalId);
-        console.log("selectedHospitals", selectedHospitals);
+        // console.log("selectedHospitals", selectedHospitals);
       }
       return { selectedHospitals };
     });
@@ -189,62 +190,76 @@ export default class SystemGoalKpi extends React.Component<
         )
       );
 
+      // Log the length of the filtered hospitals
+
+      // Get the next hospital ID after the filtered list
+      const nextHospitalIdIndex = divisionHospitals.length;
+      const nextHospital = prevState.dataHospital?.[nextHospitalIdIndex];
+
+      if (nextHospital) {
+        // console.log("Next Hospital ID after filtered list: ", nextHospital.Id);
+      } else {
+        // console.log("No additional hospitals after the filtered list.");
+      }
+
       if (
         divisionHospitals.every((hospitalId) =>
           selectedHospitals.has(Number(hospitalId))
         )
       ) {
-        // If all hospitals in this division are already selected, deselect them
         divisionHospitals.forEach((hospitalId) =>
           selectedHospitals.delete(Number(hospitalId))
         );
       } else {
-        // Otherwise, select all hospitals in this division
         divisionHospitals.forEach((hospitalId) =>
           selectedHospitals.add(Number(hospitalId))
         );
       }
 
+      console.log("selectedHospitals------", selectedHospitals);
       return { selectedHospitals };
     });
   };
 
   handleOrganizationCheckboxChange = (organizationId: number) => {
-    const { groupedDivisionData, selectedOrganizations } = this.state;
-    const isChecked = !selectedOrganizations.has(organizationId);
-
+    console.log("here");
     this.setState((prevState) => {
       const updatedSelectedHospitals = new Set(prevState.selectedHospitals);
-
-      // Update divisions
-      Object.keys(groupedDivisionData[organizationId] || {}).forEach(
-        (divisionId) => {
-          const isDivisionChecked = isChecked;
-          if (isDivisionChecked) {
-            Object.keys(
-              groupedDivisionData[organizationId][divisionId] || {}
-            ).forEach((hospitalId) => {
-              updatedSelectedHospitals.add(Number(hospitalId));
-            });
-          } else {
-            Object.keys(
-              groupedDivisionData[organizationId][divisionId] || {}
-            ).forEach((hospitalId) => {
-              updatedSelectedHospitals.delete(Number(hospitalId));
-            });
-          }
-        }
+      const updatedSelectedOrganizations = new Set(
+        prevState.selectedOrganizations
       );
 
+      // Determine if the organization is being checked or unchecked
+      const isChecked = !updatedSelectedOrganizations.has(organizationId);
+
+      // Filter hospitals based on the organization ID
+      const divisionHospitals =
+        prevState.dataHospital?.filter(
+          (hospital) => hospital.OrganizationId === organizationId
+        ) || [];
+
+      // Process each hospital
+      divisionHospitals.forEach((hospital) => {
+        if (isChecked) {
+          updatedSelectedHospitals.add(hospital.Id);
+        } else {
+          updatedSelectedHospitals.delete(hospital.Id);
+        }
+      });
+
+      // Update selected organizations set
+      if (isChecked) {
+        updatedSelectedOrganizations.add(organizationId);
+      } else {
+        updatedSelectedOrganizations.delete(organizationId);
+      }
+
+      console.log("updatedSelectedHospitals", updatedSelectedHospitals);
+
+      // Return the updated state
       return {
         selectedHospitals: updatedSelectedHospitals,
-        selectedOrganizations: new Set(
-          isChecked
-            ? [...prevState.selectedOrganizations, organizationId]
-            : [...prevState.selectedOrganizations].filter(
-                (id) => id !== organizationId
-              )
-        ),
+        selectedOrganizations: updatedSelectedOrganizations,
       };
     });
   };
@@ -266,6 +281,7 @@ export default class SystemGoalKpi extends React.Component<
       groupDivisionData[item.OrganizationId][item.DivisionId][item.Id].push(
         item
       );
+      // console.log("gfhfghfg", item);
     });
 
     // Sort the divisions and hospitals within each organization
@@ -317,18 +333,18 @@ export default class SystemGoalKpi extends React.Component<
 
   // Group data by organizationId, then GoalId, then SubGoalId, and finally by KPIId
   private groupData = (data: IGoalMetrix[]) => {
-    console.log("AAAAAAAAAAAAAAAAA", JSON.stringify(data));
-    const obj: { [key: number]: any } = {};
-    const newData = data.reduce((acc, item) => {
-      const divisionId = item.DivisionId;
-      if (!acc[divisionId]) {
-        acc[divisionId] = [];
-      }
-      acc[divisionId].push(item);
-      return acc;
-    }, obj);
+    // console.log("AAAAAAAAAAAAAAAAA", JSON.stringify(data));
+    // const obj: { [key: number]: any } = {};
+    // const newData = data.reduce((acc, item) => {
+    //   const divisionId = item.DivisionId;
+    //   if (!acc[divisionId]) {
+    //     acc[divisionId] = [];
+    //   }
+    //   acc[divisionId].push(item);
+    //   return acc;
+    // }, obj);
 
-    console.log("new Data", newData);
+    // console.log("new Data", newData);
 
     const groupedData: any = {};
     data.map((item: IGoalMetrix) => {
@@ -356,7 +372,7 @@ export default class SystemGoalKpi extends React.Component<
       ].push(item);
     });
 
-    console.log("Ganesh", groupedData);
+    // console.log("Ganesh", groupedData);
 
     // Sort the KPIs within each sub-goal, goal, and organization
     Object.keys(groupedData).forEach((organizationId) => {
@@ -381,7 +397,7 @@ export default class SystemGoalKpi extends React.Component<
       });
     });
 
-    console.log("groupedData groupedData", groupedData);
+    // console.log("groupedData groupedData", groupedData);
     return groupedData;
   };
 
@@ -408,12 +424,12 @@ export default class SystemGoalKpi extends React.Component<
     const groupedData = this.groupData(dataGoalMetrix || []);
     const groupedDivisionData = this.groupDivisionData(dataHospital || []);
 
-    console.log("final groupedDivisionData dataHospital=", dataHospital);
-    console.log("final groupedData=", groupedData);
-    console.log("final groupedDivisionData=", groupedDivisionData);
-    console.log("final Operating Model=", dataOperatingModel);
-    console.log("title", this.props.title);
-    console.log("checkedSystemGoals", checkedSystemGoals);
+    // console.log("final groupedDivisionData dataHospital=", dataHospital);
+    // console.log("final groupedData=", groupedData);
+    // console.log("final groupedDivisionData=", groupedDivisionData);
+    // console.log("final Operating Model=", dataOperatingModel);
+    // console.log("title", this.props.title);
+    // console.log("checkedSystemGoals", checkedSystemGoals);
 
     // const ToggleDivs = () => {
     //   const [visibleDivs, setVisibleDivs] = useState({
@@ -465,19 +481,27 @@ export default class SystemGoalKpi extends React.Component<
                                   Number(organizationId)
                                 )
                               }
-                              checked={Object.keys(
-                                groupedDivisionData[organizationId]
-                              ).every((divisionId) =>
-                                Object.keys(
-                                  groupedDivisionData[organizationId][
-                                    divisionId
-                                  ]
-                                ).every((hospitalId) =>
-                                  this.state.selectedHospitals.has(
-                                    Number(hospitalId)
-                                  )
-                                )
-                              )}
+                              // checked={selectedOrganizations.has(
+                              //   Number(organizationId)
+                              // )}
+                              // onChange={() =>
+                              //   this.handleOrganizationCheckboxChange(
+                              //     Number(organizationId)
+                              //   )
+                              // }
+                              // checked={Object.keys(
+                              //   groupedDivisionData[organizationId]
+                              // ).every((divisionId) =>
+                              //   Object.keys(
+                              //     groupedDivisionData[organizationId][
+                              //       divisionId
+                              //     ]
+                              //   ).every((hospitalId) =>
+                              //     this.state.selectedHospitals.has(
+                              //       Number(hospitalId)
+                              //     )
+                              //   )
+                              // )}
                             />
                             <span>
                               {this.getSystemGoalTitle(Number(organizationId))}{" "}
