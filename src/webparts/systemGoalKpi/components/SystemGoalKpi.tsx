@@ -533,10 +533,10 @@ export default class SystemGoalKpi extends React.Component<
                                     <td>
                                       <button>{hospital.title}</button>
                                     </td>
-                                    <td className="">{this.findMatrixValues(subGoal.id, kpi.id, hospital.id, dataGoalMetrix, 'Actual')}</td>
-                                    <td className="change_status">{this.findMatrixValues(subGoal.id, kpi.id, hospital.id, dataGoalMetrix, 'Target')}</td>
+                                    <td className={this.findMatrixValues(subGoal.id, kpi.id, hospital.id, dataGoalMetrix, 'ActualVerify') == true? 'change_status': ''}>{this.findMatrixValues(subGoal.id, kpi.id, hospital.id, dataGoalMetrix, 'Actual')}</td>
+                                    <td className={this.findMatrixValues(subGoal.id, kpi.id, hospital.id, dataGoalMetrix, 'TargetVerified') == true? 'change_status': ''}>{this.findMatrixValues(subGoal.id, kpi.id, hospital.id, dataGoalMetrix, 'Target')}</td>
                                     <td>
-                                    <span className="success"></span>
+                                    <span className={this.findMatrixValues(subGoal.id, kpi.id, hospital.id, dataGoalMetrix, 'ActualVerify') == true? 'success': 'error'}></span>
                                     </td>
                                     <td>
                                     <button className="details">Click</button>
@@ -546,7 +546,7 @@ export default class SystemGoalKpi extends React.Component<
                                    {allHospitalsSelected && (
                                   <tr>
                                     <td>
-                                      <button>{division.name} (Average)</button>
+                                      <button>{division.name} (Avg)</button>
                                     </td>
                                     <td className="">42.38%</td>
                                     <td className="change_status">42.38%</td>
