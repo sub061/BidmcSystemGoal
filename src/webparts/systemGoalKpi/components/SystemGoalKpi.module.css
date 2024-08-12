@@ -15,7 +15,7 @@
   justify-content: center;
   gap: 16px;
   flex-wrap: wrap;
-  margin-bottom: 32px;
+  margin-top: 32px;
 }
 .system_goel_container .box_model {
   border-radius: 5px;
@@ -76,14 +76,14 @@
 }
 .system_goel_container .box_model .inner_container thead th:first-child {
   text-align: left;
-  width: 150px;
-  min-width: 150px;
-  max-width: 150px;
+  width: auto;
+  min-width: auto;
+  max-width: auto;
 }
-.system_goel_container .box_model .inner_container thead th:nth-child(3) {
-  width: 70px;
-  min-width: 70px;
-  max-width: 70px;
+.system_goel_container .box_model .inner_container thead th:nth-child(2), .system_goel_container .box_model .inner_container thead th:nth-child(3) {
+  width: 100px;
+  min-width: 100px;
+  max-width: 100px;
 }
 .system_goel_container .box_model .inner_container thead th:nth-child(4) {
   width: 30px;
@@ -130,6 +130,9 @@
   vertical-align: middle;
   text-align: center;
   color: #323130;
+}
+.system_goel_container .box_model .inner_container tbody td:first-child {
+  text-align: left;
 }
 .system_goel_container .box_model .inner_container tbody td span {
   width: 12px;
