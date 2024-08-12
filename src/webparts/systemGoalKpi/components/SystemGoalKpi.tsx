@@ -498,7 +498,7 @@ export default class SystemGoalKpi extends React.Component<
                                 }
                               />
                               <span>
-                                {division.name} {division.id}
+                                {division.name}
                               </span>
                             </label>
                           </div>
@@ -518,7 +518,6 @@ export default class SystemGoalKpi extends React.Component<
                                   />
                                   <span>
                                     {hospital.title}
-                                    {hospital.id}
                                   </span>
                                 </label>
                               </div>
