@@ -556,13 +556,13 @@ export default class SystemGoalKpi extends React.Component<
                                               <span className={this.findMatrixValues(subGoal.id, kpi.id, hospital.id, dataGoalMetrix, 'ActualVerify') == true ? 'success' : 'error'}></span>
                                             </td>
                                             <td>
-                                              <button className="details">Click</button>
+                                              <a href="" className="details">Click</a>
                                             </td>
                                           </tr>
                                         ))
                                       }
                                       {allHospitalsSelected && (
-                                        <tr>
+                                        <tr className="division_avg">
                                           <td>
                                             <button>{division.name} (Avg)</button>
                                           </td>
@@ -572,12 +572,12 @@ export default class SystemGoalKpi extends React.Component<
                                             <span className="success"></span>
                                           </td>
                                           <td>
-                                            <button className="details">Click</button>
+                                            <a href="" className="details">Click</a>
                                           </td>
                                         </tr>
                                       )}
                                       {allDivisionSelected && (
-                                        <tr>
+                                        <tr className="organization_avg">
                                           <td>
                                             <button>{organization.name} (Ganesh)</button>
                                           </td>
@@ -587,7 +587,7 @@ export default class SystemGoalKpi extends React.Component<
                                             <span className="success"></span>
                                           </td>
                                           <td>
-                                            <button className="details">Click</button>
+                                            <a href="" className="details">Click</a>
                                           </td>
                                         </tr>
                                       )}

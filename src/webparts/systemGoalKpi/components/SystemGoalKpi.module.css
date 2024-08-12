@@ -55,7 +55,6 @@
   border: 0;
   border-spacing: 0;
   width: 100%;
-  table-layout: fixed;
 }
 .system_goel_container .box_model .inner_container table .change_status {
   color: #0078d4;
@@ -76,9 +75,24 @@
 }
 .system_goel_container .box_model .inner_container thead th:first-child {
   text-align: left;
-  width: 280px;
-  min-width: 280px;
-  max-width: 280px;
+  width: 150px;
+  min-width: 150px;
+  max-width: 150px;
+}
+.system_goel_container .box_model .inner_container thead th:nth-child(3) {
+  width: 70px;
+  min-width: 70px;
+  max-width: 70px;
+}
+.system_goel_container .box_model .inner_container thead th:nth-child(4) {
+  width: 30px;
+  min-width: 30px;
+  max-width: 30px;
+}
+.system_goel_container .box_model .inner_container thead th:last-child {
+  width: 70px;
+  min-width: 70px;
+  max-width: 70px;
 }
 .system_goel_container .box_model .inner_container thead .kpi_name_title {
   width: unset;
@@ -94,7 +108,19 @@
   max-width: unset;
 }
 .system_goel_container .box_model .inner_container tbody tr {
-  height: 44px;
+  min-height: 44px;
+}
+.system_goel_container .box_model .inner_container tbody tr.division_avg {
+  background-color: #e7e6e6;
+}
+.system_goel_container .box_model .inner_container tbody tr.division_avg td a {
+  background-color: #fff;
+}
+.system_goel_container .box_model .inner_container tbody tr.organization_avg {
+  background-color: #cac9c9;
+}
+.system_goel_container .box_model .inner_container tbody tr.organization_avg td a {
+  background-color: #fff;
 }
 .system_goel_container .box_model .inner_container tbody td {
   padding: 8px;
@@ -103,15 +129,6 @@
   vertical-align: middle;
   text-align: center;
   color: #323130;
-  min-width: 90px;
-  width: 90px;
-  max-width: 90px;
-}
-.system_goel_container .box_model .inner_container tbody td:first-child {
-  text-align: left;
-  width: 280px;
-  min-width: 280px;
-  max-width: 280px;
 }
 .system_goel_container .box_model .inner_container tbody td span {
   width: 12px;
@@ -128,10 +145,10 @@
 .system_goel_container .box_model .inner_container tbody td span.warning {
   background-color: #eac20c;
 }
-.system_goel_container .box_model .inner_container tbody td button {
+.system_goel_container .box_model .inner_container tbody td button, .system_goel_container .box_model .inner_container tbody td a {
   box-shadow: 0px 2px 3px rgba(0, 0, 0, 0.1568627451);
   background-color: #e3f3ff;
-  min-width: 100%;
+  min-width: 150px;
   height: 24px;
   border-radius: 3px;
   font-size: 12px;
@@ -140,14 +157,23 @@
   cursor: pointer;
   border: 0;
 }
-.system_goel_container .box_model .inner_container tbody td button.details {
+.system_goel_container .box_model .inner_container tbody td button.details, .system_goel_container .box_model .inner_container tbody td a.details {
   border: 1px solid #e9e9e9;
   background-color: transparent;
   box-shadow: none;
 }
-.system_goel_container .box_model .inner_container tbody td button.disabled {
+.system_goel_container .box_model .inner_container tbody td button.disabled, .system_goel_container .box_model .inner_container tbody td a.disabled {
   opacity: 0.5;
   pointer-events: none;
+}
+.system_goel_container .box_model .inner_container tbody td a {
+  min-width: unset;
+  padding: 4px 8px;
+  text-decoration: none;
+  color: #000;
+}
+.system_goel_container .box_model .inner_container tbody td a.details {
+  min-width: unset;
 }
 
 .with_goal_filter {
