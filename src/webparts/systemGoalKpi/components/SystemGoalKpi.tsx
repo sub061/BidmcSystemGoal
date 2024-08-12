@@ -323,6 +323,7 @@ export default class SystemGoalKpi extends React.Component<
   };
 
   private handleSystemGoalCheckboxChange = (goal: string) => {
+    console.log(goal);
     this.setState((prevState) => ({
       checkedSystemGoals: {
         ...prevState.checkedSystemGoals,
@@ -409,7 +410,7 @@ export default class SystemGoalKpi extends React.Component<
       selectedHospitals,
       checkedSystemGoals,
     } = this.state;
-
+    console.log("checkedSystemGoals", checkedSystemGoals);
     // Example class names to be added
     const divClassMap: { [key: string]: string } = {
       People: "d-none",
@@ -417,6 +418,7 @@ export default class SystemGoalKpi extends React.Component<
       FinanceandOperations: "d-none",
       Strategy: "d-none",
     };
+    console.log("divClassMap", divClassMap);
 
     const groupedOperatingModel = this.groupOperatingModel(
       dataOperatingModel || []
@@ -571,6 +573,7 @@ export default class SystemGoalKpi extends React.Component<
                                 type="checkbox"
                                 className="form-check-input"
                                 id="FinanceandOperations"
+                                name="FinanceandOperations"
                                 checked={
                                   checkedSystemGoals["FinanceandOperations"]
                                 }
@@ -698,15 +701,17 @@ export default class SystemGoalKpi extends React.Component<
                             (goal) =>
                               !checkedSystemGoals[goal] &&
                               divClassMap[goal] &&
-                              this.getGoalTitle(Number(goalId)).includes(goal)
+                              this.getGoalTitle(Number(goalId))
+                                .replace(/\s+/g, "")
+                                .includes(goal)
                           )
                             ? divClassMap[
                                 Object.keys(checkedSystemGoals).find(
                                   (goal) =>
                                     !checkedSystemGoals[goal] &&
-                                    this.getGoalTitle(Number(goalId)).includes(
-                                      goal
-                                    )
+                                    this.getGoalTitle(Number(goalId))
+                                      .replace(/\s+/g, "")
+                                      .includes(goal)
                                 ) || ""
                               ]
                             : ""

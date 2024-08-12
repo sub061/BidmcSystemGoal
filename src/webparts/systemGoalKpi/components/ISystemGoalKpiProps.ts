@@ -67,6 +67,7 @@ export interface IHospital{
   Organization: string;
   Division1: string;
   Division1Id: number;
+  OrderBy: number;
 }
 
 export interface IGoal{

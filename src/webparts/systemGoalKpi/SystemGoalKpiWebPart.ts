@@ -125,6 +125,33 @@ export default class SystemGoalKpiWebPart extends BaseClientSideWebPart<ISystemG
   }
 
 
+public async getSortedGoalMetrixData(): Promise<IGoalMetrix[]> {
+    // Fetch the GoalMetrix and Hospital configurations
+    const [goalMetrixData, hospitalData] = await Promise.all([
+        this.getGoalMetrixConfiguration(),
+        this.getAllHospitalConfiguration()
+    ]);
+
+    // Create a mapping of hospitalId to OrderBy value
+    const hospitalMapping = hospitalData.reduce((acc, hospital) => {
+        acc[hospital.Id] = hospital.OrderBy; // Ensure OrderBy is a number
+        return acc;
+    }, {} as Record<number, number>); // Changed to store numbers instead of strings
+
+    // Sort GoalMetrix data based on the OrderBy value from hospitalMapping
+    const sortedGoalMetrixData = goalMetrixData.sort((a, b) => {
+        const orderByA = hospitalMapping[a.HospitalId]; // Adjust 'HospitalId' to match the field in IGoalMetrix
+        const orderByB = hospitalMapping[b.HospitalId]; // Adjust 'HospitalId' to match the field in IGoalMetrix
+
+        // Compare the two OrderBy values for sorting
+        return orderByA - orderByB; // Ascending order; use `orderByB - orderByA` for descending order
+    });
+  console.log( "sortedGoalMetrixData" , sortedGoalMetrixData);
+    return sortedGoalMetrixData;
+}
+
+
+
   // Get List for Operating Model
   public async getOperatingModelConfiguration(): Promise<IOperatingModel[]> {
     const requestUrl = `${this.context.pageContext.web.absoluteUrl}/_api/web/Lists/GetByTitle('Operating Model')/Items`;
@@ -156,6 +183,7 @@ export default class SystemGoalKpiWebPart extends BaseClientSideWebPart<ISystemG
       const getGoal = await this.getGoalConfiguration();
       const getSystemGoal = await this.getSystemGoalConfiguration();
       const getAllHospital = await this.getAllHospitalConfiguration();
+      const SortedGoalMetrixData = await this.getSortedGoalMetrixData();
       
       const pageTitle = this.properties.title;
 
@@ -164,7 +192,7 @@ export default class SystemGoalKpiWebPart extends BaseClientSideWebPart<ISystemG
       
       // console.log('Banner data:', getGoalMetrix);
 
-
+      console.log("SortedGoalMetrixData", getGoalMetrix);
 
       const element: React.ReactElement<ISystemGoalProps> = React.createElement(
         SystemGoalKpi,
@@ -172,7 +200,8 @@ export default class SystemGoalKpiWebPart extends BaseClientSideWebPart<ISystemG
           title:pageTitle,
           description: this.properties.description,  
           getOperatingModel: getOperatingModel,
-          getGoalMetrix: getGoalMetrix,
+          //getGoalMetrix: getGoalMetrix,
+          getGoalMetrix: SortedGoalMetrixData,
           getDivision: getDivision,
           getHospital: getHospital,
           getKPI: getKPI,
