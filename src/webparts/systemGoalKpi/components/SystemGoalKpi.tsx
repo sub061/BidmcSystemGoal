@@ -315,8 +315,6 @@ export default class SystemGoalKpi extends React.Component<
   }
 
   private findMatrixValues = (subGoalId: number, kpiId: number, hospitalId:number, matrix: any, key: string) => {
-    console.log(matrix);
-    console.log(subGoalId, kpiId, hospitalId);
     const a =  matrix.find((item: any) => 
       item.KPIId === kpiId && 
       item.HospitalId === hospitalId && 
@@ -474,7 +472,7 @@ export default class SystemGoalKpi extends React.Component<
                             <input type="checkbox" value={division.id} 
                             checked={division.hospitals.every((hospital: any) => selectedHospitalsNew.has(hospital.id))}
                             onChange={() => this.handleDivisionChange(division.id, hirerachicalHospitalData)}/>
-                            <span>{division.name}</span>
+                            <span>{division.name} {division.id}</span>
                           </label>
                         </div>
                         <div className="btn_group">
@@ -523,43 +521,81 @@ export default class SystemGoalKpi extends React.Component<
                                 </tr>
                               </thead>
                               <tbody>
-                                {hirerachicalHospitalData[0].division.map((division: any) => {
+                              {hirerachicalHospitalData.map((organization: any) => {
+                                const allDivisionSelected = organization.division.every((division: any) => {
+                                  // Skip checking if the division name is 'Unknown Hospital'
+                                  if (division.name === 'Unknown Hospital') {
+                                    return true;
+                                  }
+                                  // Check if the division is selected
+                                  return selectedHospitalsNew.has(division.id);
+                                });
+
+                                return organization.division.map((division: any) => {
+                                  console.log(division);
+
                                   const allHospitalsSelected = division.hospitals.every((hospital: any) =>
                                     selectedHospitalsNew.has(hospital.id)
                                   );
-                                 return(<React.Fragment key={division.id}>
-                                  {division.hospitals.map((hospital: any) => (
-                                    <tr className={!selectedHospitalsNew.has(hospital.id) ? 'd-none' : ''}>
-                                    <td>
-                                      <button>{hospital.title}</button>
-                                    </td>
-                                    <td className={this.findMatrixValues(subGoal.id, kpi.id, hospital.id, dataGoalMetrix, 'ActualVerify') == true? 'change_status': ''}>{this.findMatrixValues(subGoal.id, kpi.id, hospital.id, dataGoalMetrix, 'Actual')}</td>
-                                    <td className={this.findMatrixValues(subGoal.id, kpi.id, hospital.id, dataGoalMetrix, 'TargetVerified') == true? 'change_status': ''}>{this.findMatrixValues(subGoal.id, kpi.id, hospital.id, dataGoalMetrix, 'Target')}</td>
-                                    <td>
-                                    <span className={this.findMatrixValues(subGoal.id, kpi.id, hospital.id, dataGoalMetrix, 'ActualVerify') == true? 'success': 'error'}></span>
-                                    </td>
-                                    <td>
-                                    <button className="details">Click</button>
-                                    </td>
-                                  </tr>
-                                  ))}
-                                   {allHospitalsSelected && (
-                                  <tr>
-                                    <td>
-                                      <button>{division.name} (Avg)</button>
-                                    </td>
-                                    <td className="">42.38%</td>
-                                    <td className="change_status">42.38%</td>
-                                    <td>
-                                    <span className="success"></span>
-                                    </td>
-                                    <td>
-                                    <button className="details">Click</button>
-                                    </td>
-                                  </tr>
-                                )}
-                                  </React.Fragment>)
-                                })}
+
+                                  return (
+                                    <>
+                                      {
+                                        division.hospitals.map((hospital: any) => (
+                                          <tr className={!selectedHospitalsNew.has(hospital.id) ? 'd-none' : ''}>
+                                            <td>
+                                              <button>{hospital.title}</button>
+                                            </td>
+                                            <td className={this.findMatrixValues(subGoal.id, kpi.id, hospital.id, dataGoalMetrix, 'ActualVerify') == true ? 'change_status' : ''}>
+                                              {this.findMatrixValues(subGoal.id, kpi.id, hospital.id, dataGoalMetrix, 'Actual')}
+                                            </td>
+                                            <td className={this.findMatrixValues(subGoal.id, kpi.id, hospital.id, dataGoalMetrix, 'TargetVerified') == true ? 'change_status' : ''}>
+                                              {this.findMatrixValues(subGoal.id, kpi.id, hospital.id, dataGoalMetrix, 'Target')}
+                                            </td>
+                                            <td>
+                                              <span className={this.findMatrixValues(subGoal.id, kpi.id, hospital.id, dataGoalMetrix, 'ActualVerify') == true ? 'success' : 'error'}></span>
+                                            </td>
+                                            <td>
+                                              <button className="details">Click</button>
+                                            </td>
+                                          </tr>
+                                        ))
+                                      }
+                                      {allHospitalsSelected && (
+                                        <tr>
+                                          <td>
+                                            <button>{division.name} (Avg)</button>
+                                          </td>
+                                          <td className="">42.38%</td>
+                                          <td className="change_status">42.38%</td>
+                                          <td>
+                                            <span className="success"></span>
+                                          </td>
+                                          <td>
+                                            <button className="details">Click</button>
+                                          </td>
+                                        </tr>
+                                      )}
+                                      {allDivisionSelected && (
+                                        <tr>
+                                          <td>
+                                            <button>{organization.name} (Ganesh)</button>
+                                          </td>
+                                          <td className="">42.38%</td>
+                                          <td className="change_status">42.38%</td>
+                                          <td>
+                                            <span className="success"></span>
+                                          </td>
+                                          <td>
+                                            <button className="details">Click</button>
+                                          </td>
+                                        </tr>
+                                      )}
+                                    </>
+                                  );
+                                });
+                              })}
+
                               </tbody>
                             </table>
                             ))}
