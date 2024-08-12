@@ -15,6 +15,7 @@
   justify-content: center;
   gap: 16px;
   flex-wrap: wrap;
+  margin-bottom: 32px;
 }
 .system_goel_container .box_model {
   border-radius: 5px;
