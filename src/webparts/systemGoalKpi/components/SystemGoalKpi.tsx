@@ -724,7 +724,7 @@ export default class SystemGoalKpi extends React.Component<
                                                           <td>
                                                             <button>
                                                               {division.name}{" "}
-                                                              (Agg)
+                                                              (Agg.)
                                                             </button>
                                                           </td>
                                                           <td
@@ -821,7 +821,7 @@ export default class SystemGoalKpi extends React.Component<
                                                     <td>
                                                       <button>
                                                         {organization.name}{" "}
-                                                        (Agg)
+                                                        (Agg.)
                                                       </button>
                                                     </td>
                                                     <td
