@@ -170,6 +170,9 @@
   opacity: 0.5;
   pointer-events: none;
 }
+.system_goel_container .box_model .inner_container tbody td button {
+  pointer-events: none;
+}
 .system_goel_container .box_model .inner_container tbody td a {
   min-width: unset;
   padding: 4px 8px;
