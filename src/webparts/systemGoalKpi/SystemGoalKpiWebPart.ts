@@ -159,13 +159,6 @@ export default class SystemGoalKpiWebPart extends BaseClientSideWebPart<ISystemG
       
       const pageTitle = this.properties.title;
 
-      // console.log("page title", pageTitle);
-      
-      
-      // console.log('Banner data:', getGoalMetrix);
-
-
-
       const element: React.ReactElement<ISystemGoalProps> = React.createElement(
         SystemGoalKpi,
         {
