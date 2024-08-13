@@ -359,7 +359,6 @@ export default class SystemGoalKpi extends React.Component<
       dataKPI,
     } = this.state;
 
-
     const hirerachicalHospitalData = this.prepareHospitalHirerachy(
       dataAllHospital || []
     );
@@ -512,9 +511,7 @@ export default class SystemGoalKpi extends React.Component<
                                   )
                                 }
                               />
-                              <span>
-                                {division.name}
-                              </span>
+                              <span>{division.name}</span>
                             </label>
                           </div>
                           <div className="btn_group">
@@ -531,9 +528,7 @@ export default class SystemGoalKpi extends React.Component<
                                       this.handleHospitalChange(hospital.id)
                                     }
                                   />
-                                  <span>
-                                    {hospital.title}
-                                  </span>
+                                  <span>{hospital.title}</span>
                                 </label>
                               </div>
                             ))}
@@ -729,7 +724,7 @@ export default class SystemGoalKpi extends React.Component<
                                                           <td>
                                                             <button>
                                                               {division.name}{" "}
-                                                              (Avg)
+                                                              (Agg)
                                                             </button>
                                                           </td>
                                                           <td
@@ -826,7 +821,7 @@ export default class SystemGoalKpi extends React.Component<
                                                     <td>
                                                       <button>
                                                         {organization.name}{" "}
-                                                        (Avg)
+                                                        (Agg)
                                                       </button>
                                                     </td>
                                                     <td
