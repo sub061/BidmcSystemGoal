@@ -335,6 +335,21 @@ export default class SystemGoalKpi extends React.Component<
     return a ? a[key] : null;
   };
 
+  private getStatus = (
+    subGoalId: number,
+    kpiId: number,
+    hospitalId: number,
+    matrix: any,
+  ) => {
+    const a = matrix.find(
+      (item: any) =>
+        item.KPIId === kpiId &&
+        item.HospitalId === hospitalId &&
+        item.SubGoalId === subGoalId
+    );
+    return a ? (a['Actual'] >= a['Target'] ? 'success' : 'error') : 'error';
+  };
+
   public render(): React.ReactElement<ISystemGoalKpiProps> {
     const {
       dataGoalMetrix,
@@ -666,15 +681,12 @@ export default class SystemGoalKpi extends React.Component<
                                                             <td>
                                                               <span
                                                                 className={
-                                                                  this.findMatrixValues(
+                                                                  this.getStatus(
                                                                     subGoal.id,
                                                                     kpi.id,
                                                                     hospital.id,
-                                                                    dataGoalMetrix,
-                                                                    "ActualVerify"
-                                                                  ) == true
-                                                                    ? "success"
-                                                                    : "error"
+                                                                    dataGoalMetrix
+                                                                  )
                                                                 }
                                                               ></span>
                                                             </td>
@@ -763,7 +775,16 @@ export default class SystemGoalKpi extends React.Component<
                                                             )}
                                                           </td>
                                                           <td>
-                                                            <span className="success"></span>
+                                                          <span
+                                                                className={
+                                                                  this.getStatus(
+                                                                    subGoal.id,
+                                                                    kpi.id,
+                                                                    division.id,
+                                                                    dataGoalMetrix
+                                                                  )
+                                                                }
+                                                              ></span>
                                                           </td>
                                                           <td>
                                                             <a
@@ -851,7 +872,16 @@ export default class SystemGoalKpi extends React.Component<
                                                       )}
                                                     </td>
                                                     <td>
-                                                      <span className="success"></span>
+                                                    <span
+                                                                className={
+                                                                  this.getStatus(
+                                                                    subGoal.id,
+                                                                    kpi.id,
+                                                                    organization.id,
+                                                                    dataGoalMetrix
+                                                                  )
+                                                                }
+                                                              ></span>
                                                     </td>
                                                     <td>
                                                       <a
