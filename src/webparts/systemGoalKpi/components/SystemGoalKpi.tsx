@@ -560,20 +560,58 @@ export default class SystemGoalKpi extends React.Component<
                                   {subGoal.kpi.map((kpi: any) => (
                                     <table>
                                       <thead>
-                                        <tr>
+                                        <tr className="border_bkg">
                                           <th
-                                            colSpan={5}
+                                            // colSpan={5}
                                             className="kpi_name_title"
                                           >
                                             {kpi.title}
                                           </th>
-                                        </tr>
-                                        <tr>
-                                          <th>&nbsp;</th>
-                                          <th>Actual</th>
-                                          <th>Target</th>
-                                          <th>&nbsp;</th>
+                                          <th>MTD</th>
+                                          <th>% Variance</th>
+                                          <th>YTD</th>
+                                          <th>% Variance</th>
+                                          <th></th>
                                           <th>Details</th>
+                                        </tr>
+                                        <tr className="border_bkg">
+                                          <th>&nbsp;</th>
+                                          <th>
+                                            <table>
+                                            <tr>
+                                              <td>Actual</td>
+                                              <td>Budget</td>
+                                              <td>Prior Yr</td>
+                                            </tr>
+                                            </table>
+                                            </th>
+                                          <th>
+                                          <table>
+                                            <tr>
+                                              <td>to Budget</td>
+                                              <td>to PY</td>
+                                              
+                                            </tr>
+                                            </table>
+                                          </th>
+                                            
+                                            <th>
+                                            <table>
+                                            <tr>
+                                            <td>Actual</td>
+                                              <td>Budget</td>
+                                              <td>Prior Yr</td>
+                                            </tr>
+                                            </table>
+                                            </th>
+                                          <th><table>
+                                            <tr>
+                                              <td>to Budget</td>
+                                              <td>to PY</td>
+                                            </tr>
+                                            </table></th>
+                                          <th></th>
+                                          <th></th>
                                         </tr>
                                       </thead>
                                       <tbody>
@@ -626,7 +664,7 @@ export default class SystemGoalKpi extends React.Component<
                                                                 : ""
                                                             }
                                                           >
-                                                            <td>
+                                                            <td style={{textAlign: 'left'}}>
                                                               <button>
                                                                 {hospital.title}
                                                               </button>
@@ -644,13 +682,38 @@ export default class SystemGoalKpi extends React.Component<
                                                                   : ""
                                                               }
                                                             >
-                                                              {this.findMatrixValues(
+                                                              <table>
+                                                                <tr>
+                                                                  <td>
+                                                                  {this.findMatrixValues(
                                                                 subGoal.id,
                                                                 kpi.id,
                                                                 hospital.id,
                                                                 dataGoalMetrix,
                                                                 "Actual"
                                                               )}
+                                                                  </td>
+                                                                  <td>
+                                                                  {this.findMatrixValues(
+                                                                subGoal.id,
+                                                                kpi.id,
+                                                                hospital.id,
+                                                                dataGoalMetrix,
+                                                                "Actual"
+                                                              )}
+                                                                  </td>
+                                                                  <td>
+                                                                  {this.findMatrixValues(
+                                                                subGoal.id,
+                                                                kpi.id,
+                                                                hospital.id,
+                                                                dataGoalMetrix,
+                                                                "Actual"
+                                                              )}
+                                                                  </td>
+                                                                </tr>
+                                                              </table>
+                                                              
                                                             </td>
                                                             <td
                                                               className={
@@ -665,13 +728,46 @@ export default class SystemGoalKpi extends React.Component<
                                                                   : ""
                                                               }
                                                             >
-                                                              {this.findMatrixValues(
+                                                              <table>
+                                                                <tr>
+                                                                  <td>
+                                                                  {this.findMatrixValues(
                                                                 subGoal.id,
                                                                 kpi.id,
                                                                 hospital.id,
                                                                 dataGoalMetrix,
                                                                 "Target"
                                                               )}
+                                                                  </td>
+                                                                  <td>
+                                                                  {this.findMatrixValues(
+                                                                subGoal.id,
+                                                                kpi.id,
+                                                                hospital.id,
+                                                                dataGoalMetrix,
+                                                                "Target"
+                                                              )}
+                                                                  </td>
+                                                                </tr>
+                                                              </table>
+                                                            </td>
+                                                            <td>
+                                                              
+                                                              <table>
+                                                                <tr>
+                                                                  <td>Actual</td>
+                                                                  <td>Budget</td>
+                                                                  <td>Prior Yr</td>
+                                                                </tr>
+                                                              </table>
+                                                            </td>
+                                                            <td>
+                                                            <table>
+                                                                <tr>
+                                                                  <td>to Budget</td>
+                                                                  <td>to PY</td>
+                                                                </tr>
+                                                              </table>
                                                             </td>
                                                             <td>
                                                               <span
@@ -686,7 +782,7 @@ export default class SystemGoalKpi extends React.Component<
                                                               ></span>
                                                             </td>
                                                             <td>
-                                                              <a
+                                                                <a
                                                                 href={this.findMatrixValues(
                                                                   subGoal.id,
                                                                   kpi.id,
@@ -721,7 +817,7 @@ export default class SystemGoalKpi extends React.Component<
                                                               : ""
                                                           }`}
                                                         >
-                                                          <td>
+                                                          <td  style={{textAlign: 'left'}}>
                                                             <button>
                                                               {division.name}{" "}
                                                               (Agg.)
@@ -740,13 +836,37 @@ export default class SystemGoalKpi extends React.Component<
                                                                 : ""
                                                             }
                                                           >
-                                                            {this.findMatrixValues(
+                                                            <table>
+                                                              <tr>
+                                                                <td>
+                                                                {this.findMatrixValues(
                                                               subGoal.id,
                                                               kpi.id,
                                                               division.id,
                                                               dataGoalMetrix,
                                                               "Actual"
                                                             )}
+                                                                </td>
+                                                                <td>
+                                                                {this.findMatrixValues(
+                                                              subGoal.id,
+                                                              kpi.id,
+                                                              division.id,
+                                                              dataGoalMetrix,
+                                                              "Actual"
+                                                            )}
+                                                                </td>
+                                                                 <td>
+                                                                {this.findMatrixValues(
+                                                              subGoal.id,
+                                                              kpi.id,
+                                                              division.id,
+                                                              dataGoalMetrix,
+                                                              "Actual"
+                                                            )}
+                                                                </td>
+                                                              </tr>
+                                                            </table>
                                                           </td>
                                                           <td
                                                             className={
@@ -761,6 +881,16 @@ export default class SystemGoalKpi extends React.Component<
                                                                 : ""
                                                             }
                                                           >
+                                                            <table>
+                                                              <tr>
+                                                                <td>{this.findMatrixValues(
+                                                              subGoal.id,
+                                                              kpi.id,
+                                                              division.id,
+                                                              dataGoalMetrix,
+                                                              "Target"
+                                                            )}</td>
+                                                            <td>
                                                             {this.findMatrixValues(
                                                               subGoal.id,
                                                               kpi.id,
@@ -768,7 +898,28 @@ export default class SystemGoalKpi extends React.Component<
                                                               dataGoalMetrix,
                                                               "Target"
                                                             )}
+                                                            </td>
+                                                              </tr>
+                                                            </table>
                                                           </td>
+                                                          <td>
+                                                              
+                                                              <table>
+                                                                <tr>
+                                                                  <td>Actual</td>
+                                                                  <td>Budget</td>
+                                                                  <td>Prior Yr</td>
+                                                                </tr>
+                                                              </table>
+                                                            </td>
+                                                            <td>
+                                                            <table>
+                                                                <tr>
+                                                                  <td>to Budget</td>
+                                                                  <td>to PY</td>
+                                                                </tr>
+                                                              </table>
+                                                            </td>
                                                           <td>
                                                           <span
                                                                 className={
@@ -818,7 +969,7 @@ export default class SystemGoalKpi extends React.Component<
                                                 {divisionRows}
                                                 {allDivisionSelected && (
                                                   <tr className="organization_avg">
-                                                    <td>
+                                                   <td style={{textAlign: 'left'}}>
                                                       <button>
                                                         {organization.name}{" "}
                                                         (Agg.)

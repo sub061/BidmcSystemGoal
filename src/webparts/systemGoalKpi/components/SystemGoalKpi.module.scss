@@ -23,7 +23,8 @@
     border-radius: 5px;
     border: 1px solid #e5e5e5;
     overflow: hidden;
-    width: calc(50% - 16px);
+    // width: calc(50% - 16px);
+    width: 100%;
     align-self: flex-start;
     .header{
       background-color: #0078d4;
@@ -44,7 +45,7 @@
       .inner_header{
         height: 36px;
         width: 100%;
-        padding: 0 16px;
+        padding: 0 8px;
         display: flex;
         align-items: center;
         justify-content: flex-start;
@@ -67,48 +68,52 @@
         height: 60px;
         font-size: 12px;
         th{
-          padding:8px;
+          padding:4px;
           font-size: 15px;
           font-weight: normal;
           vertical-align: middle;
           text-align: center;
-          min-width: 90px;
-          width: 90px;
-          max-width: 90px;
+          // min-width: 90px;
+          // width: 90px;
+          // max-width: 90px;
           &:first-child {
             text-align: left;
-            width: auto;
+            // width: auto;
             min-width: auto;
             max-width: auto;
           }
         
-          &:nth-child(2),&:nth-child(3) {
-            width: 100px;
-            min-width: 100px;
-            max-width: 100px;
-          }
-          &:nth-child(4) {
-            width: 30px;
-            min-width: 30px;
-            max-width: 30px;
-          }
-          &:last-child {
-            width: 70px;
-            min-width: 70px;
-            max-width: 70px;
-          }
+          // &:nth-child(2),&:nth-child(3) {
+          //   width: 100px;
+          //   min-width: 100px;
+          //   max-width: 100px;
+          // }
+          // &:nth-child(4) {
+          //   width: 30px;
+          //   min-width: 30px;
+          //   max-width: 30px;
+          // }
+          // &:last-child {
+          //   width: 70px;
+          //   min-width: 70px;
+          //   max-width: 70px;
+          // }
         }
         .kpi_name_title{
-            width: unset;
-            min-width: unset;
-            max-width: unset;
-            border-bottom: 1px solid #e5e5e5;
-            background-color: #ebf7ff;
+            
             &:first-child {
               text-align: left;
-              width: unset;
-              min-width: unset;
-              max-width: unset;
+              width: 300px;
+            }
+        }
+        .border_bkg{
+          border-bottom: 1px solid #e5e5e5;
+            background-color: #ebf7ff;
+            &:nth-child(2){
+              background-color: #f4fbff;
+              th{
+                font-size: 14px;
+              }
             }
         }
       }
@@ -133,18 +138,16 @@
           }
         }
         td{
-          padding: 8px;
+          padding: 4px;
           font-size: 12px;
           font-weight: 600;
           vertical-align: middle;
           text-align: center;
           color: #323130;
-          &:first-child {
-            text-align: left;
-          }
+         
           span{
-            width: 12px;
-            height: 12px;
+            width: 8px;
+            height: 8px;
             border-radius: 50%;
             display: inline-block;
             &.success {
