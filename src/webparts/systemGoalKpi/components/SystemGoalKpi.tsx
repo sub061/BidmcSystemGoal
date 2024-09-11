@@ -728,7 +728,7 @@ export default class SystemGoalKpi extends React.Component<
                                                                   : ""
                                                               }
                                                             >
-                                                              <table>
+                                                              <table className="budget-py">
                                                                 <tr>
                                                                   <td>
                                                                     <table>
@@ -791,7 +791,7 @@ export default class SystemGoalKpi extends React.Component<
                                                               </table>
                                                             </td>
                                                             <td style={{padding: '0'}}>
-                                                            <table>
+                                                            <table className="budget-py">
                                                                 <tr>
                                                                   <td style={{padding: '0'}}>
                                                                     <table>

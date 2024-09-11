@@ -73,13 +73,9 @@
   text-align: center;
   border: 1px solid #e5e5e5;
 }
-.system_goel_container .box_model .inner_container thead th:first-child {
-  text-align: left;
-  min-width: auto;
-  max-width: auto;
-}
 .system_goel_container .box_model .inner_container thead td {
   border: 1px solid #e5e5e5;
+  min-width: 50px;
 }
 .system_goel_container .box_model .inner_container thead .kpi_name_title:first-child {
   text-align: left;
@@ -166,6 +162,21 @@
 }
 .system_goel_container .box_model .inner_container tbody td a.details {
   min-width: unset;
+}
+.system_goel_container .box_model .inner_container tbody .budget-py td {
+  border: 0;
+  padding: 0;
+}
+.system_goel_container .box_model .inner_container tbody .budget-py td:first-child table {
+  border-right: 1px solid #e5e5e5 !important;
+}
+.system_goel_container .box_model .inner_container tbody .budget-py table td {
+  padding: 0 !important;
+  border: 0 !important;
+}
+.system_goel_container .box_model .inner_container tbody .budget-py table td:last-child {
+  width: 30px;
+  border-left: 1px solid #e5e5e5 !important;
 }
 
 .with_goal_filter {
