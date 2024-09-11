@@ -58,6 +58,7 @@
         border: 0;
         border-spacing: 0;
         width: 100%;
+        height: 100%;
         // table-layout: fixed;
         .change_status {
           color: #0078d4;
@@ -73,6 +74,7 @@
           font-weight: normal;
           vertical-align: middle;
           text-align: center;
+          border: 1px solid #e5e5e5;
           // min-width: 90px;
           // width: 90px;
           // max-width: 90px;
@@ -98,6 +100,9 @@
           //   min-width: 70px;
           //   max-width: 70px;
           // }
+        }
+        td{
+          border: 1px solid #e5e5e5;
         }
         .kpi_name_title{
             
@@ -144,6 +149,7 @@
           vertical-align: middle;
           text-align: center;
           color: #323130;
+          border: 1px solid #e5e5e5;
          
           span{
             width: 8px;
