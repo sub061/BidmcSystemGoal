@@ -784,9 +784,9 @@ export default class SystemGoalKpi extends React.Component<
 
                                                               <table>
                                                                 <tr>
-                                                                  <td style={{ textAlign: "center", border: '0' }}>Actual</td>
-                                                                  <td style={{ textAlign: "center", borderTop: '0', borderBottom: '0', width: '80px' }}>Budget or Target</td>
-                                                                  <td style={{ textAlign: "center", border: '0' }}>Prior Yr</td>
+                                                                  <td style={{ textAlign: "center", border: '0' }}>N/A</td>
+                                                                  <td style={{ textAlign: "center", borderTop: '0', borderBottom: '0', width: '80px' }}>N/A</td>
+                                                                  <td style={{ textAlign: "center", border: '0' }}>N/A</td>
                                                                 </tr>
                                                               </table>
                                                             </td>
@@ -947,7 +947,7 @@ export default class SystemGoalKpi extends React.Component<
                                                                 <td>
                                                                   <table>
                                                                     <tr>
-                                                                      <td>val</td>
+                                                                      <td>N/A</td>
                                                                       <td> <span
                                                                         className={
                                                                           this.getStatus(
@@ -964,7 +964,7 @@ export default class SystemGoalKpi extends React.Component<
                                                                 <td style={{ width: '80px' }}>
                                                                   <table>
                                                                     <tr>
-                                                                      <td>val</td>
+                                                                      <td>N/A</td>
                                                                       <td> <span
                                                                         className={
                                                                           this.getStatus(
@@ -985,9 +985,9 @@ export default class SystemGoalKpi extends React.Component<
                                                           <td style={{ padding: '0' }}>
                                                             <table>
                                                               <tr>
-                                                                <td style={{ textAlign: "center", border: '0' }}>Actual</td>
-                                                                <td style={{ textAlign: "center", borderTop: '0', borderBottom: '0', width: '80px' }}>Budget or Target</td>
-                                                                <td style={{ textAlign: "center", border: '0' }}>Prior Yr</td>
+                                                                <td style={{ textAlign: "center", border: '0' }}>N/A</td>
+                                                                <td style={{ textAlign: "center", borderTop: '0', borderBottom: '0', width: '80px' }}>N/A</td>
+                                                                <td style={{ textAlign: "center", border: '0' }}>N/A</td>
                                                               </tr>
                                                             </table>
                                                           </td>
@@ -1000,7 +1000,7 @@ export default class SystemGoalKpi extends React.Component<
                                                                       <td>
                                                                         <table>
                                                                           <tr>
-                                                                            <td>val</td>
+                                                                            <td>N/A</td>
                                                                             <td> <span
                                                                               className={
                                                                                 this.getStatus(
@@ -1017,7 +1017,7 @@ export default class SystemGoalKpi extends React.Component<
                                                                       <td style={{ width: '80px' }}>
                                                                         <table>
                                                                           <tr>
-                                                                            <td>val</td>
+                                                                            <td>N/A</td>
                                                                             <td> <span
                                                                               className={
                                                                                 this.getStatus(
