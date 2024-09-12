@@ -570,44 +570,44 @@ export default class SystemGoalKpi extends React.Component<
                                           <th>% Variance</th>
                                           <th>YTD</th>
                                           <th>% Variance</th>
-                                          
+
                                           <th>Details</th>
                                         </tr>
                                         <tr className="border_bkg">
                                           <th>&nbsp;</th>
                                           <th style={{ width: '50px' }}></th>
-                                          <th style={{padding: '0'}}>
-                                            <table>
-                                            <tr>
-                                              <td style={{  textAlign: "center", border: '0' }}>Actual</td>
-                                              <td style={{  textAlign: "center", borderTop: '0', borderBottom: '0', width: '80px' }}>Budget or Target</td>
-                                              <td style={{  textAlign: "center", border: '0' }}>Prior Yr</td>
-                                            </tr>
-                                            </table>
-                                          </th>
-                                          <th style={{padding: '0'}}>
+                                          <th style={{ padding: '0' }}>
                                             <table>
                                               <tr>
-                                              <td style={{  textAlign: "center", borderTop: '0', borderBottom: '0', borderLeft: '0' }}>Budget or Target</td>
-                                              <td style={{width: '80px', border: '0'}}>to PY</td>
+                                                <td style={{ textAlign: "center", border: '0' }}>Actual</td>
+                                                <td style={{ textAlign: "center", borderTop: '0', borderBottom: '0', width: '80px' }}>Budget or Target</td>
+                                                <td style={{ textAlign: "center", border: '0' }}>Prior Yr</td>
+                                              </tr>
+                                            </table>
+                                          </th>
+                                          <th style={{ padding: '0' }}>
+                                            <table>
+                                              <tr>
+                                                <td style={{ textAlign: "center", borderTop: '0', borderBottom: '0', borderLeft: '0' }}>Budget or Target</td>
+                                                <td style={{ width: '80px', border: '0' }}>to PY</td>
 
                                               </tr>
                                             </table>
                                           </th>
 
-                                          <th style={{padding: '0'}}>
+                                          <th style={{ padding: '0' }}>
                                             <table>
-                                            <tr>
-                                              <td style={{  textAlign: "center", border: '0' }}>Actual</td>
-                                              <td style={{  textAlign: "center", borderTop: '0', borderBottom: '0', width: '80px' }}>Budget or Target</td>
-                                              <td style={{  textAlign: "center", border: '0' }}>Prior Yr</td>
-                                            </tr>
+                                              <tr>
+                                                <td style={{ textAlign: "center", border: '0' }}>Actual</td>
+                                                <td style={{ textAlign: "center", borderTop: '0', borderBottom: '0', width: '80px' }}>Budget or Target</td>
+                                                <td style={{ textAlign: "center", border: '0' }}>Prior Yr</td>
+                                              </tr>
                                             </table>
                                           </th>
-                                          <th style={{padding: '0'}}><table>
+                                          <th style={{ padding: '0' }}><table>
                                             <tr>
-                                            <td style={{  textAlign: "center", borderTop: '0', borderBottom: '0', borderLeft: '0' }}>Budget or Target</td>
-                                              <td style={{width: '80px', border: '0'}}>to PY</td>
+                                              <td style={{ textAlign: "center", borderTop: '0', borderBottom: '0', borderLeft: '0' }}>Budget or Target</td>
+                                              <td style={{ width: '80px', border: '0' }}>to PY</td>
                                             </tr>
                                           </table></th>
                                           <th></th>
@@ -669,7 +669,7 @@ export default class SystemGoalKpi extends React.Component<
                                                               </button>
                                                             </td>
                                                             <td style={{ width: '50px' }}>Q</td>
-                                                            <td style={{padding: '0'}}
+                                                            <td style={{ padding: '0' }}
                                                               className={
                                                                 this.findMatrixValues(
                                                                   subGoal.id,
@@ -684,7 +684,7 @@ export default class SystemGoalKpi extends React.Component<
                                                             >
                                                               <table>
                                                                 <tr>
-                                                                <td style={{  textAlign: "center", border: '0' }}>
+                                                                  <td style={{ textAlign: "center", border: '0' }}>
                                                                     {this.findMatrixValues(
                                                                       subGoal.id,
                                                                       kpi.id,
@@ -693,7 +693,7 @@ export default class SystemGoalKpi extends React.Component<
                                                                       "Actual"
                                                                     )}
                                                                   </td>
-                                                                  <td style={{  textAlign: "center", borderTop: '0', borderBottom: '0', width: '80px' }}>
+                                                                  <td style={{ textAlign: "center", borderTop: '0', borderBottom: '0', width: '80px' }}>
                                                                     {this.findMatrixValues(
                                                                       subGoal.id,
                                                                       kpi.id,
@@ -702,7 +702,7 @@ export default class SystemGoalKpi extends React.Component<
                                                                       "Actual"
                                                                     )}
                                                                   </td>
-                                                                  <td style={{  textAlign: "center", border: '0' }}>
+                                                                  <td style={{ textAlign: "center", border: '0' }}>
                                                                     {this.findMatrixValues(
                                                                       subGoal.id,
                                                                       kpi.id,
@@ -715,7 +715,7 @@ export default class SystemGoalKpi extends React.Component<
                                                               </table>
 
                                                             </td>
-                                                            <td style={{padding: '0'}}
+                                                            <td style={{ padding: '0' }}
                                                               className={
                                                                 this.findMatrixValues(
                                                                   subGoal.id,
@@ -753,7 +753,7 @@ export default class SystemGoalKpi extends React.Component<
                                                                       </tr>
                                                                     </table>
                                                                   </td>
-                                                                  <td style={{width: '80px'}}>
+                                                                  <td style={{ width: '80px' }}>
                                                                     <table>
                                                                       <tr>
                                                                         <td>{this.findMatrixValues(
@@ -780,20 +780,20 @@ export default class SystemGoalKpi extends React.Component<
                                                                 </tr>
                                                               </table>
                                                             </td>
-                                                            <td style={{padding: '0'}}>
+                                                            <td style={{ padding: '0' }}>
 
                                                               <table>
-                                                              <tr>
-                                                              <td style={{  textAlign: "center", border: '0' }}>Actual</td>
-                                                              <td style={{  textAlign: "center", borderTop: '0', borderBottom: '0', width: '80px' }}>Budget or Target</td>
-                                                                <td style={{  textAlign: "center", border: '0' }}>Prior Yr</td>
-                                                              </tr>
+                                                                <tr>
+                                                                  <td style={{ textAlign: "center", border: '0' }}>Actual</td>
+                                                                  <td style={{ textAlign: "center", borderTop: '0', borderBottom: '0', width: '80px' }}>Budget or Target</td>
+                                                                  <td style={{ textAlign: "center", border: '0' }}>Prior Yr</td>
+                                                                </tr>
                                                               </table>
                                                             </td>
-                                                            <td style={{padding: '0'}}>
-                                                            <table className="budget-py">
+                                                            <td style={{ padding: '0' }}>
+                                                              <table className="budget-py">
                                                                 <tr>
-                                                                  <td style={{padding: '0'}}>
+                                                                  <td style={{ padding: '0' }}>
                                                                     <table>
                                                                       <tr>
                                                                         <td>{this.findMatrixValues(
@@ -816,7 +816,7 @@ export default class SystemGoalKpi extends React.Component<
                                                                       </tr>
                                                                     </table>
                                                                   </td>
-                                                                  <td style={{width: '80px'}}>
+                                                                  <td style={{ width: '80px' }}>
                                                                     <table>
                                                                       <tr>
                                                                         <td>{this.findMatrixValues(
@@ -860,8 +860,8 @@ export default class SystemGoalKpi extends React.Component<
                                                                   dataGoalMetrix,
                                                                   "URL"
                                                                 ) === null
-                                                                    ? "disabled"
-                                                                    : ""
+                                                                  ? "disabled"
+                                                                  : ""
                                                                   }`}
                                                               >
                                                                 Click
@@ -873,8 +873,8 @@ export default class SystemGoalKpi extends React.Component<
                                                       {allHospitalsSelected && (
                                                         <tr
                                                           className={`division_avg ${division.id == null
-                                                              ? "d-none"
-                                                              : ""
+                                                            ? "d-none"
+                                                            : ""
                                                             }`}
                                                         >
                                                           <td style={{ textAlign: 'left' }}>
@@ -884,7 +884,7 @@ export default class SystemGoalKpi extends React.Component<
                                                             </button>
                                                           </td>
                                                           <td style={{ width: '50px' }}>Q</td>
-                                                          <td
+                                                          <td style={{padding: '0'}}
                                                             className={
                                                               this.findMatrixValues(
                                                                 subGoal.id,
@@ -897,39 +897,39 @@ export default class SystemGoalKpi extends React.Component<
                                                                 : ""
                                                             }
                                                           >
-                                                            <table>
-                                                              <tr>
-                                                                <td>
-                                                                  {this.findMatrixValues(
-                                                                    subGoal.id,
-                                                                    kpi.id,
-                                                                    division.id,
-                                                                    dataGoalMetrix,
-                                                                    "Actual"
-                                                                  )}
-                                                                </td>
-                                                                <td>
-                                                                  {this.findMatrixValues(
-                                                                    subGoal.id,
-                                                                    kpi.id,
-                                                                    division.id,
-                                                                    dataGoalMetrix,
-                                                                    "Actual"
-                                                                  )}
-                                                                </td>
-                                                                <td>
-                                                                  {this.findMatrixValues(
-                                                                    subGoal.id,
-                                                                    kpi.id,
-                                                                    division.id,
-                                                                    dataGoalMetrix,
-                                                                    "Actual"
-                                                                  )}
-                                                                </td>
-                                                              </tr>
-                                                            </table>
+                                                             <table>
+                                                                <tr>
+                                                                  <td style={{ textAlign: "center", border: '0' }}>
+                                                                    {this.findMatrixValues(
+                                                                      subGoal.id,
+                                                                      kpi.id,
+                                                                      division.id,
+                                                                      dataGoalMetrix,
+                                                                      "Actual"
+                                                                    )}
+                                                                  </td>
+                                                                  <td style={{ textAlign: "center", borderTop: '0', borderBottom: '0', width: '80px' }}>
+                                                                    {this.findMatrixValues(
+                                                                      subGoal.id,
+                                                                      kpi.id,
+                                                                      division.id,
+                                                                      dataGoalMetrix,
+                                                                      "Actual"
+                                                                    )}
+                                                                  </td>
+                                                                  <td style={{ textAlign: "center", border: '0' }}>
+                                                                    {this.findMatrixValues(
+                                                                      subGoal.id,
+                                                                      kpi.id,
+                                                                      division.id,
+                                                                      dataGoalMetrix,
+                                                                      "Actual"
+                                                                    )}
+                                                                  </td>
+                                                                </tr>
+                                                              </table>
                                                           </td>
-                                                          <td
+                                                          <td style={{ padding: '0' }}
                                                             className={
                                                               this.findMatrixValues(
                                                                 subGoal.id,
@@ -942,88 +942,100 @@ export default class SystemGoalKpi extends React.Component<
                                                                 : ""
                                                             }
                                                           >
-                                                            <table>
+                                                            <table className="budget-py">
                                                               <tr>
-                                                                <td>{this.findMatrixValues(
-                                                                  subGoal.id,
-                                                                  kpi.id,
-                                                                  division.id,
-                                                                  dataGoalMetrix,
-                                                                  "Target"
-                                                                )}</td>
                                                                 <td>
-                                                                  {this.findMatrixValues(
-                                                                    subGoal.id,
-                                                                    kpi.id,
-                                                                    division.id,
-                                                                    dataGoalMetrix,
-                                                                    "Target"
-                                                                  )}
+                                                                  <table>
+                                                                    <tr>
+                                                                      <td>val</td>
+                                                                      <td> <span
+                                                                        className={
+                                                                          this.getStatus(
+                                                                            subGoal.id,
+                                                                            kpi.id,
+                                                                            division.id,
+                                                                            dataGoalMetrix
+                                                                          )
+                                                                        }
+                                                                      ></span></td>
+                                                                    </tr>
+                                                                  </table>
+                                                                </td>
+                                                                <td style={{ width: '80px' }}>
+                                                                  <table>
+                                                                    <tr>
+                                                                      <td>val</td>
+                                                                      <td> <span
+                                                                        className={
+                                                                          this.getStatus(
+                                                                            subGoal.id,
+                                                                            kpi.id,
+                                                                            division.id,
+                                                                            dataGoalMetrix
+                                                                          )
+                                                                        }
+                                                                      ></span></td>
+                                                                    </tr>
+                                                                  </table>
+
                                                                 </td>
                                                               </tr>
                                                             </table>
                                                           </td>
-                                                          <td style={{padding: '0'}}>
-
+                                                          <td style={{ padding: '0' }}>
                                                             <table>
                                                               <tr>
-                                                              <td style={{  textAlign: "center", border: '0' }}>Actual</td>
-                                                              <td style={{  textAlign: "center", borderTop: '0', borderBottom: '0', width: '80px' }}>Budget or Target</td>
-                                                                <td style={{  textAlign: "center", border: '0' }}>Prior Yr</td>
+                                                                <td style={{ textAlign: "center", border: '0' }}>Actual</td>
+                                                                <td style={{ textAlign: "center", borderTop: '0', borderBottom: '0', width: '80px' }}>Budget or Target</td>
+                                                                <td style={{ textAlign: "center", border: '0' }}>Prior Yr</td>
                                                               </tr>
                                                             </table>
                                                           </td>
-                                                          <td>
+                                                          <td style={{ padding: '0' }}>
                                                             <table>
-                                                            <tr>
-                                                                  <td>
-                                                                    <table>
-                                                                      <tr>
-                                                                        <td>{this.findMatrixValues(
-                                                                          subGoal.id,
-                                                                          kpi.id,
-                                                                          division.id,
-                                                                          dataGoalMetrix,
-                                                                          "Target"
-                                                                        )}</td>
-                                                                        <td> <span
-                                                                          className={
-                                                                            this.getStatus(
-                                                                              subGoal.id,
-                                                                              kpi.id,
-                                                                              division.id,
-                                                                              dataGoalMetrix
-                                                                            )
-                                                                          }
-                                                                        ></span></td>
-                                                                      </tr>
-                                                                    </table>
-                                                                  </td>
-                                                                  <td>
-                                                                    <table>
-                                                                      <tr>
-                                                                        <td>{this.findMatrixValues(
-                                                                          subGoal.id,
-                                                                          kpi.id,
-                                                                          division.id,
-                                                                          dataGoalMetrix,
-                                                                          "Target"
-                                                                        )}</td>
-                                                                        <td> <span
-                                                                          className={
-                                                                            this.getStatus(
-                                                                              subGoal.id,
-                                                                              kpi.id,
-                                                                              division.id,
-                                                                              dataGoalMetrix
-                                                                            )
-                                                                          }
-                                                                        ></span></td>
-                                                                      </tr>
-                                                                    </table>
+                                                              <tr>
+                                                                <td style={{ padding: '0', border: '0' }}>
+                                                                  <table className="budget-py">
+                                                                    <tr>
+                                                                      <td>
+                                                                        <table>
+                                                                          <tr>
+                                                                            <td>val</td>
+                                                                            <td> <span
+                                                                              className={
+                                                                                this.getStatus(
+                                                                                  subGoal.id,
+                                                                                  kpi.id,
+                                                                                  division.id,
+                                                                                  dataGoalMetrix
+                                                                                )
+                                                                              }
+                                                                            ></span></td>
+                                                                          </tr>
+                                                                        </table>
+                                                                      </td>
+                                                                      <td style={{ width: '80px' }}>
+                                                                        <table>
+                                                                          <tr>
+                                                                            <td>val</td>
+                                                                            <td> <span
+                                                                              className={
+                                                                                this.getStatus(
+                                                                                  subGoal.id,
+                                                                                  kpi.id,
+                                                                                  division.id,
+                                                                                  dataGoalMetrix
+                                                                                )
+                                                                              }
+                                                                            ></span></td>
+                                                                          </tr>
+                                                                        </table>
 
-                                                                  </td>
-                                                                </tr>
+                                                                      </td>
+                                                                    </tr>
+                                                                  </table>
+                                                                </td>
+                                                              </tr>
                                                             </table>
                                                           </td>
                                                           <td>
@@ -1043,8 +1055,8 @@ export default class SystemGoalKpi extends React.Component<
                                                                 dataGoalMetrix,
                                                                 "URL"
                                                               ) === null
-                                                                  ? "disabled"
-                                                                  : ""
+                                                                ? "disabled"
+                                                                : ""
                                                                 }`}
                                                             >
                                                               Click
@@ -1111,18 +1123,6 @@ export default class SystemGoalKpi extends React.Component<
                                                       )}
                                                     </td>
                                                     <td>
-                                                      <span
-                                                        className={
-                                                          this.getStatus(
-                                                            subGoal.id,
-                                                            kpi.id,
-                                                            organization.id,
-                                                            dataGoalMetrix
-                                                          )
-                                                        }
-                                                      ></span>
-                                                    </td>
-                                                    <td>
                                                       <a
                                                         href={this.findMatrixValues(
                                                           subGoal.id,
@@ -1139,8 +1139,8 @@ export default class SystemGoalKpi extends React.Component<
                                                           dataGoalMetrix,
                                                           "URL"
                                                         ) === null
-                                                            ? "disabled"
-                                                            : ""
+                                                          ? "disabled"
+                                                          : ""
                                                           }`}
                                                       >
                                                         Click
