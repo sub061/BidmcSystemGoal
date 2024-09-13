@@ -79,7 +79,7 @@
 }
 .system_goel_container .box_model .inner_container thead .kpi_name_title:first-child {
   text-align: left;
-  width: 300px;
+  width: 250px;
 }
 .system_goel_container .box_model .inner_container thead .border_bkg {
   border-bottom: 1px solid #e5e5e5;
@@ -94,14 +94,17 @@
 .system_goel_container .box_model .inner_container tbody tr {
   min-height: 44px;
 }
-.system_goel_container .box_model .inner_container tbody tr.division_avg {
+.system_goel_container .box_model .inner_container tbody tr.no_data {
   background-color: #f1efef;
+}
+.system_goel_container .box_model .inner_container tbody tr.division_avg {
+  background-color: #e2f6e1;
 }
 .system_goel_container .box_model .inner_container tbody tr.division_avg td a {
   background-color: #fff;
 }
 .system_goel_container .box_model .inner_container tbody tr.organization_avg {
-  background-color: #cac9c9;
+  background-color: #a4d7a1;
 }
 .system_goel_container .box_model .inner_container tbody tr.organization_avg td a {
   background-color: #fff;

@@ -589,7 +589,7 @@ export default class SystemGoalKpi extends React.Component<
                                             <table>
                                               <tr>
                                                 <td style={{ textAlign: "center", borderTop: '0', borderBottom: '0', borderLeft: '0' }}>Budget or Target</td>
-                                                <td style={{ width: '80px', border: '0' }}>to PY</td>
+                                                <td style={{ width: '110px', border: '0' }}>to PY</td>
 
                                               </tr>
                                             </table>
@@ -607,7 +607,7 @@ export default class SystemGoalKpi extends React.Component<
                                           <th style={{ padding: '0' }}><table>
                                             <tr>
                                               <td style={{ textAlign: "center", borderTop: '0', borderBottom: '0', borderLeft: '0' }}>Budget or Target</td>
-                                              <td style={{ width: '80px', border: '0' }}>to PY</td>
+                                              <td style={{ width: '110px', border: '0' }}>to PY</td>
                                             </tr>
                                           </table></th>
                                           <th></th>
@@ -755,7 +755,7 @@ export default class SystemGoalKpi extends React.Component<
                                                                       </tr>
                                                                     </table>
                                                                   </td>
-                                                                  <td style={{ width: '80px' }}>
+                                                                  <td style={{ width: '110px' }}>
                                                                     <table>
                                                                       <tr>
                                                                         <td>{this.findMatrixValues(
@@ -786,9 +786,9 @@ export default class SystemGoalKpi extends React.Component<
 
                                                               <table>
                                                                 <tr>
-                                                                  <td style={{ textAlign: "center", border: '0' }}>N/A</td>
-                                                                  <td style={{ textAlign: "center", borderTop: '0', borderBottom: '0', width: '80px' }}>N/A</td>
-                                                                  <td style={{ textAlign: "center", border: '0' }}>N/A</td>
+                                                                  <td style={{ textAlign: "center", border: '0' }}> </td>
+                                                                  <td style={{ textAlign: "center", borderTop: '0', borderBottom: '0', width: '80px' }}> </td>
+                                                                  <td style={{ textAlign: "center", border: '0' }}> </td>
                                                                 </tr>
                                                               </table>
                                                             </td>
@@ -818,7 +818,7 @@ export default class SystemGoalKpi extends React.Component<
                                                                       </tr>
                                                                     </table>
                                                                   </td>
-                                                                  <td style={{ width: '80px' }}>
+                                                                  <td style={{ width: '110px' }}>
                                                                     <table>
                                                                       <tr>
                                                                         <td>{this.findMatrixValues(
@@ -949,7 +949,7 @@ export default class SystemGoalKpi extends React.Component<
                                                                 <td>
                                                                   <table>
                                                                     <tr>
-                                                                      <td>N/A</td>
+                                                                      <td> </td>
                                                                       <td> <span
                                                                         className={
                                                                           this.getStatus(
@@ -963,10 +963,10 @@ export default class SystemGoalKpi extends React.Component<
                                                                     </tr>
                                                                   </table>
                                                                 </td>
-                                                                <td style={{ width: '80px' }}>
+                                                                <td style={{ width: '110px' }}>
                                                                   <table>
                                                                     <tr>
-                                                                      <td>N/A</td>
+                                                                      <td> </td>
                                                                       <td> <span
                                                                         className={
                                                                           this.getStatus(
@@ -987,9 +987,9 @@ export default class SystemGoalKpi extends React.Component<
                                                           <td style={{ padding: '0' }}>
                                                             <table>
                                                               <tr>
-                                                                <td style={{ textAlign: "center", border: '0' }}>N/A</td>
-                                                                <td style={{ textAlign: "center", borderTop: '0', borderBottom: '0', width: '80px' }}>N/A</td>
-                                                                <td style={{ textAlign: "center", border: '0' }}>N/A</td>
+                                                                <td style={{ textAlign: "center", border: '0' }}> </td>
+                                                                <td style={{ textAlign: "center", borderTop: '0', borderBottom: '0', width: '80px' }}> </td>
+                                                                <td style={{ textAlign: "center", border: '0' }}> </td>
                                                               </tr>
                                                             </table>
                                                           </td>
@@ -1002,7 +1002,7 @@ export default class SystemGoalKpi extends React.Component<
                                                                       <td>
                                                                         <table>
                                                                           <tr>
-                                                                            <td>N/A</td>
+                                                                            <td> </td>
                                                                             <td> <span
                                                                               className={
                                                                                 this.getStatus(
@@ -1016,10 +1016,10 @@ export default class SystemGoalKpi extends React.Component<
                                                                           </tr>
                                                                         </table>
                                                                       </td>
-                                                                      <td style={{ width: '80px' }}>
+                                                                      <td style={{ width: '110px' }}>
                                                                         <table>
                                                                           <tr>
-                                                                            <td>N/A</td>
+                                                                            <td> </td>
                                                                             <td> <span
                                                                               className={
                                                                                 this.getStatus(
@@ -1167,7 +1167,7 @@ export default class SystemGoalKpi extends React.Component<
                                                                       </tr>
                                                                     </table>
                                                                   </td>
-                                                                  <td style={{ width: '80px' }}>
+                                                                  <td style={{ width: '110px' }}>
                                                                     <table>
                                                                       <tr>
                                                                         <td>{this.findMatrixValues(
@@ -1198,9 +1198,9 @@ export default class SystemGoalKpi extends React.Component<
 
                                                               <table>
                                                                 <tr>
-                                                                  <td style={{ textAlign: "center", border: '0' }}>N/A</td>
-                                                                  <td style={{ textAlign: "center", borderTop: '0', borderBottom: '0', width: '80px' }}>N/A</td>
-                                                                  <td style={{ textAlign: "center", border: '0' }}>N/A</td>
+                                                                  <td style={{ textAlign: "center", border: '0' }}> </td>
+                                                                  <td style={{ textAlign: "center", borderTop: '0', borderBottom: '0', width: '80px' }}> </td>
+                                                                  <td style={{ textAlign: "center", border: '0' }}> </td>
                                                                 </tr>
                                                               </table>
                                                             </td>
@@ -1230,7 +1230,7 @@ export default class SystemGoalKpi extends React.Component<
                                                                       </tr>
                                                                     </table>
                                                                   </td>
-                                                                  <td style={{ width: '80px' }}>
+                                                                  <td style={{ width: '110px' }}>
                                                                     <table>
                                                                       <tr>
                                                                         <td>{this.findMatrixValues(
