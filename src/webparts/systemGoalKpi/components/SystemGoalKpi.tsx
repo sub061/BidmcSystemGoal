@@ -134,8 +134,8 @@ export default class SystemGoalKpi extends React.Component<
           isChecked
             ? [...prevState.selectedOrganizations, organizationId]
             : [...prevState.selectedOrganizations].filter(
-                (id) => id !== organizationId
-              )
+              (id) => id !== organizationId
+            )
         ),
       };
     });
@@ -225,6 +225,7 @@ export default class SystemGoalKpi extends React.Component<
       subGoal.kpi.push({
         id: kpi.Id,
         title: kpi.Title,
+        SiteLevel: kpi.Sitelevel,
       });
     });
 
@@ -335,6 +336,10 @@ export default class SystemGoalKpi extends React.Component<
     return a ? a[key] : null;
   };
 
+  private applyGreyClass = (kpi: any) => {
+    return kpi.SiteLevel;
+  };
+
   private getStatus = (
     subGoalId: number,
     kpiId: number,
@@ -364,6 +369,7 @@ export default class SystemGoalKpi extends React.Component<
     );
 
     const goalHirerachyData = this.getGoalHirerachy(dataKPI || []);
+    console.log("Subham Sharma Hapur ------>")
 
     return (
       <section>
@@ -491,9 +497,8 @@ export default class SystemGoalKpi extends React.Component<
                     {hirerachicalHospitalData[0].division.map(
                       (division: any) => (
                         <div
-                          className={`inner_btn_group ${
-                            division.id == null ? "d-none" : ""
-                          }`}
+                          className={`inner_btn_group ${division.id == null ? "d-none" : ""
+                            }`}
                         >
                           <div className="cat action secondary">
                             <label>
@@ -543,9 +548,8 @@ export default class SystemGoalKpi extends React.Component<
                       {/** Box Model */}
                       {goalHirerachyData.map((goal: any) => (
                         <div
-                          className={`box_model ${
-                            !checkedSystemGoalsNew.has(goal.id) ? "d-none" : ""
-                          }`}
+                          className={`box_model ${!checkedSystemGoalsNew.has(goal.id) ? "d-none" : ""
+                            }`}
                         >
                           <div className="header">{goal.name}</div>
                           <div>
@@ -734,12 +738,12 @@ export default class SystemGoalKpi extends React.Component<
                                                               !selectedHospitalsNew.has(
                                                                 hospital.id
                                                               ) ||
-                                                              [
-                                                                18, 19, 20, 21,
-                                                                22,
-                                                              ].indexOf(
-                                                                hospital.id
-                                                              ) !== -1
+                                                                [
+                                                                  18, 19, 20, 21,
+                                                                  22,
+                                                                ].indexOf(
+                                                                  hospital.id
+                                                                ) !== -1
                                                                 ? "d-none"
                                                                 : ""
                                                             }
@@ -788,23 +792,7 @@ export default class SystemGoalKpi extends React.Component<
                                                                         "0",
                                                                     }}
                                                                     className={
-                                                                      this.findMatrixValues(
-                                                                        subGoal.id,
-                                                                        kpi.id,
-                                                                        hospital.id,
-                                                                        dataGoalMetrix,
-                                                                        "MTD_ACTUAL"
-                                                                      ) ===
-                                                                        "" ||
-                                                                      this.findMatrixValues(
-                                                                        subGoal.id,
-                                                                        kpi.id,
-                                                                        hospital.id,
-                                                                        dataGoalMetrix,
-                                                                        "MTD_ACTUAL"
-                                                                      ) === null
-                                                                        ? "no_data"
-                                                                        : ""
+                                                                      kpi.SiteLevel ? 'no_data' : ''
                                                                     }
                                                                   >
                                                                     {this.findMatrixValues(
@@ -827,23 +815,7 @@ export default class SystemGoalKpi extends React.Component<
                                                                         "80px",
                                                                     }}
                                                                     className={
-                                                                      this.findMatrixValues(
-                                                                        subGoal.id,
-                                                                        kpi.id,
-                                                                        hospital.id,
-                                                                        dataGoalMetrix,
-                                                                        "MTD_BUDGET"
-                                                                      ) ===
-                                                                        "" ||
-                                                                      this.findMatrixValues(
-                                                                        subGoal.id,
-                                                                        kpi.id,
-                                                                        hospital.id,
-                                                                        dataGoalMetrix,
-                                                                        "MTD_BUDGET"
-                                                                      ) === null
-                                                                        ? "no_data"
-                                                                        : ""
+                                                                      this.applyGreyClass(kpi) ? 'no_data' : ''
                                                                     }
                                                                   >
                                                                     {this.findMatrixValues(
@@ -862,26 +834,10 @@ export default class SystemGoalKpi extends React.Component<
                                                                         "0",
                                                                     }}
                                                                     className={
-                                                                      this.findMatrixValues(
-                                                                        subGoal.id,
-                                                                        kpi.id,
-                                                                        hospital.id,
-                                                                        dataGoalMetrix,
-                                                                        "MTD_PRIOR_YEAR"
-                                                                      ) ===
-                                                                        "" ||
-                                                                      this.findMatrixValues(
-                                                                        subGoal.id,
-                                                                        kpi.id,
-                                                                        hospital.id,
-                                                                        dataGoalMetrix,
-                                                                        "MTD_PRIOR_YEAR"
-                                                                      ) === null
-                                                                        ? "no_data"
-                                                                        : ""
+                                                                      this.applyGreyClass(kpi) ? 'no_data' : ''
                                                                     }
                                                                   >
-                                                                    3
+
                                                                     {this.findMatrixValues(
                                                                       subGoal.id,
                                                                       kpi.id,
@@ -916,24 +872,7 @@ export default class SystemGoalKpi extends React.Component<
                                                                       <tr>
                                                                         <td
                                                                           className={
-                                                                            this.findMatrixValues(
-                                                                              subGoal.id,
-                                                                              kpi.id,
-                                                                              hospital.id,
-                                                                              dataGoalMetrix,
-                                                                              "MTD_BUDGET_VARIANCE"
-                                                                            ) ===
-                                                                              "" ||
-                                                                            this.findMatrixValues(
-                                                                              subGoal.id,
-                                                                              kpi.id,
-                                                                              hospital.id,
-                                                                              dataGoalMetrix,
-                                                                              "MTD_BUDGET_VARIANCE"
-                                                                            ) ===
-                                                                              null
-                                                                              ? "no_data"
-                                                                              : ""
+                                                                            this.applyGreyClass(kpi) ? 'no_data' : ''
                                                                           }
                                                                         >
                                                                           {this.findMatrixValues(
@@ -968,24 +907,7 @@ export default class SystemGoalKpi extends React.Component<
                                                                       <tr>
                                                                         <td
                                                                           className={
-                                                                            this.findMatrixValues(
-                                                                              subGoal.id,
-                                                                              kpi.id,
-                                                                              hospital.id,
-                                                                              dataGoalMetrix,
-                                                                              "MTD_PRIOR_YEAR_VARIANCE"
-                                                                            ) ===
-                                                                              "" ||
-                                                                            this.findMatrixValues(
-                                                                              subGoal.id,
-                                                                              kpi.id,
-                                                                              hospital.id,
-                                                                              dataGoalMetrix,
-                                                                              "MTD_PRIOR_YEAR_VARIANCE"
-                                                                            ) ===
-                                                                              null
-                                                                              ? "no_data"
-                                                                              : ""
+                                                                            this.applyGreyClass(kpi) ? 'no_data' : ''
                                                                           }
                                                                         >
                                                                           {this.findMatrixValues(
@@ -1028,23 +950,7 @@ export default class SystemGoalKpi extends React.Component<
                                                                         "0",
                                                                     }}
                                                                     className={
-                                                                      this.findMatrixValues(
-                                                                        subGoal.id,
-                                                                        kpi.id,
-                                                                        hospital.id,
-                                                                        dataGoalMetrix,
-                                                                        "YTD_ACTUAL"
-                                                                      ) ===
-                                                                        "" ||
-                                                                      this.findMatrixValues(
-                                                                        subGoal.id,
-                                                                        kpi.id,
-                                                                        hospital.id,
-                                                                        dataGoalMetrix,
-                                                                        "YTD_ACTUAL"
-                                                                      ) === null
-                                                                        ? "no_data"
-                                                                        : ""
+                                                                      this.applyGreyClass(kpi) ? 'no_data' : ''
                                                                     }
                                                                   >
                                                                     {this.findMatrixValues(
@@ -1067,23 +973,7 @@ export default class SystemGoalKpi extends React.Component<
                                                                         "80px",
                                                                     }}
                                                                     className={
-                                                                      this.findMatrixValues(
-                                                                        subGoal.id,
-                                                                        kpi.id,
-                                                                        hospital.id,
-                                                                        dataGoalMetrix,
-                                                                        "YTD_BUDGET"
-                                                                      ) ===
-                                                                        "" ||
-                                                                      this.findMatrixValues(
-                                                                        subGoal.id,
-                                                                        kpi.id,
-                                                                        hospital.id,
-                                                                        dataGoalMetrix,
-                                                                        "YTD_BUDGET"
-                                                                      ) === null
-                                                                        ? "no_data"
-                                                                        : ""
+                                                                      this.applyGreyClass(kpi) ? 'no_data' : ''
                                                                     }
                                                                   >
                                                                     {this.findMatrixValues(
@@ -1102,23 +992,7 @@ export default class SystemGoalKpi extends React.Component<
                                                                         "0",
                                                                     }}
                                                                     className={
-                                                                      this.findMatrixValues(
-                                                                        subGoal.id,
-                                                                        kpi.id,
-                                                                        hospital.id,
-                                                                        dataGoalMetrix,
-                                                                        "YTD_PRIOR_YEAR"
-                                                                      ) ===
-                                                                        "" ||
-                                                                      this.findMatrixValues(
-                                                                        subGoal.id,
-                                                                        kpi.id,
-                                                                        hospital.id,
-                                                                        dataGoalMetrix,
-                                                                        "YTD_PRIOR_YEAR"
-                                                                      ) === null
-                                                                        ? "no_data"
-                                                                        : ""
+                                                                      this.applyGreyClass(kpi) ? 'no_data' : ''
                                                                     }
                                                                   >
                                                                     {this.findMatrixValues(
@@ -1149,24 +1023,7 @@ export default class SystemGoalKpi extends React.Component<
                                                                       <tr>
                                                                         <td
                                                                           className={
-                                                                            this.findMatrixValues(
-                                                                              subGoal.id,
-                                                                              kpi.id,
-                                                                              hospital.id,
-                                                                              dataGoalMetrix,
-                                                                              "YTD_BUDGET_VARIANCE"
-                                                                            ) ===
-                                                                              "" ||
-                                                                            this.findMatrixValues(
-                                                                              subGoal.id,
-                                                                              kpi.id,
-                                                                              hospital.id,
-                                                                              dataGoalMetrix,
-                                                                              "YTD_BUDGET_VARIANCE"
-                                                                            ) ===
-                                                                              null
-                                                                              ? "no_data"
-                                                                              : ""
+                                                                            this.applyGreyClass(kpi) ? 'no_data' : ''
                                                                           }
                                                                         >
                                                                           {this.findMatrixValues(
@@ -1201,24 +1058,7 @@ export default class SystemGoalKpi extends React.Component<
                                                                       <tr>
                                                                         <td
                                                                           className={
-                                                                            this.findMatrixValues(
-                                                                              subGoal.id,
-                                                                              kpi.id,
-                                                                              hospital.id,
-                                                                              dataGoalMetrix,
-                                                                              "YTD_PRIOR_YEAR_VARIANCE"
-                                                                            ) ===
-                                                                              "" ||
-                                                                            this.findMatrixValues(
-                                                                              subGoal.id,
-                                                                              kpi.id,
-                                                                              hospital.id,
-                                                                              dataGoalMetrix,
-                                                                              "YTD_PRIOR_YEAR_VARIANCE"
-                                                                            ) ===
-                                                                              null
-                                                                              ? "no_data"
-                                                                              : ""
+                                                                            this.applyGreyClass(kpi) ? 'no_data' : ''
                                                                           }
                                                                         >
                                                                           {this.findMatrixValues(
@@ -1256,17 +1096,16 @@ export default class SystemGoalKpi extends React.Component<
                                                                   "URL"
                                                                 )}
                                                                 target="_blank"
-                                                                className={`details ${
-                                                                  this.findMatrixValues(
-                                                                    subGoal.id,
-                                                                    kpi.id,
-                                                                    hospital.id,
-                                                                    dataGoalMetrix,
-                                                                    "URL"
-                                                                  ) === null
-                                                                    ? "disabled"
-                                                                    : ""
-                                                                }`}
+                                                                className={`details ${this.findMatrixValues(
+                                                                  subGoal.id,
+                                                                  kpi.id,
+                                                                  hospital.id,
+                                                                  dataGoalMetrix,
+                                                                  "URL"
+                                                                ) === null
+                                                                  ? "disabled"
+                                                                  : ""
+                                                                  }`}
                                                               >
                                                                 Click
                                                               </a>
@@ -1276,11 +1115,10 @@ export default class SystemGoalKpi extends React.Component<
                                                       )}
                                                       {allHospitalsSelected && (
                                                         <tr
-                                                          className={`division_avg ${
-                                                            division.id == null
-                                                              ? "d-none"
-                                                              : ""
-                                                          }`}
+                                                          className={`division_avg ${division.id == null
+                                                            ? "d-none"
+                                                            : ""
+                                                            }`}
                                                         >
                                                           <td
                                                             style={{
@@ -1324,22 +1162,7 @@ export default class SystemGoalKpi extends React.Component<
                                                                     border: "0",
                                                                   }}
                                                                   className={
-                                                                    this.findMatrixValues(
-                                                                      subGoal.id,
-                                                                      kpi.id,
-                                                                      division.id,
-                                                                      dataGoalMetrix,
-                                                                      "MTD_ACTUAL"
-                                                                    ) === "" ||
-                                                                    this.findMatrixValues(
-                                                                      subGoal.id,
-                                                                      kpi.id,
-                                                                      division.id,
-                                                                      dataGoalMetrix,
-                                                                      "MTD_ACTUAL"
-                                                                    ) === null
-                                                                      ? "no_data"
-                                                                      : ""
+                                                                    this.applyGreyClass(kpi) ? 'no_data' : ''
                                                                   }
                                                                 >
                                                                   {this.findMatrixValues(
@@ -1362,22 +1185,7 @@ export default class SystemGoalKpi extends React.Component<
                                                                       "80px",
                                                                   }}
                                                                   className={
-                                                                    this.findMatrixValues(
-                                                                      subGoal.id,
-                                                                      kpi.id,
-                                                                      division.id,
-                                                                      dataGoalMetrix,
-                                                                      "MTD_BUDGET"
-                                                                    ) === "" ||
-                                                                    this.findMatrixValues(
-                                                                      subGoal.id,
-                                                                      kpi.id,
-                                                                      division.id,
-                                                                      dataGoalMetrix,
-                                                                      "MTD_BUDGET"
-                                                                    ) === null
-                                                                      ? "no_data"
-                                                                      : ""
+                                                                    this.applyGreyClass(kpi) ? 'no_data' : ''
                                                                   }
                                                                 >
                                                                   {this.findMatrixValues(
@@ -1395,22 +1203,7 @@ export default class SystemGoalKpi extends React.Component<
                                                                     border: "0",
                                                                   }}
                                                                   className={
-                                                                    this.findMatrixValues(
-                                                                      subGoal.id,
-                                                                      kpi.id,
-                                                                      division.id,
-                                                                      dataGoalMetrix,
-                                                                      "MTD_PRIOR_YEAR"
-                                                                    ) === "" ||
-                                                                    this.findMatrixValues(
-                                                                      subGoal.id,
-                                                                      kpi.id,
-                                                                      division.id,
-                                                                      dataGoalMetrix,
-                                                                      "MTD_PRIOR_YEAR"
-                                                                    ) === null
-                                                                      ? "no_data"
-                                                                      : ""
+                                                                    this.applyGreyClass(kpi) ? 'no_data' : ''
                                                                   }
                                                                 >
                                                                   {this.findMatrixValues(
@@ -1447,24 +1240,7 @@ export default class SystemGoalKpi extends React.Component<
                                                                     <tr>
                                                                       <td
                                                                         className={
-                                                                          this.findMatrixValues(
-                                                                            subGoal.id,
-                                                                            kpi.id,
-                                                                            division.id,
-                                                                            dataGoalMetrix,
-                                                                            "MTD_BUDGET_VARIANCE"
-                                                                          ) ===
-                                                                            "" ||
-                                                                          this.findMatrixValues(
-                                                                            subGoal.id,
-                                                                            kpi.id,
-                                                                            division.id,
-                                                                            dataGoalMetrix,
-                                                                            "MTD_BUDGET_VARIANCE"
-                                                                          ) ===
-                                                                            null
-                                                                            ? "no_data"
-                                                                            : ""
+                                                                          this.applyGreyClass(kpi) ? 'no_data' : ''
                                                                         }
                                                                       >
                                                                         {this.findMatrixValues(
@@ -1498,24 +1274,7 @@ export default class SystemGoalKpi extends React.Component<
                                                                     <tr>
                                                                       <td
                                                                         className={
-                                                                          this.findMatrixValues(
-                                                                            subGoal.id,
-                                                                            kpi.id,
-                                                                            division.id,
-                                                                            dataGoalMetrix,
-                                                                            "MTD_PRIOR_YEAR_VARIANCE"
-                                                                          ) ===
-                                                                            "" ||
-                                                                          this.findMatrixValues(
-                                                                            subGoal.id,
-                                                                            kpi.id,
-                                                                            division.id,
-                                                                            dataGoalMetrix,
-                                                                            "MTD_PRIOR_YEAR_VARIANCE"
-                                                                          ) ===
-                                                                            null
-                                                                            ? "no_data"
-                                                                            : ""
+                                                                          this.applyGreyClass(kpi) ? 'no_data' : ''
                                                                         }
                                                                       >
                                                                         {this.findMatrixValues(
@@ -1557,22 +1316,7 @@ export default class SystemGoalKpi extends React.Component<
                                                                     border: "0",
                                                                   }}
                                                                   className={
-                                                                    this.findMatrixValues(
-                                                                      subGoal.id,
-                                                                      kpi.id,
-                                                                      division.id,
-                                                                      dataGoalMetrix,
-                                                                      "YTD_ACTUAL"
-                                                                    ) === "" ||
-                                                                    this.findMatrixValues(
-                                                                      subGoal.id,
-                                                                      kpi.id,
-                                                                      division.id,
-                                                                      dataGoalMetrix,
-                                                                      "YTD_ACTUAL"
-                                                                    ) === null
-                                                                      ? "no_data"
-                                                                      : ""
+                                                                    this.applyGreyClass(kpi) ? 'no_data' : ''
                                                                   }
                                                                 >
                                                                   {this.findMatrixValues(
@@ -1595,22 +1339,7 @@ export default class SystemGoalKpi extends React.Component<
                                                                       "80px",
                                                                   }}
                                                                   className={
-                                                                    this.findMatrixValues(
-                                                                      subGoal.id,
-                                                                      kpi.id,
-                                                                      division.id,
-                                                                      dataGoalMetrix,
-                                                                      "YTD_BUDGET"
-                                                                    ) === "" ||
-                                                                    this.findMatrixValues(
-                                                                      subGoal.id,
-                                                                      kpi.id,
-                                                                      division.id,
-                                                                      dataGoalMetrix,
-                                                                      "YTD_BUDGET"
-                                                                    ) === null
-                                                                      ? "no_data"
-                                                                      : ""
+                                                                    this.applyGreyClass(kpi) ? 'no_data' : ''
                                                                   }
                                                                 >
                                                                   {this.findMatrixValues(
@@ -1628,22 +1357,7 @@ export default class SystemGoalKpi extends React.Component<
                                                                     border: "0",
                                                                   }}
                                                                   className={
-                                                                    this.findMatrixValues(
-                                                                      subGoal.id,
-                                                                      kpi.id,
-                                                                      division.id,
-                                                                      dataGoalMetrix,
-                                                                      "YTD_PRIOR_YEAR"
-                                                                    ) === "" ||
-                                                                    this.findMatrixValues(
-                                                                      subGoal.id,
-                                                                      kpi.id,
-                                                                      division.id,
-                                                                      dataGoalMetrix,
-                                                                      "YTD_PRIOR_YEAR"
-                                                                    ) === null
-                                                                      ? "no_data"
-                                                                      : ""
+                                                                    this.applyGreyClass(kpi) ? 'no_data' : ''
                                                                   }
                                                                 >
                                                                   {this.findMatrixValues(
@@ -1678,24 +1392,7 @@ export default class SystemGoalKpi extends React.Component<
                                                                           <tr>
                                                                             <td
                                                                               className={
-                                                                                this.findMatrixValues(
-                                                                                  subGoal.id,
-                                                                                  kpi.id,
-                                                                                  division.id,
-                                                                                  dataGoalMetrix,
-                                                                                  "YTD_BUDGET_VARIANCE"
-                                                                                ) ===
-                                                                                  "" ||
-                                                                                this.findMatrixValues(
-                                                                                  subGoal.id,
-                                                                                  kpi.id,
-                                                                                  division.id,
-                                                                                  dataGoalMetrix,
-                                                                                  "YTD_BUDGET_VARIANCE"
-                                                                                ) ===
-                                                                                  null
-                                                                                  ? "no_data"
-                                                                                  : ""
+                                                                                this.applyGreyClass(kpi) ? 'no_data' : ''
                                                                               }
                                                                             >
                                                                               {this.findMatrixValues(
@@ -1729,24 +1426,7 @@ export default class SystemGoalKpi extends React.Component<
                                                                           <tr>
                                                                             <td
                                                                               className={
-                                                                                this.findMatrixValues(
-                                                                                  subGoal.id,
-                                                                                  kpi.id,
-                                                                                  division.id,
-                                                                                  dataGoalMetrix,
-                                                                                  "YTD_PRIOR_YEAR_VARIANCE"
-                                                                                ) ===
-                                                                                  "" ||
-                                                                                this.findMatrixValues(
-                                                                                  subGoal.id,
-                                                                                  kpi.id,
-                                                                                  division.id,
-                                                                                  dataGoalMetrix,
-                                                                                  "YTD_PRIOR_YEAR_VARIANCE"
-                                                                                ) ===
-                                                                                  null
-                                                                                  ? "no_data"
-                                                                                  : ""
+                                                                                this.applyGreyClass(kpi) ? 'no_data' : ''
                                                                               }
                                                                             >
                                                                               {this.findMatrixValues(
@@ -1787,17 +1467,16 @@ export default class SystemGoalKpi extends React.Component<
                                                                 "URL"
                                                               )}
                                                               target="_blank"
-                                                              className={`details ${
-                                                                this.findMatrixValues(
-                                                                  subGoal.id,
-                                                                  kpi.id,
-                                                                  division.id,
-                                                                  dataGoalMetrix,
-                                                                  "URL"
-                                                                ) === null
-                                                                  ? "disabled"
-                                                                  : ""
-                                                              }`}
+                                                              className={`details ${this.findMatrixValues(
+                                                                subGoal.id,
+                                                                kpi.id,
+                                                                division.id,
+                                                                dataGoalMetrix,
+                                                                "URL"
+                                                              ) === null
+                                                                ? "disabled"
+                                                                : ""
+                                                                }`}
                                                             >
                                                               Click
                                                             </a>
@@ -1859,13 +1538,13 @@ export default class SystemGoalKpi extends React.Component<
                                                                 dataGoalMetrix,
                                                                 "MTD_ACTUAL"
                                                               ) === "" ||
-                                                              this.findMatrixValues(
-                                                                subGoal.id,
-                                                                kpi.id,
-                                                                organization.id,
-                                                                dataGoalMetrix,
-                                                                "MTD_ACTUAL"
-                                                              ) === null
+                                                                this.findMatrixValues(
+                                                                  subGoal.id,
+                                                                  kpi.id,
+                                                                  organization.id,
+                                                                  dataGoalMetrix,
+                                                                  "MTD_ACTUAL"
+                                                                ) === null
                                                                 ? "no_data"
                                                                 : ""
                                                             }
@@ -1894,13 +1573,13 @@ export default class SystemGoalKpi extends React.Component<
                                                                 dataGoalMetrix,
                                                                 "MTD_BUDGET"
                                                               ) === "" ||
-                                                              this.findMatrixValues(
-                                                                subGoal.id,
-                                                                kpi.id,
-                                                                organization.id,
-                                                                dataGoalMetrix,
-                                                                "MTD_BUDGET"
-                                                              ) === null
+                                                                this.findMatrixValues(
+                                                                  subGoal.id,
+                                                                  kpi.id,
+                                                                  organization.id,
+                                                                  dataGoalMetrix,
+                                                                  "MTD_BUDGET"
+                                                                ) === null
                                                                 ? "no_data"
                                                                 : ""
                                                             }
@@ -1928,13 +1607,13 @@ export default class SystemGoalKpi extends React.Component<
                                                                 dataGoalMetrix,
                                                                 "MTD_PRIOR_YEAR"
                                                               ) === "" ||
-                                                              this.findMatrixValues(
-                                                                subGoal.id,
-                                                                kpi.id,
-                                                                organization.id,
-                                                                dataGoalMetrix,
-                                                                "MTD_PRIOR_YEAR"
-                                                              ) === null
+                                                                this.findMatrixValues(
+                                                                  subGoal.id,
+                                                                  kpi.id,
+                                                                  organization.id,
+                                                                  dataGoalMetrix,
+                                                                  "MTD_PRIOR_YEAR"
+                                                                ) === null
                                                                 ? "no_data"
                                                                 : ""
                                                             }
@@ -1978,13 +1657,13 @@ export default class SystemGoalKpi extends React.Component<
                                                                       dataGoalMetrix,
                                                                       "MTD_BUDGET_VARIANCE"
                                                                     ) === "" ||
-                                                                    this.findMatrixValues(
-                                                                      subGoal.id,
-                                                                      kpi.id,
-                                                                      organization.id,
-                                                                      dataGoalMetrix,
-                                                                      "MTD_BUDGET_VARIANCE"
-                                                                    ) === null
+                                                                      this.findMatrixValues(
+                                                                        subGoal.id,
+                                                                        kpi.id,
+                                                                        organization.id,
+                                                                        dataGoalMetrix,
+                                                                        "MTD_BUDGET_VARIANCE"
+                                                                      ) === null
                                                                       ? "no_data"
                                                                       : ""
                                                                   }
@@ -1998,7 +1677,7 @@ export default class SystemGoalKpi extends React.Component<
                                                                   )}
                                                                 </td>
                                                                 <td>
-                                                                  {}
+                                                                  { }
                                                                   <span
                                                                     className={this.getStatus(
                                                                       subGoal.id,
@@ -2027,13 +1706,13 @@ export default class SystemGoalKpi extends React.Component<
                                                                       dataGoalMetrix,
                                                                       "MTD_PRIOR_YEAR_VARIANCE"
                                                                     ) === "" ||
-                                                                    this.findMatrixValues(
-                                                                      subGoal.id,
-                                                                      kpi.id,
-                                                                      organization.id,
-                                                                      dataGoalMetrix,
-                                                                      "MTD_PRIOR_YEAR_VARIANCE"
-                                                                    ) === null
+                                                                      this.findMatrixValues(
+                                                                        subGoal.id,
+                                                                        kpi.id,
+                                                                        organization.id,
+                                                                        dataGoalMetrix,
+                                                                        "MTD_PRIOR_YEAR_VARIANCE"
+                                                                      ) === null
                                                                       ? "no_data"
                                                                       : ""
                                                                   }
@@ -2081,13 +1760,13 @@ export default class SystemGoalKpi extends React.Component<
                                                                 dataGoalMetrix,
                                                                 "YTD_ACTUAL"
                                                               ) === "" ||
-                                                              this.findMatrixValues(
-                                                                subGoal.id,
-                                                                kpi.id,
-                                                                organization.id,
-                                                                dataGoalMetrix,
-                                                                "YTD_ACTUAL"
-                                                              ) === null
+                                                                this.findMatrixValues(
+                                                                  subGoal.id,
+                                                                  kpi.id,
+                                                                  organization.id,
+                                                                  dataGoalMetrix,
+                                                                  "YTD_ACTUAL"
+                                                                ) === null
                                                                 ? "no_data"
                                                                 : ""
                                                             }
@@ -2116,13 +1795,13 @@ export default class SystemGoalKpi extends React.Component<
                                                                 dataGoalMetrix,
                                                                 "YTD_BUDGET"
                                                               ) === "" ||
-                                                              this.findMatrixValues(
-                                                                subGoal.id,
-                                                                kpi.id,
-                                                                organization.id,
-                                                                dataGoalMetrix,
-                                                                "YTD_BUDGET"
-                                                              ) === null
+                                                                this.findMatrixValues(
+                                                                  subGoal.id,
+                                                                  kpi.id,
+                                                                  organization.id,
+                                                                  dataGoalMetrix,
+                                                                  "YTD_BUDGET"
+                                                                ) === null
                                                                 ? "no_data"
                                                                 : ""
                                                             }
@@ -2149,13 +1828,13 @@ export default class SystemGoalKpi extends React.Component<
                                                                 dataGoalMetrix,
                                                                 "YTD_PRIOR_YEAR"
                                                               ) === "" ||
-                                                              this.findMatrixValues(
-                                                                subGoal.id,
-                                                                kpi.id,
-                                                                organization.id,
-                                                                dataGoalMetrix,
-                                                                "YTD_PRIOR_YEAR"
-                                                              ) === null
+                                                                this.findMatrixValues(
+                                                                  subGoal.id,
+                                                                  kpi.id,
+                                                                  organization.id,
+                                                                  dataGoalMetrix,
+                                                                  "YTD_PRIOR_YEAR"
+                                                                ) === null
                                                                 ? "no_data"
                                                                 : ""
                                                             }
@@ -2192,13 +1871,13 @@ export default class SystemGoalKpi extends React.Component<
                                                                       dataGoalMetrix,
                                                                       "YTD_BUDGET_VARIANCE"
                                                                     ) === "" ||
-                                                                    this.findMatrixValues(
-                                                                      subGoal.id,
-                                                                      kpi.id,
-                                                                      organization.id,
-                                                                      dataGoalMetrix,
-                                                                      "YTD_BUDGET_VARIANCE"
-                                                                    ) === null
+                                                                      this.findMatrixValues(
+                                                                        subGoal.id,
+                                                                        kpi.id,
+                                                                        organization.id,
+                                                                        dataGoalMetrix,
+                                                                        "YTD_BUDGET_VARIANCE"
+                                                                      ) === null
                                                                       ? "no_data"
                                                                       : ""
                                                                   }
@@ -2241,13 +1920,13 @@ export default class SystemGoalKpi extends React.Component<
                                                                       dataGoalMetrix,
                                                                       "YTD_PRIOR_YEAR_VARIANCE"
                                                                     ) === "" ||
-                                                                    this.findMatrixValues(
-                                                                      subGoal.id,
-                                                                      kpi.id,
-                                                                      organization.id,
-                                                                      dataGoalMetrix,
-                                                                      "YTD_PRIOR_YEAR_VARIANCE"
-                                                                    ) === null
+                                                                      this.findMatrixValues(
+                                                                        subGoal.id,
+                                                                        kpi.id,
+                                                                        organization.id,
+                                                                        dataGoalMetrix,
+                                                                        "YTD_PRIOR_YEAR_VARIANCE"
+                                                                      ) === null
                                                                       ? "no_data"
                                                                       : ""
                                                                   }
@@ -2287,17 +1966,16 @@ export default class SystemGoalKpi extends React.Component<
                                                           "URL"
                                                         )}
                                                         target="_blank"
-                                                        className={`details ${
-                                                          this.findMatrixValues(
-                                                            subGoal.id,
-                                                            kpi.id,
-                                                            organization.id,
-                                                            dataGoalMetrix,
-                                                            "URL"
-                                                          ) === null
-                                                            ? "disabled"
-                                                            : ""
-                                                        }`}
+                                                        className={`details ${this.findMatrixValues(
+                                                          subGoal.id,
+                                                          kpi.id,
+                                                          organization.id,
+                                                          dataGoalMetrix,
+                                                          "URL"
+                                                        ) === null
+                                                          ? "disabled"
+                                                          : ""
+                                                          }`}
                                                       >
                                                         Click
                                                       </a>
