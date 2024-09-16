@@ -55,6 +55,18 @@ export interface IGoalMetrix{
   ActualVerify: boolean | true;
   TargerVerified: boolean;
   Comment: string;
+  YTD_BUDGET_VARIANCE?: string;
+  MTD_ACTUAL?: string;
+  MTD_BUDGET?: string;
+  MTD_PRIOR_YEAR?: string;
+  MTD_BUDGET_VARIANCE?: string;
+  MTD_PRIOR_YEAR_VARIANCE?: string;
+  YTD_ACTUAL?: string;
+  YTD_BUDGET?: string;
+  YTD_PRIOR_YEAR?: string;
+  YTD_PRIOR_YEAR_VARIANCE?: string;
+
+
 
 }
 
