@@ -61,9 +61,9 @@
         height: 100%;
         // table-layout: fixed;
         td{
-          // &.no_data{
-          //   background-color: #f1efef;
-          // }
+          &.no_data{
+            background-color: #f1efef;
+          }
         }
         .change_status {
           color: #0078d4;

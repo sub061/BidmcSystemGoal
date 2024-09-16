@@ -58,6 +58,9 @@
   width: 100%;
   height: 100%;
 }
+.system_goel_container .box_model .inner_container table td.no_data {
+  background-color: #f1efef;
+}
 .system_goel_container .box_model .inner_container table .change_status {
   color: #0078d4;
 }
