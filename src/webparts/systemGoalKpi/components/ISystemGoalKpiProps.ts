@@ -22,9 +22,9 @@ export interface ISystemGoalKpiProps {
 export interface ISystemGoalProps {
   description: string;
   title: string;
-  getOperatingModel:IOperatingModel[];
+  getOperatingModel: IOperatingModel[];
   getGoalMetrix: IGoalMetrix[];
-  getDivision : IHospital[]
+  getDivision: IHospital[];
   getHospital: IHospital[];
   getKPI: IKPI[];
   getSubGoal: ISubGoal[];
@@ -33,14 +33,14 @@ export interface ISystemGoalProps {
   getAllHospital: IHospital[];
 }
 
-export interface IDivision{
+export interface IDivision {
   Id: number;
   Title: string;
   OrganizationId: string;
-  Organization : ISystemGoal
+  Organization: ISystemGoal;
 }
 
-export interface IGoalMetrix{
+export interface IGoalMetrix {
   OperatingModelId: number;
   OrganizationId: number;
   GoalId: number;
@@ -65,12 +65,9 @@ export interface IGoalMetrix{
   YTD_BUDGET?: string;
   YTD_PRIOR_YEAR?: string;
   YTD_PRIOR_YEAR_VARIANCE?: string;
-
-
-
 }
 
-export interface IHospital{
+export interface IHospital {
   Id: number;
   Title: string;
   Division: IDivision;
@@ -81,31 +78,31 @@ export interface IHospital{
   Division1Id: number;
 }
 
-export interface IGoal{
+export interface IGoal {
   Id: number;
   Title: string;
 }
-export interface IKPI{
+export interface IKPI {
   Id: number;
   Title: string;
   SubGoalId: number;
   SubGoal: string;
   GoalId: number;
+  Sitelevel?: boolean;
 }
-export interface ISubGoal{
+export interface ISubGoal {
   Id: number;
   Title: string;
   Goal: string;
   GoalId: number;
-
 }
-export interface ISystemGoal{
+export interface ISystemGoal {
   [x: string]: any;
   Id: number;
   Title: string;
 }
 
-export interface IOperatingModel{
+export interface IOperatingModel {
   Id: number;
   Title: string;
 }
