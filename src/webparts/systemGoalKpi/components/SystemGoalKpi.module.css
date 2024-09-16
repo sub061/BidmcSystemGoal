@@ -25,7 +25,7 @@
   align-self: flex-start;
 }
 .system_goel_container .box_model .header {
-  background-color: #0078d4;
+  background-color: #045a97;
   height: 50px;
   display: flex;
   align-items: center;
@@ -47,7 +47,7 @@
   display: flex;
   align-items: center;
   justify-content: flex-start;
-  background-color: #2c5f7f;
+  background-color: #0078d4;
   color: #fff;
   border-bottom: 1px solid #e5e5e5;
   font-size: 16px;
