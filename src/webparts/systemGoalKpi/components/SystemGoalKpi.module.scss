@@ -49,10 +49,11 @@
         display: flex;
         align-items: center;
         justify-content: flex-start;
-        background-color: #6bc0fd;
+        // background-color: #6bc0fd;
+        background-color: #2c5f7f;
         color: #fff;
         border-bottom: 1px solid #e5e5e5;
-        font-size: 18px;
+        font-size: 16px;
       }
       table{
         border: 0;
@@ -61,9 +62,9 @@
         height: 100%;
         // table-layout: fixed;
         td{
-          // &.no_data{
-          //   background-color: #f1efef;
-          // }
+          &.no_data{
+            background-color: #f1efef;
+          }
         }
         .change_status {
           color: #0078d4;
