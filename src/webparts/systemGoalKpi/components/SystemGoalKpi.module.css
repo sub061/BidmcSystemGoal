@@ -58,9 +58,6 @@
   width: 100%;
   height: 100%;
 }
-.system_goel_container .box_model .inner_container table td.no_data {
-  background-color: #f1efef;
-}
 .system_goel_container .box_model .inner_container table .change_status {
   color: #0078d4;
 }
@@ -70,7 +67,7 @@
 }
 .system_goel_container .box_model .inner_container thead th {
   padding: 4px;
-  font-size: 15px;
+  font-size: 13px;
   font-weight: normal;
   vertical-align: middle;
   text-align: center;
@@ -90,9 +87,6 @@
 }
 .system_goel_container .box_model .inner_container thead .border_bkg:nth-child(2) {
   background-color: #f4fbff;
-}
-.system_goel_container .box_model .inner_container thead .border_bkg:nth-child(2) th {
-  font-size: 14px;
 }
 .system_goel_container .box_model .inner_container tbody tr {
   min-height: 44px;
@@ -115,6 +109,7 @@
 .system_goel_container .box_model .inner_container tbody td {
   padding: 4px;
   font-size: 12px;
+  min-width: 50px;
   font-weight: 600;
   vertical-align: middle;
   text-align: center;
@@ -182,6 +177,7 @@
 }
 .system_goel_container .box_model .inner_container tbody .budget-py table td:last-child {
   width: 30px;
+  min-width: 30px;
   border-left: 1px solid #e5e5e5 !important;
 }
 

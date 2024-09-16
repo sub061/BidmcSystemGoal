@@ -61,9 +61,9 @@
         height: 100%;
         // table-layout: fixed;
         td{
-          &.no_data{
-            background-color: #f1efef;
-          }
+          // &.no_data{
+          //   background-color: #f1efef;
+          // }
         }
         .change_status {
           color: #0078d4;
@@ -75,7 +75,7 @@
         font-size: 12px;
         th{
           padding:4px;
-          font-size: 15px;
+          font-size: 13px;
           font-weight: normal;
           vertical-align: middle;
           text-align: center;
@@ -117,9 +117,6 @@
             background-color: #ebf7ff;
             &:nth-child(2){
               background-color: #f4fbff;
-              th{
-                font-size: 14px;
-              }
             }
         }
       }
@@ -149,6 +146,7 @@
         td{
           padding: 4px;
           font-size: 12px;
+          min-width: 50px;
           font-weight: 600;
           vertical-align: middle;
           text-align: center;
@@ -222,6 +220,7 @@
               
               &:last-child{
                 width: 30px;
+                min-width: 30px;
                 border-left: 1px solid #e5e5e5 !important;
               }
             }
