@@ -120,7 +120,7 @@ export default class SystemGoalKpiWebPart extends BaseClientSideWebPart<ISystemG
     // console.log('Fetching goal data from:', requestUrl);
     const response: SPHttpClientResponse = await this.context.spHttpClient.get(requestUrl, SPHttpClient.configurations.v1);
     const data = await response.json();
-    console.log('Data fetched     uuuuuuuuuuuuuuuuu:', data);
+    console.log('Data fetched  rrrrrrrrrrrrrrrrr:', data);
     return data.value; 
   }
 

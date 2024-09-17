@@ -229,7 +229,7 @@ export default class SystemGoalKpi extends React.Component<
         Sitelevel: kpi.Sitelevel,
       });
 
-      console.log("xxxx", subGoal.kpi);
+      console.log("zzzzzzzzzzzzzzzzzzzzzzzzzz", subGoal.kpi);
     });
 
     return result;
@@ -412,84 +412,89 @@ export default class SystemGoalKpi extends React.Component<
                         <span>{organization.name}</span>
                       </label>
                     </div>
-                    <div className="dropdown">
-                      <button
-                        className="btn dropdown-toggle"
-                        type="button"
-                        data-bs-toggle="dropdown"
-                        aria-expanded="false"
-                      >
-                        <i className="fas fa-filter"></i>
-                        <span
-                          style={{
-                            flex: "1",
-                            textAlign: "left",
-                            position: "relative",
-                            top: "-1px",
-                          }}
+                    <div className="filter_right">
+                      <div className="dropdown">
+                        <button
+                          className="btn dropdown-toggle"
+                          type="button"
+                          data-bs-toggle="dropdown"
+                          aria-expanded="false"
                         >
-                          {" "}
-                          System Goal
-                        </span>
+                          <i className="fas fa-filter"></i>
+                          <span
+                            style={{
+                              flex: "1",
+                              textAlign: "left",
+                              position: "relative",
+                              top: "-1px",
+                            }}
+                          >
+                            {" "}
+                            System Goal
+                          </span>
+                        </button>
+                        <ul className="dropdown-menu">
+                          <li>
+                            <input
+                              type="checkbox"
+                              name="People"
+                              className="form-check-input"
+                              id="People"
+                              checked={checkedSystemGoalsNew.has(1)}
+                              onChange={() => this.handleGoalChange(1)}
+                            />
+                            <label className="dropdown-item" htmlFor="People">
+                              People
+                            </label>
+                          </li>
+                          <li>
+                            <input
+                              type="checkbox"
+                              name="Quality&Experience"
+                              className="form-check-input"
+                              id="Quality&Experience"
+                              checked={checkedSystemGoalsNew.has(2)}
+                              onChange={() => this.handleGoalChange(2)}
+                            />
+                            <label
+                              htmlFor="Quality&Experience"
+                              className="dropdown-item"
+                            >
+                              Quality & Experience
+                            </label>
+                          </li>
+                          <li>
+                            <input
+                              type="checkbox"
+                              className="form-check-input"
+                              id="FinanceandOperations"
+                              checked={checkedSystemGoalsNew.has(3)}
+                              onChange={() => this.handleGoalChange(3)}
+                            />
+                            <label
+                              htmlFor="FinanceandOperations"
+                              className="dropdown-item"
+                            >
+                              Finance and Operations
+                            </label>
+                          </li>
+                          <li>
+                            <input
+                              type="checkbox"
+                              className="form-check-input"
+                              id="Strategy"
+                              checked={checkedSystemGoalsNew.has(4)}
+                              onChange={() => this.handleGoalChange(4)}
+                            />
+                            <label htmlFor="Strategy" className="dropdown-item">
+                              Strategy
+                            </label>
+                          </li>
+                        </ul>
+                      </div>
+                      <button disabled className="print_btn">
+                        Print
                       </button>
-                      <ul className="dropdown-menu">
-                        <li>
-                          <input
-                            type="checkbox"
-                            name="People"
-                            className="form-check-input"
-                            id="People"
-                            checked={checkedSystemGoalsNew.has(1)}
-                            onChange={() => this.handleGoalChange(1)}
-                          />
-                          <label className="dropdown-item" htmlFor="People">
-                            People
-                          </label>
-                        </li>
-                        <li>
-                          <input
-                            type="checkbox"
-                            name="Quality&Experience"
-                            className="form-check-input"
-                            id="Quality&Experience"
-                            checked={checkedSystemGoalsNew.has(2)}
-                            onChange={() => this.handleGoalChange(2)}
-                          />
-                          <label
-                            htmlFor="Quality&Experience"
-                            className="dropdown-item"
-                          >
-                            Quality & Experience
-                          </label>
-                        </li>
-                        <li>
-                          <input
-                            type="checkbox"
-                            className="form-check-input"
-                            id="FinanceandOperations"
-                            checked={checkedSystemGoalsNew.has(3)}
-                            onChange={() => this.handleGoalChange(3)}
-                          />
-                          <label
-                            htmlFor="FinanceandOperations"
-                            className="dropdown-item"
-                          >
-                            Finance and Operations
-                          </label>
-                        </li>
-                        <li>
-                          <input
-                            type="checkbox"
-                            className="form-check-input"
-                            id="Strategy"
-                            checked={checkedSystemGoalsNew.has(4)}
-                            onChange={() => this.handleGoalChange(4)}
-                          />
-                          <label htmlFor="Strategy" className="dropdown-item">
-                            Strategy
-                          </label>
-                        </li>
-                      </ul>
                     </div>
                   </div>
                   <div className="multi_btn_group">
@@ -772,7 +777,7 @@ export default class SystemGoalKpi extends React.Component<
                                                             >
                                                               {" "}
                                                               {kpi.Sitelevel
-                                                                ? "Q"
+                                                                ? "M"
                                                                 : ""}
                                                             </td>
                                                             <td
@@ -1239,7 +1244,7 @@ export default class SystemGoalKpi extends React.Component<
                                                             }}
                                                           >
                                                             {kpi.Sitelevel
-                                                              ? "Q"
+                                                              ? "M"
                                                               : ""}
                                                           </td>
                                                           <td
@@ -1701,7 +1706,7 @@ export default class SystemGoalKpi extends React.Component<
                                                     <td
                                                       style={{ width: "50px" }}
                                                     >
-                                                      Q
+                                                      M
                                                     </td>
                                                     <td
                                                       style={{ padding: "0" }}
