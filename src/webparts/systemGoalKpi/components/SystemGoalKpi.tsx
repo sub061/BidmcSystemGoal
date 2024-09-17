@@ -570,7 +570,7 @@ export default class SystemGoalKpi extends React.Component<
                                   {subGoal.kpi.map((kpi: any) => (
                                     <table>
                                       <thead>
-                                        <tr className="border_bkg">
+                                        <tr className="border_bkg kpi_row">
                                           <th
                                             // colSpan={5}
                                             className="kpi_name_title"

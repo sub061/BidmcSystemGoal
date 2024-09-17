@@ -53,7 +53,7 @@
         // background-color: #6bc0fd;
         background-color: #158fed;
         color: #fff;
-        border-bottom: 1px solid #e5e5e5;
+        // border-bottom: 1px solid #e5e5e5;
         font-size: 16px;
       }
       table{
@@ -119,6 +119,12 @@
             background-color: #ebf7ff;
             &:nth-child(2){
               background-color: #f4fbff;
+            }
+            &.kpi_row{
+              th{
+                font-weight: bold;
+                border-color: #52575a;
+              }
             }
         }
       }

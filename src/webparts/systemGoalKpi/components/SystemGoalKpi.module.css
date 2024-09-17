@@ -50,7 +50,6 @@
   justify-content: flex-start;
   background-color: #158fed;
   color: #fff;
-  border-bottom: 1px solid #e5e5e5;
   font-size: 16px;
 }
 .system_goel_container .box_model .inner_container table {
@@ -91,6 +90,10 @@
 }
 .system_goel_container .box_model .inner_container thead .border_bkg:nth-child(2) {
   background-color: #f4fbff;
+}
+.system_goel_container .box_model .inner_container thead .border_bkg.kpi_row th {
+  font-weight: bold;
+  border-color: #52575a;
 }
 .system_goel_container .box_model .inner_container tbody tr {
   min-height: 44px;
