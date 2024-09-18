@@ -122,8 +122,12 @@
             }
             &.kpi_row{
               th{
-                font-weight: bold;
+                font-weight: 500 !important;
                 border-color: #52575a;
+              }
+              td{
+                border-color: #52575a !important;
+                font-weight: 500 !important;
               }
             }
         }

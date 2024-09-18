@@ -585,7 +585,7 @@ export default class SystemGoalKpi extends React.Component<
 
                                           <th>Details</th>
                                         </tr>
-                                        <tr className="border_bkg">
+                                        <tr className="border_bkg kpi_row">
                                           <th>&nbsp;</th>
                                           <th style={{ width: "50px" }}></th>
                                           <th style={{ padding: "0" }}>

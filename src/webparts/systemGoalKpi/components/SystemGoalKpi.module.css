@@ -92,8 +92,12 @@
   background-color: #f4fbff;
 }
 .system_goel_container .box_model .inner_container thead .border_bkg.kpi_row th {
-  font-weight: bold;
+  font-weight: 500 !important;
   border-color: #52575a;
+}
+.system_goel_container .box_model .inner_container thead .border_bkg.kpi_row td {
+  border-color: #52575a !important;
+  font-weight: 500 !important;
 }
 .system_goel_container .box_model .inner_container tbody tr {
   min-height: 44px;
