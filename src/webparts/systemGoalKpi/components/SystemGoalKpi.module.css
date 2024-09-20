@@ -381,16 +381,45 @@
 }
 .btn_container .cat.primary {
   background-color: #ebf7ff;
+  display: inline-flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+}
+.btn_container .cat.primary .bilh_agg_checkbox {
+  align-items: center;
+  display: inline-flex;
+  font-size: 12px;
+  font-weight: 500;
+  gap: 4px;
+  position: absolute;
+  top: 5px;
+}
+.btn_container .cat.primary .bilh_agg_checkbox.agg_checkbox_checked {
+  color: #fff;
+}
+.btn_container .cat.primary .bilh_agg_checkbox .agg_checkbox {
+  width: 16px;
+  height: 16px;
 }
 .btn_container .cat.primary label input + span {
   padding: 0 16px;
+  padding-top: 20px;
   min-width: 100px;
   height: 56px;
   font-size: 22px;
 }
+.btn_container .cat.primary label input + span.agg_active {
+  background-color: #0078d4;
+  color: #fff;
+}
 .btn_container .cat.primary label input:checked + span {
   background-color: #0078d4;
   color: #fff;
+}
+.btn_container .cat.primary .all_selected + .bilh_agg_checkbox {
+  color: #fff !important;
 }
 .btn_container .cat.secondary {
   background-color: #ebf7ff;

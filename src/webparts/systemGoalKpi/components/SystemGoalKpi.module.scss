@@ -449,20 +449,52 @@
     }
     &.primary {
       background-color: #ebf7ff;
+      display: inline-flex;
+      justify-content: center;
+      flex-direction: column;
+      align-items: center;
+      position: relative;
+      .bilh_agg_checkbox{
+        align-items: center;
+        display: inline-flex;
+        font-size: 12px;
+        font-weight: 500;
+        gap: 4px;
+        position: absolute;
+        top: 5px;
+        &.agg_checkbox_checked {
+          color: #fff;
+        }
+        .agg_checkbox{
+          width: 16px;
+          height: 16px;
+        }
+      }
       label {
         input {
           & + span {
             padding: 0 16px;
+            padding-top: 20px;
             min-width: 100px;
             height: 56px;
             font-size: 22px;
+            &.agg_active{
+              background-color: #0078d4;
+            color: #fff;
+            }
           }
           &:checked {
             & + span {
               background-color: #0078d4;
               color: #fff;
+              
             }
           }
+        }
+      }
+      .all_selected {
+        + .bilh_agg_checkbox {
+          color: #fff !important;
         }
       }
     }

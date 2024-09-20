@@ -24,6 +24,7 @@ import type {
 
 export interface ISystemGoalKpiWpState {
   title: string;
+  isChecked: boolean; // Add this line to define the isToggled state
   dataOperatingModel: IOperatingModel[] | null;
   dataGoalMetrix: IGoalMetrix[] | null;
   dataDivision: IHospital[] | null;
@@ -51,6 +52,7 @@ export default class SystemGoalKpi extends React.Component<
     super(props);
     this.state = {
       title: props.title,
+      isChecked: false, // State to track if the class is toggled
       dataAllHospital: props.getAllHospital || null,
       dataOperatingModel: props.getOperatingModel || null,
       dataGoalMetrix: props.getGoalMetrix || null, // Initialize state with the passed prop or null
@@ -73,8 +75,11 @@ export default class SystemGoalKpi extends React.Component<
       selectedOrganizations: new Set(), // Initialize this
       groupedDivisionData: {}, // Ensure this matches your actual data type
     };
+    
     // console.log("tsx file constructor");
   }
+
+
 
   // Get Goal
   private getGoalTitle = (GoalId: number) => {
@@ -353,8 +358,12 @@ export default class SystemGoalKpi extends React.Component<
     );
     return a ? (a["Actual"] >= a["Target"] ? "success" : "error") : "error";
   };
-
+  handleCheckboxChange = (event:any) => {
+    this.setState({ isChecked: event.target.checked });
+  };
+ 
   public render(): React.ReactElement<ISystemGoalKpiProps> {
+    const { isChecked } = this.state;
     const {
       dataGoalMetrix,
       selectedHospitalsNew,
@@ -393,7 +402,12 @@ export default class SystemGoalKpi extends React.Component<
                 <>
                   <div className="with_goal_filter">
                     <div className="cat action primary">
-                      <label>
+                  
+                      <label className={` ${organization.division.every((divison: any) =>
+                            divison.hospitals.every((hospital: any) =>
+                              selectedHospitalsNew.has(hospital.id)
+                            )
+                          ) ? 'all_selected' : ''}`}>
                         <input
                           type="checkbox"
                           value={organization.id}
@@ -409,8 +423,18 @@ export default class SystemGoalKpi extends React.Component<
                             )
                           }
                         />
-                        <span>{organization.name}</span>
+                        <span className={`${isChecked ? 'agg_active' : ''}`}>{organization.name}</span>
                       </label>
+                      <span className={`bilh_agg_checkbox ${isChecked ? 'agg_checkbox_checked' : ''}`}>
+                    <input
+                      type="checkbox"
+                      className="agg_checkbox"
+                      checked={isChecked}
+                      onChange={this.handleCheckboxChange}
+                    />
+                    BILH (Agg.)
+                  </span>
+                    
                     </div>
                     <div className="filter_right">
                       <div className="dropdown">
