@@ -248,7 +248,7 @@ export default class SystemGoalKpi extends React.Component<
       } else {
         updatedSelection.add(hospitalId);
       }
-      return { selectedHospitalsNew: updatedSelection };
+      return {...prevState, isChecked:false, selectedHospitalsNew: updatedSelection };
     });
   };
 
@@ -371,15 +371,15 @@ export default class SystemGoalKpi extends React.Component<
   handleCheckboxChange = (event: any) => {
     const isChecked = event.target.checked;
     this.setState((prev: ISystemGoalKpiWpState) => {
-      const updatedSelectedHospitals = prev.selectedHospitalsNew;
-      console.log("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA", updatedSelectedHospitals)
+      const updatedSelectedHospitals = !isChecked ? prev.selectedHospitalsNew: new Set([]);
+      console.log("1111111111111111111111111", updatedSelectedHospitals)
       return {
         ...prev,
         isChecked,
         selectedHospitalsNew: updatedSelectedHospitals
       };
     });
-    console.log("Indiaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", isChecked);
+    console.log("2222222222222222222222222", isChecked);
   };
 
 
@@ -423,7 +423,7 @@ export default class SystemGoalKpi extends React.Component<
               {hirerachicalHospitalData.map((organization: any) => (
                 <>
                   <div className="with_goal_filter">
-                    <div className="cat action primary">
+                    <div className={`cat action primary ${isChecked ? 'agg_active' : ''}`}>
 
                       <label className={` ${organization.division.every((divison: any) =>
                         divison.hospitals.every((hospital: any) =>
@@ -445,7 +445,7 @@ export default class SystemGoalKpi extends React.Component<
                             )
                           }
                         />
-                        <span className={`${isChecked ? 'agg_active' : ''}`}>{organization.name}</span>
+                        <span>{organization.name}</span>
                       </label>
                       <span className={`bilh_agg_checkbox ${isChecked ? 'agg_checkbox_checked' : ''}`}>
                         <input
