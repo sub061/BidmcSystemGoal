@@ -194,7 +194,7 @@ export default class SystemGoalKpi extends React.Component<
         title: hospital.Title,
       });
     });
-
+    console.log("Result --->", result)
     return result;
   };
 
@@ -256,6 +256,8 @@ export default class SystemGoalKpi extends React.Component<
     divisionId: number,
     hirerachicalHospitalData: any
   ) => {
+    console.log("Division Change ---->")
+
     this.setState((prevState) => {
       const updatedSelection = new Set(prevState.selectedHospitalsNew);
       const hospitalsToToggle: any[] = [];
@@ -279,8 +281,8 @@ export default class SystemGoalKpi extends React.Component<
       } else {
         hospitalsToToggle.forEach((id) => updatedSelection.add(id));
       }
-
-      return { selectedHospitalsNew: updatedSelection };
+      console.log("Update Selection ---->", updatedSelection)
+      return { ...prevState, isChecked: false, selectedHospitalsNew: updatedSelection };
     });
   };
 
@@ -289,6 +291,12 @@ export default class SystemGoalKpi extends React.Component<
     hirerachicalHospitalData: any
   ) => {
     console.log("Called ----->");
+    if (this.state.isChecked) {
+      this.setState((prevState) => ({
+        ...prevState,
+        isChecked: false
+      }));
+    }
     this.setState((prevState) => {
       const updatedSelection = new Set(prevState.selectedHospitalsNew);
       const hospitalsToToggle: any[] = [];
@@ -359,10 +367,22 @@ export default class SystemGoalKpi extends React.Component<
     );
     return a ? (a["Actual"] >= a["Target"] ? "success" : "error") : "error";
   };
+
   handleCheckboxChange = (event: any) => {
-    console.log("Event Checked Shubhammmmmmmmmmmmmmmmm", event.target.checked)
-    this.setState({ isChecked: event.target.checked });
+    const isChecked = event.target.checked;
+    this.setState((prev: ISystemGoalKpiWpState) => {
+      const updatedSelectedHospitals = prev.selectedHospitalsNew;
+      console.log("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA", updatedSelectedHospitals)
+      return {
+        ...prev,
+        isChecked,
+        selectedHospitalsNew: updatedSelectedHospitals
+      };
+    });
+    console.log("Indiaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", isChecked);
   };
+
+
 
   public render(): React.ReactElement<ISystemGoalKpiProps> {
     const { isChecked } = this.state;
@@ -1703,7 +1723,7 @@ export default class SystemGoalKpi extends React.Component<
                                             return (
                                               <>
                                                 {divisionRows}
-                                                {allDivisionSelected && (
+                                                {allDivisionSelected || isChecked && (
                                                   <tr className="organization_avg">
                                                     <td
                                                       style={{
