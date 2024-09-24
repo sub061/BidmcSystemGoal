@@ -75,11 +75,9 @@ export default class SystemGoalKpi extends React.Component<
       selectedOrganizations: new Set(), // Initialize this
       groupedDivisionData: {}, // Ensure this matches your actual data type
     };
-    
+
     // console.log("tsx file constructor");
   }
-
-
 
   // Get Goal
   private getGoalTitle = (GoalId: number) => {
@@ -98,14 +96,14 @@ export default class SystemGoalKpi extends React.Component<
   };
 
   // get Division
-  private getDivisionTitle = (divisionId: number) => {
-    const { dataDivision } = this.state;
-    if (!dataDivision) return "Unknown Division"; // Check if dataHospital is null
-    const division = dataDivision.find(
-      (division) => division.Id === divisionId
-    );
-    return division ? division.Title : "Unknown Hospital";
-  };
+  // private getDivisionTitle = (divisionId: number) => {
+  //   const { dataDivision } = this.state;
+  //   if (!dataDivision) return "Unknown Division"; // Check if dataHospital is null
+  //   const division = dataDivision.find(
+  //     (division) => division.Id === divisionId
+  //   );
+  //   return division ? division.Title : "Unknown Hospital";
+  // };
 
   handleOrganizationCheckboxChange = (organizationId: number) => {
     const { groupedDivisionData, selectedOrganizations } = this.state;
@@ -156,49 +154,51 @@ export default class SystemGoalKpi extends React.Component<
 
   private prepareHospitalHirerachy = (data: IHospital[]) => {
     const result: any = [];
+    let organization = {
+      name: data.filter(
+        (org: any) => org.DivisionId == null && org.OrganizationId == null
+      )[0].Title,
+      id: data.filter(
+        (org: any) => org.DivisionId == null && org.OrganizationId == null
+      )[0].Id,
+      division: new Array(),
+    };
 
-    data.forEach((hospital) => {
-      // Find the organization in the result array
-      let organization = result.find(
-        (org: any) => org.id === hospital.OrganizationId
-      );
+    let divisions = data.filter(
+      (div: any) => div.DivisionId == null && div.OrganizationId != null
+    );
 
-      // If the organization doesn't exist, create it
-      if (!organization) {
-        organization = {
-          name: "BILH", // Adjust the organization name as needed
-          id: hospital.OrganizationId,
-          division: [],
-        };
-        result.push(organization);
-      }
-
-      // Find the division in the organization's divisions array
-      let division = organization.division.find(
-        (div: any) => div.id === hospital.DivisionId
-      );
-
-      // If the division doesn't exist, create it
-      if (!division) {
-        division = {
-          name: this.getDivisionTitle(hospital.DivisionId), // Adjust the division name as needed
-          id: hospital.DivisionId,
-          hospitals: [],
-        };
-        organization.division.push(division);
-      }
-
-      // Add the hospital to the division
-      division.hospitals.push({
-        id: hospital.Id,
-        title: hospital.Title,
-      });
+    divisions.forEach((div: any) => {
+      let _d = {
+        name: div.Title,
+        id: div.Id,
+        hospitals: new Array(),
+      };
+      organization.division.push(_d);
     });
+
+    let hospitals = data.filter(
+      (h: any) => h.DivisionId != null && h.OrganizationId != null
+    );
+
+    hospitals.forEach((h: any) => {
+      let _h = {
+        title: h.Title,
+        id: h.Id,
+      };
+
+      organization.division
+        .find((d: any) => d.id == h.DivisionId)
+        .hospitals.push(_h);
+    });
+
+    result.push(organization);
 
     return result;
   };
 
   private getGoalHirerachy = (data: IKPI[]) => {
+    console.log("aaaaaaaaaaaaaaaaaaaaaa", data);
     const result: any = [];
     data.forEach((kpi) => {
       // Find the goal in the result array
@@ -234,7 +234,7 @@ export default class SystemGoalKpi extends React.Component<
         Sitelevel: kpi.Sitelevel,
       });
 
-      console.log("zzzzzzzzzzzzzzzzzzzzzzzzzz", subGoal.kpi);
+      //   console.log("zzzzzzzzzzzzzzzzzzzzzzzzzz", subGoal.kpi);
     });
 
     return result;
@@ -358,10 +358,22 @@ export default class SystemGoalKpi extends React.Component<
     );
     return a ? (a["Actual"] >= a["Target"] ? "success" : "error") : "error";
   };
-  handleCheckboxChange = (event:any) => {
-    this.setState({ isChecked: event.target.checked });
+  handleCheckboxChange = (event: any) => {
+    const isChecked = event.target.checked;
+    this.setState((prev: ISystemGoalKpiWpState) => {
+      const updatedSelectedHospitals = !isChecked
+        ? prev.selectedHospitalsNew
+        : new Set([]);
+      console.log("1111111111111111111111111", updatedSelectedHospitals);
+      return {
+        ...prev,
+        isChecked,
+        selectedHospitalsNew: updatedSelectedHospitals,
+      };
+    });
+    console.log("2222222222222222222222222", isChecked);
   };
- 
+
   public render(): React.ReactElement<ISystemGoalKpiProps> {
     const { isChecked } = this.state;
     const {
@@ -372,12 +384,13 @@ export default class SystemGoalKpi extends React.Component<
       dataKPI,
     } = this.state;
 
+    console.log("datakpi xxxxxxxx", dataKPI);
     const hirerachicalHospitalData = this.prepareHospitalHirerachy(
       dataAllHospital || []
     );
-
+    console.log("xxxxxxxxxxxxxx", hirerachicalHospitalData);
     const goalHirerachyData = this.getGoalHirerachy(dataKPI || []);
-    console.log("subhash tripathi---->");
+    console.log("subhash tripathi---->", goalHirerachyData);
 
     return (
       <section>
@@ -402,12 +415,17 @@ export default class SystemGoalKpi extends React.Component<
                 <>
                   <div className="with_goal_filter">
                     <div className="cat action primary">
-                  
-                      <label className={` ${organization.division.every((divison: any) =>
+                      <label
+                        className={` ${
+                          organization.division.every((divison: any) =>
                             divison.hospitals.every((hospital: any) =>
                               selectedHospitalsNew.has(hospital.id)
                             )
-                          ) ? 'all_selected' : ''}`}>
+                          )
+                            ? "all_selected"
+                            : ""
+                        }`}
+                      >
                         <input
                           type="checkbox"
                           value={organization.id}
@@ -423,18 +441,23 @@ export default class SystemGoalKpi extends React.Component<
                             )
                           }
                         />
-                        <span className={`${isChecked ? 'agg_active' : ''}`}>{organization.name}</span>
+                        <span className={`${isChecked ? "agg_active" : ""}`}>
+                          {organization.name}
+                        </span>
                       </label>
-                      <span className={`bilh_agg_checkbox ${isChecked ? 'agg_checkbox_checked' : ''}`}>
-                    <input
-                      type="checkbox"
-                      className="agg_checkbox"
-                      checked={isChecked}
-                      onChange={this.handleCheckboxChange}
-                    />
-                    BILH (Agg.)
-                  </span>
-                    
+                      <span
+                        className={`bilh_agg_checkbox ${
+                          isChecked ? "agg_checkbox_checked" : ""
+                        }`}
+                      >
+                        <input
+                          type="checkbox"
+                          className="agg_checkbox"
+                          checked={isChecked}
+                          onChange={this.handleCheckboxChange}
+                        />
+                        BILH (Agg.)
+                      </span>
                     </div>
                     <div className="filter_right">
                       <div className="dropdown">
