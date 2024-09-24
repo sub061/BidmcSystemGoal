@@ -7,9 +7,9 @@ import {
 } from '@microsoft/sp-property-pane';
 import { BaseClientSideWebPart } from '@microsoft/sp-webpart-base';
 import { IReadonlyTheme } from '@microsoft/sp-component-base';
-import { SPHttpClient, SPHttpClientResponse } from '@microsoft/sp-http';
+//import { SPHttpClient, SPHttpClientResponse } from '@microsoft/sp-http';
 import SystemGoalKpi from './components/SystemGoalKpi';
-import {  IGoalMetrix, IHospital, IGoal, IKPI, ISubGoal, ISystemGoal, ISystemGoalProps, IOperatingModel } from './components/ISystemGoalKpiProps';
+import {  IGoalMetrix, IHospital, IGoal, IKPI, ISubGoal, ISystemGoal, ISystemGoalProps , IOperatingModel } from './components/ISystemGoalKpiProps';
 
 
 export interface ISystemGoalKpiWebPartProps {
@@ -18,7 +18,6 @@ export interface ISystemGoalKpiWebPartProps {
   goal: string;
   system_goal: string;
   sub_goal: string;
-  division: string;
   hospital: string;
   kpi: string;
   metrix: string;
@@ -27,117 +26,167 @@ export interface ISystemGoalKpiWebPartProps {
 export default class SystemGoalKpiWebPart extends BaseClientSideWebPart<ISystemGoalKpiWebPartProps> {
 
  public async onInit(): Promise<void> {
-    // console.log('onInit called');
+    console.log('onInit called');
     await super.onInit();
-    // console.log('onInit finished');
+    console.log('onInit finished');
   }
 
 
 
   // Get List for System Goal
   public async getSystemGoalConfiguration(): Promise<ISystemGoal[]> {
-    const requestUrl = `${this.context.pageContext.web.absoluteUrl}/_api/web/Lists/GetByTitle('${this.properties.system_goal}')/Items`;
-    // console.log('Fetching description data from:', requestUrl);
-    const response: SPHttpClientResponse = await this.context.spHttpClient.get(requestUrl, SPHttpClient.configurations.v1);
-    const data = await response.json();
-    // console.log('Data fetched:', data);
-    return data.value; 
+    try {
+      const response = await fetch("https://localhost:7001/api/operatingmodel");
+      if (!response.ok) {
+        throw new Error(`Error! status: ${response.status}`);
+      }
+      const data = await response.json();
+      console.log("Response API pillers  Data ---->", data);
+      return data;
+    } catch (error) {
+      console.error("Error fetching pillers data:", error);
+      throw error;
+    } 
   }
 
   // Get List for System Goal
   public async getGoalConfiguration(): Promise<IGoal[]> {
-    const requestUrl = `${this.context.pageContext.web.absoluteUrl}/_api/web/Lists/GetByTitle('${this.properties.goal}')/Items`;
-    // console.log('Fetching goal data from:', requestUrl);
-    const response: SPHttpClientResponse = await this.context.spHttpClient.get(requestUrl, SPHttpClient.configurations.v1);
-    const data = await response.json();
-    // console.log('Data fetched:', data);
-    return data.value; 
+    try {
+      const response = await fetch("https://localhost:7001/api/pillers");
+      if (!response.ok) {
+        throw new Error(`Error! status: ${response.status}`);
+      }
+      const data = await response.json();
+      console.log("Response API pillers  Data ---->", data);
+      return data;
+    } catch (error) {
+      console.error("Error fetching pillers data:", error);
+      throw error;
+    }
   }
 
   // Get List for System Goal
   public async getSubGoalConfiguration(): Promise<ISubGoal[]> {
-    const requestUrl = `${this.context.pageContext.web.absoluteUrl}/_api/web/Lists/GetByTitle('${this.properties.sub_goal}')/Items`;
-    // console.log('Fetching sub_goal data from:', requestUrl);
-    const response: SPHttpClientResponse = await this.context.spHttpClient.get(requestUrl, SPHttpClient.configurations.v1);
-    const data = await response.json();
-    // console.log('Data fetched:', data);
-    return data.value; 
+    try {
+      const response = await fetch("https://localhost:7001/api/subgoals");
+      if (!response.ok) {
+        throw new Error(`Error! status: ${response.status}`);
+      }
+      const data = await response.json();
+      console.log("Response API pillers  Data ---->", data);
+      return data;
+    } catch (error) {
+      console.error("Error fetching pillers data:", error);
+      throw error;
+    }
+  }
+
+
+   // Get List for Division
+   public async getDivisionConfiguration(): Promise<IHospital[]> {
+   
+
+
+    try {
+      const response = await fetch("https://localhost:7001/api/hospitals");
+      if (!response.ok) {
+        throw new Error(`Error! status: ${response.status}`);
+      }
+      const data = await response.json();
+      // const filteredData = data.value.filter(
+      //   (item: IHospital) => item.DivisionId == null
+      // );
+      // console.log('filter hospital Data fetched:', filteredData);
+      return data;
+    } catch (error) {
+      console.error("Error fetching hospital data:", error);
+      throw error;
+    }
   }
 
   // Get List for System Goal
   public async getKPIConfiguration(): Promise<IKPI[]> {
-    const requestUrl = `${this.context.pageContext.web.absoluteUrl}/_api/web/Lists/GetByTitle('${this.properties.kpi}')/Items`;
-    // console.log('Fetching kpi data from:', requestUrl);
-    const response: SPHttpClientResponse = await this.context.spHttpClient.get(requestUrl, SPHttpClient.configurations.v1);
-    const data = await response.json();
-   console.log('Data fetched KPI ----------AAA:', data);
-    return data.value; 
+    try {
+      const response = await fetch("https://localhost:7001/api/kpis");
+      if (!response.ok) {
+        throw new Error(`Error! status: ${response.status}`);
+      }
+      const data = await response.json();
+      console.log("Response API kpi  new  Data ---->", data);
+      return data;
+    } catch (error) {
+      console.error("Error fetching pillers data:", error);
+      throw error;
+    }
   }
-
-// Get List for Division
-  public async getDivisionConfiguration(): Promise<IHospital[]> {
-    const requestUrl = `${this.context.pageContext.web.absoluteUrl}/_api/web/Lists/GetByTitle('${this.properties.hospital}')/Items`;
-    // console.log('Fetching Division data from:', requestUrl);
-    const response: SPHttpClientResponse = await this.context.spHttpClient.get(requestUrl, SPHttpClient.configurations.v1);
-    const data = await response.json();
-    // console.log('Data fetched:', data);
-    // Filter the data to include only those items where Division is not null
-    const filteredData = data.value.filter((item: IHospital) => item.DivisionId == null);
-    // console.log('filter hospital Data fetched:', filteredData);
-    return filteredData; 
-    
-  }
-
 
    // Get List for full hospital list
-  public async getAllHospitalConfiguration(): Promise<IHospital[]> {
-    const requestUrl = `${this.context.pageContext.web.absoluteUrl}/_api/web/Lists/GetByTitle('${this.properties.hospital}')/Items`;
-    // console.log('Fetching hospital data from:', requestUrl);
-    const response: SPHttpClientResponse = await this.context.spHttpClient.get(requestUrl, SPHttpClient.configurations.v1);
-    const data = await response.json();
-    // console.log('hospital Data fetched:', data);
- 
-    return data.value; 
+   public async getAllHospitalConfiguration(): Promise<any> {
+    try {
+      const response = await fetch("https://localhost:7001/api/hospitals");
+      if (!response.ok) {
+        throw new Error(`Error! status: ${response.status}`);
+      }
+      const data = await response.json();
+      return data;
+    } catch (error) {
+      console.error("Error fetching hospital data:", error);
+      throw error;
+    }
   }
 
   // Get List for System Goal
   public async getHospitalConfiguration(): Promise<IHospital[]> {
-    const requestUrl = `${this.context.pageContext.web.absoluteUrl}/_api/web/Lists/GetByTitle('${this.properties.hospital}')/Items`;
-    // console.log('Fetching hospital data from:', requestUrl);
-    const response: SPHttpClientResponse = await this.context.spHttpClient.get(requestUrl, SPHttpClient.configurations.v1);
-    const data = await response.json();
-    // console.log('hospital Data fetched:', data);
-
-// Filter the data to include only those items where Division is not null
-    const filteredData = data.value.filter((item: IHospital) => item.DivisionId !== null);
-// console.log('filter hospital Data fetched:', filteredData);
-    return filteredData; 
+    try {
+      const response = await fetch("https://localhost:7001/api/hospitals");
+      if (!response.ok) {
+        throw new Error(`Error! status: ${response.status}`);
+      }
+      const data = await response.json();
+      console.log("Response API pillers  Data ---->", data);
+      return data;
+    } catch (error) {
+      console.error("Error fetching pillers data:", error);
+      throw error;
+    }
   }
 
   // Get List for System Goal
   public async getGoalMetrixConfiguration(): Promise<IGoalMetrix[]> {
-    const requestUrl = `${this.context.pageContext.web.absoluteUrl}/_api/web/Lists/GetByTitle('${this.properties.metrix}')/Items?$top=5000`;
-    // console.log('Fetching goal data from:', requestUrl);
-    const response: SPHttpClientResponse = await this.context.spHttpClient.get(requestUrl, SPHttpClient.configurations.v1);
-    const data = await response.json();
-    console.log('Data fetched  rrrrrrrrrrrrrrrrr:', data);
-    return data.value; 
+    try {
+      const response = await fetch("https://localhost:7001/api/summary");
+      if (!response.ok) {
+        throw new Error(`Error! status: ${response.status}`);
+      }
+      const data = await response.json();
+      console.log("Response API summary  Data ---->", data);
+      return data;
+    } catch (error) {
+      console.error("Error fetching pillers data:", error);
+      throw error;
+    }
   }
-
 
   // Get List for Operating Model
   public async getOperatingModelConfiguration(): Promise<IOperatingModel[]> {
-    const requestUrl = `${this.context.pageContext.web.absoluteUrl}/_api/web/Lists/GetByTitle('Operating Model')/Items`;
-    // console.log('Fetching goal data from:', requestUrl);
-    const response: SPHttpClientResponse = await this.context.spHttpClient.get(requestUrl, SPHttpClient.configurations.v1);
-    const data = await response.json();
-    return data.value; 
+    try {
+      const response = await fetch("https://localhost:7001/api/operatingmodel");
+      if (!response.ok) {
+        throw new Error(`Error! status: ${response.status}`);
+      }
+      const data = await response.json();
+      console.log("Response API pillers  Data ---->", data);
+      return data;
+    } catch (error) {
+      console.error("Error fetching pillers data:", error);
+      throw error;
+    } 
   }
 
  public render(): void {
-    // console.log('render called');
+    console.log('render called');
     if (!this.domElement) {
-      // console.error('domElement is not available');
+      console.error('domElement is not available');
       return;
     }
     if(this.domElement) this.renderContent();
@@ -156,14 +205,15 @@ export default class SystemGoalKpiWebPart extends BaseClientSideWebPart<ISystemG
       const getGoal = await this.getGoalConfiguration();
       const getSystemGoal = await this.getSystemGoalConfiguration();
       const getAllHospital = await this.getAllHospitalConfiguration();
-      
+      console.log('Banner data:', getGoalMetrix);
+
       const pageTitle = this.properties.title;
 
       const element: React.ReactElement<ISystemGoalProps> = React.createElement(
         SystemGoalKpi,
         {
-          title:pageTitle,
-          description: this.properties.description,  
+          title: pageTitle,
+          description: this.properties.description,
           getOperatingModel: getOperatingModel,
           getGoalMetrix: getGoalMetrix,
           getDivision: getDivision,
@@ -172,22 +222,21 @@ export default class SystemGoalKpiWebPart extends BaseClientSideWebPart<ISystemG
           getSubGoal: getSubGoal,
           getGoal: getGoal,
           getSystemGoal: getSystemGoal,
-          getAllHospital:getAllHospital,
-          
+          getAllHospital: getAllHospital,
         }
       );
 
       const domElement = document.querySelector('[data-sp-web-part-id="0d46ba9c-5483-423a-8bd0-a366a99a6608"]');
-      // console.log("Dom element ---->", domElement)
-      // console.log("element ---->", element);
+      console.log("Dom element ---->", domElement)
+      console.log("element ---->", element);
 
       if (domElement) {
         ReactDom.render(element, domElement);
       } else {
-        // console.error('The specified DOM element is not found.');
+        console.error('The specified DOM element is not found.');
       }
     } catch (error) {
-      // console.error('Error during render:', error);
+      console.error('Error during render:', error);
     }
   }
 
@@ -227,48 +276,31 @@ export default class SystemGoalKpiWebPart extends BaseClientSideWebPart<ISystemG
             {
             
               groupFields: [
-
-                 PropertyPaneTextField('title', {
-                   label: 'Title',
-                  // value: 'BILH Operating Model' // Set default value here
-                },
-                ),
                 PropertyPaneTextField('system_goal', {
-                  label: 'System Goal',
-                 // value: 'Organization' // Set default value here
+                  label: 'System Goal'
                 },
                 ),
                 
                 PropertyPaneTextField('goal', {
-                  label: 'Goal',
-                 // value: 'Goal' // Set default value here
+                  label: 'Goal'
                 },
                 ),
                 
                 PropertyPaneTextField('sub_goal', {
-                  label: 'Sub Goal',
-                  //value: 'Sub Goal' // Set default value here
+                  label: 'Sub Goal'
                 },
                 ),
                 
                 PropertyPaneTextField('kpi', {
-                  label: 'KPI',
-                 // value: 'KPI' // Set default value here
-                },
-                ),
-                 PropertyPaneTextField('division', {
-                   label: 'Division',
-                  // value: 'Division' // Set default value here
+                  label: 'KPI'
                 },
                 ),
                 PropertyPaneTextField('hospital', {
-                  label: 'Hospital',
-                 // value: 'Hospital' // Set default value here
+                  label: 'Hospital'
                 },
                 ),
                 PropertyPaneTextField('metrix', {
-                  label: 'Metrix',
-                 // value: 'Goal Metrix' // Set default value here
+                  label: 'Metrix'
                 },
                 )
 
