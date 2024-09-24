@@ -76,7 +76,7 @@ export default class SystemGoalKpi extends React.Component<
       groupedDivisionData: {}, // Ensure this matches your actual data type
     };
 
-    // console.log("tsx file constructor");
+    console.log("tsx file constructor    hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh");
   }
 
 
