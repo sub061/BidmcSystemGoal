@@ -105,46 +105,6 @@ export default class SystemGoalKpi extends React.Component<
   //   return division ? division.Title : "Unknown Hospital";
   // };
 
-  handleOrganizationCheckboxChange = (organizationId: number) => {
-    const { groupedDivisionData, selectedOrganizations } = this.state;
-    const isChecked = !selectedOrganizations.has(organizationId);
-
-    this.setState((prevState) => {
-      const updatedSelectedHospitals = new Set(prevState.selectedHospitals);
-
-      // Update divisions
-      Object.keys(groupedDivisionData[organizationId] || {}).forEach(
-        (divisionId) => {
-          const isDivisionChecked = isChecked;
-          if (isDivisionChecked) {
-            Object.keys(
-              groupedDivisionData[organizationId][divisionId] || {}
-            ).forEach((hospitalId) => {
-              updatedSelectedHospitals.add(Number(hospitalId));
-            });
-          } else {
-            Object.keys(
-              groupedDivisionData[organizationId][divisionId] || {}
-            ).forEach((hospitalId) => {
-              updatedSelectedHospitals.delete(Number(hospitalId));
-            });
-          }
-        }
-      );
-
-      return {
-        selectedHospitals: updatedSelectedHospitals,
-        selectedOrganizations: new Set(
-          isChecked
-            ? [...prevState.selectedOrganizations, organizationId]
-            : [...prevState.selectedOrganizations].filter(
-                (id) => id !== organizationId
-              )
-        ),
-      };
-    });
-  };
-
   /***
    * New Functions
    * @author Ganesh
@@ -198,7 +158,6 @@ export default class SystemGoalKpi extends React.Component<
   };
 
   private getGoalHirerachy = (data: IKPI[]) => {
-    console.log("aaaaaaaaaaaaaaaaaaaaaa", data);
     const result: any = [];
     data.forEach((kpi) => {
       // Find the goal in the result array
@@ -233,8 +192,6 @@ export default class SystemGoalKpi extends React.Component<
         title: kpi.Title,
         Sitelevel: kpi.Sitelevel,
       });
-
-      //   console.log("zzzzzzzzzzzzzzzzzzzzzzzzzz", subGoal.kpi);
     });
 
     return result;
@@ -248,10 +205,7 @@ export default class SystemGoalKpi extends React.Component<
       } else {
         updatedSelection.add(hospitalId);
       }
-      return {
-        isChecked: false,
-        selectedHospitalsNew: updatedSelection,
-      };
+      return { isChecked: false, selectedHospitalsNew: updatedSelection };
     });
   };
 
@@ -259,8 +213,6 @@ export default class SystemGoalKpi extends React.Component<
     divisionId: number,
     hirerachicalHospitalData: any
   ) => {
-    console.log("Division Change ---->");
-
     this.setState((prevState) => {
       const updatedSelection = new Set(prevState.selectedHospitalsNew);
       const hospitalsToToggle: any[] = [];
@@ -275,6 +227,8 @@ export default class SystemGoalKpi extends React.Component<
         });
       });
 
+      console.log(updatedSelection, hospitalsToToggle);
+
       const allSelected = hospitalsToToggle.every((id) =>
         updatedSelection.has(id)
       );
@@ -284,11 +238,8 @@ export default class SystemGoalKpi extends React.Component<
       } else {
         hospitalsToToggle.forEach((id) => updatedSelection.add(id));
       }
-      console.log("Update Selection ---->", updatedSelection);
-      return {
-        isChecked: false,
-        selectedHospitalsNew: updatedSelection,
-      };
+
+      return { isChecked: false, selectedHospitalsNew: updatedSelection };
     });
   };
 
@@ -296,12 +247,6 @@ export default class SystemGoalKpi extends React.Component<
     organizationId: number,
     hirerachicalHospitalData: any
   ) => {
-    console.log("Called ----->");
-    // if (this.state.isChecked) {
-    //   this.setState(() => ({
-    //     isChecked: false,
-    //   }));
-    // }
     this.setState((prevState) => {
       const updatedSelection = new Set(prevState.selectedHospitalsNew);
       const hospitalsToToggle: any[] = [];
@@ -379,13 +324,11 @@ export default class SystemGoalKpi extends React.Component<
       const updatedSelectedHospitals = !isChecked
         ? prev.selectedHospitalsNew
         : new Set([]);
-      console.log("1111111111111111111111111", updatedSelectedHospitals);
       return {
         isChecked: isChecked,
         selectedHospitalsNew: updatedSelectedHospitals,
       };
     });
-    console.log("2222222222222222222222222", isChecked);
   };
 
   public render(): React.ReactElement<ISystemGoalKpiProps> {
@@ -398,13 +341,10 @@ export default class SystemGoalKpi extends React.Component<
       dataKPI,
     } = this.state;
 
-    console.log("datakpi xxxxxxxx", dataKPI);
     const hirerachicalHospitalData = this.prepareHospitalHirerachy(
       dataAllHospital || []
     );
-    console.log("xxxxxxxxxxxxxx", hirerachicalHospitalData);
     const goalHirerachyData = this.getGoalHirerachy(dataKPI || []);
-    console.log("subhash tripathi---->", goalHirerachyData);
 
     return (
       <section>
@@ -773,24 +713,16 @@ export default class SystemGoalKpi extends React.Component<
                                             const allDivisionSelected =
                                               organization.division.every(
                                                 (division: any) => {
-                                                  // Skip checking if the division name is 'Unknown Hospital'
-                                                  if (
-                                                    division.name ===
-                                                    "Unknown Hospital"
-                                                  ) {
-                                                    return true;
-                                                  }
                                                   // Check if the division is selected
-                                                  return selectedHospitalsNew.has(
-                                                    division.id
+                                                  return division.hospitals.every(
+                                                    (hospital: any) => {
+                                                      return selectedHospitalsNew.has(
+                                                        hospital.id
+                                                      );
+                                                    }
                                                   );
                                                 }
                                               );
-                                            console.log(
-                                              isChecked,
-                                              allDivisionSelected,
-                                              selectedHospitalsNew
-                                            );
 
                                             const divisionRows =
                                               organization.division.map(
@@ -813,7 +745,7 @@ export default class SystemGoalKpi extends React.Component<
                                                                 hospital.id
                                                               ) ||
                                                               [
-                                                                18, 19, 20, 21,
+                                                                5, 13, 15, 21,
                                                                 22,
                                                               ].indexOf(
                                                                 hospital.id

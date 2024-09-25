@@ -29,10 +29,8 @@ export default class SystemGoalKpiWebPart extends BaseClientSideWebPart<ISystemG
     console.log('onInit called');
     await super.onInit();
     console.log('onInit finished');
-  }
-
-
-
+ }
+  
   // Get List for System Goal
   public async getSystemGoalConfiguration(): Promise<ISystemGoal[]> {
     try {
