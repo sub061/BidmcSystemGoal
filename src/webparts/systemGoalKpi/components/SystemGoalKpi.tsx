@@ -771,7 +771,8 @@ export default class SystemGoalKpi extends React.Component<
 
                                                             <td
                                                               className={
-                                                                kpi.Sitelevel
+                                                                kpi.Sitelevel ===
+                                                                "Y"
                                                                   ? ""
                                                                   : "no_data"
                                                               }
@@ -780,8 +781,15 @@ export default class SystemGoalKpi extends React.Component<
                                                               }}
                                                             >
                                                               {" "}
-                                                              {kpi.Sitelevel
-                                                                ? "M"
+                                                              {kpi.Sitelevel ===
+                                                              "Y"
+                                                                ?  this.findMatrixValues(
+                                                        subGoal.id,
+                                                        kpi.id,
+                                                        organization.id,
+                                                        dataGoalMetrix,
+                                                        "ReportType"
+                                                      )
                                                                 : ""}
                                                             </td>
                                                             <td
@@ -810,12 +818,14 @@ export default class SystemGoalKpi extends React.Component<
                                                                         "0",
                                                                     }}
                                                                     className={
-                                                                      kpi.Sitelevel
+                                                                      kpi.Sitelevel ===
+                                                                      "Y"
                                                                         ? ""
                                                                         : "no_data"
                                                                     }
                                                                   >
-                                                                    {kpi.Sitelevel
+                                                                    {kpi.Sitelevel ===
+                                                                    "Y"
                                                                       ? this.findMatrixValues(
                                                                           subGoal.id,
                                                                           kpi.id,
@@ -837,12 +847,14 @@ export default class SystemGoalKpi extends React.Component<
                                                                         "80px",
                                                                     }}
                                                                     className={
-                                                                      kpi.Sitelevel
+                                                                      kpi.Sitelevel ===
+                                                                      "Y"
                                                                         ? ""
                                                                         : "no_data"
                                                                     }
                                                                   >
-                                                                    {kpi.Sitelevel
+                                                                    {kpi.Sitelevel ===
+                                                                    "Y"
                                                                       ? this.findMatrixValues(
                                                                           subGoal.id,
                                                                           kpi.id,
@@ -860,12 +872,14 @@ export default class SystemGoalKpi extends React.Component<
                                                                         "0",
                                                                     }}
                                                                     className={
-                                                                      kpi.Sitelevel
+                                                                      kpi.Sitelevel ===
+                                                                      "Y"
                                                                         ? ""
                                                                         : "no_data"
                                                                     }
                                                                   >
-                                                                    {kpi.Sitelevel
+                                                                    {kpi.Sitelevel ===
+                                                                    "Y"
                                                                       ? this.findMatrixValues(
                                                                           subGoal.id,
                                                                           kpi.id,
@@ -901,12 +915,14 @@ export default class SystemGoalKpi extends React.Component<
                                                                       <tr>
                                                                         <td
                                                                           className={
-                                                                            kpi.Sitelevel
+                                                                            kpi.Sitelevel ===
+                                                                            "Y"
                                                                               ? ""
                                                                               : "no_data"
                                                                           }
                                                                         >
-                                                                          {kpi.Sitelevel
+                                                                          {kpi.Sitelevel ===
+                                                                          "Y"
                                                                             ? this.findMatrixValues(
                                                                                 subGoal.id,
                                                                                 kpi.id,
@@ -918,7 +934,8 @@ export default class SystemGoalKpi extends React.Component<
                                                                         </td>
                                                                         <td
                                                                           className={
-                                                                            kpi.Sitelevel
+                                                                            kpi.Sitelevel ===
+                                                                            "Y"
                                                                               ? ""
                                                                               : "no_data"
                                                                           }
@@ -926,7 +943,8 @@ export default class SystemGoalKpi extends React.Component<
                                                                           {" "}
                                                                           <span
                                                                             className={
-                                                                              kpi.Sitelevel
+                                                                              kpi.Sitelevel ===
+                                                                              "Y"
                                                                                 ? this.getStatus(
                                                                                     subGoal.id,
                                                                                     kpi.id,
@@ -950,12 +968,14 @@ export default class SystemGoalKpi extends React.Component<
                                                                       <tr>
                                                                         <td
                                                                           className={
-                                                                            kpi.Sitelevel
+                                                                            kpi.Sitelevel ===
+                                                                            "Y"
                                                                               ? ""
                                                                               : "no_data"
                                                                           }
                                                                         >
-                                                                          {kpi.Sitelevel
+                                                                          {kpi.Sitelevel ===
+                                                                          "Y"
                                                                             ? this.findMatrixValues(
                                                                                 subGoal.id,
                                                                                 kpi.id,
@@ -967,7 +987,8 @@ export default class SystemGoalKpi extends React.Component<
                                                                         </td>
                                                                         <td
                                                                           className={
-                                                                            kpi.Sitelevel
+                                                                            kpi.Sitelevel ===
+                                                                            "Y"
                                                                               ? ""
                                                                               : "no_data"
                                                                           }
@@ -975,7 +996,8 @@ export default class SystemGoalKpi extends React.Component<
                                                                           {" "}
                                                                           <span
                                                                             className={
-                                                                              kpi.Sitelevel
+                                                                              kpi.Sitelevel ===
+                                                                              "Y"
                                                                                 ? this.getStatus(
                                                                                     subGoal.id,
                                                                                     kpi.id,
@@ -1007,12 +1029,14 @@ export default class SystemGoalKpi extends React.Component<
                                                                         "0",
                                                                     }}
                                                                     className={
-                                                                      kpi.Sitelevel
+                                                                      kpi.Sitelevel ===
+                                                                      "Y"
                                                                         ? ""
                                                                         : "no_data"
                                                                     }
                                                                   >
-                                                                    {kpi.Sitelevel
+                                                                    {kpi.Sitelevel ===
+                                                                    "Y"
                                                                       ? this.findMatrixValues(
                                                                           subGoal.id,
                                                                           kpi.id,
@@ -1034,12 +1058,14 @@ export default class SystemGoalKpi extends React.Component<
                                                                         "80px",
                                                                     }}
                                                                     className={
-                                                                      kpi.Sitelevel
+                                                                      kpi.Sitelevel ===
+                                                                      "Y"
                                                                         ? ""
                                                                         : "no_data"
                                                                     }
                                                                   >
-                                                                    {kpi.Sitelevel
+                                                                    {kpi.Sitelevel ===
+                                                                    "Y"
                                                                       ? this.findMatrixValues(
                                                                           subGoal.id,
                                                                           kpi.id,
@@ -1057,12 +1083,14 @@ export default class SystemGoalKpi extends React.Component<
                                                                         "0",
                                                                     }}
                                                                     className={
-                                                                      kpi.Sitelevel
+                                                                      kpi.Sitelevel ===
+                                                                      "Y"
                                                                         ? ""
                                                                         : "no_data"
                                                                     }
                                                                   >
-                                                                    {kpi.Sitelevel
+                                                                    {kpi.Sitelevel ===
+                                                                    "Y"
                                                                       ? this.findMatrixValues(
                                                                           subGoal.id,
                                                                           kpi.id,
@@ -1092,12 +1120,14 @@ export default class SystemGoalKpi extends React.Component<
                                                                       <tr>
                                                                         <td
                                                                           className={
-                                                                            kpi.Sitelevel
+                                                                            kpi.Sitelevel ===
+                                                                            "Y"
                                                                               ? ""
                                                                               : "no_data"
                                                                           }
                                                                         >
-                                                                          {kpi.Sitelevel
+                                                                          {kpi.Sitelevel ===
+                                                                          "Y"
                                                                             ? this.findMatrixValues(
                                                                                 subGoal.id,
                                                                                 kpi.id,
@@ -1109,14 +1139,16 @@ export default class SystemGoalKpi extends React.Component<
                                                                         </td>
                                                                         <td
                                                                           className={
-                                                                            kpi.Sitelevel
+                                                                            kpi.Sitelevel ===
+                                                                            "Y"
                                                                               ? ""
                                                                               : "no_data"
                                                                           }
                                                                         >
                                                                           <span
                                                                             className={
-                                                                              kpi.Sitelevel
+                                                                              kpi.Sitelevel ===
+                                                                              "Y"
                                                                                 ? this.getStatus(
                                                                                     subGoal.id,
                                                                                     kpi.id,
@@ -1140,12 +1172,14 @@ export default class SystemGoalKpi extends React.Component<
                                                                       <tr>
                                                                         <td
                                                                           className={
-                                                                            kpi.Sitelevel
+                                                                            kpi.Sitelevel ===
+                                                                            "Y"
                                                                               ? ""
                                                                               : "no_data"
                                                                           }
                                                                         >
-                                                                          {kpi.Sitelevel
+                                                                          {kpi.Sitelevel ===
+                                                                          "Y"
                                                                             ? this.findMatrixValues(
                                                                                 subGoal.id,
                                                                                 kpi.id,
@@ -1157,14 +1191,16 @@ export default class SystemGoalKpi extends React.Component<
                                                                         </td>
                                                                         <td
                                                                           className={
-                                                                            kpi.Sitelevel
+                                                                            kpi.Sitelevel ===
+                                                                            "Y"
                                                                               ? ""
                                                                               : "no_data"
                                                                           }
                                                                         >
                                                                           <span
                                                                             className={
-                                                                              kpi.Sitelevel
+                                                                              kpi.Sitelevel ===
+                                                                              "Y"
                                                                                 ? this.getStatus(
                                                                                     subGoal.id,
                                                                                     kpi.id,
@@ -1183,12 +1219,14 @@ export default class SystemGoalKpi extends React.Component<
                                                             </td>
                                                             <td
                                                               className={
-                                                                kpi.Sitelevel
+                                                                kpi.Sitelevel ===
+                                                                "Y"
                                                                   ? ""
                                                                   : "no_data"
                                                               }
                                                             >
-                                                              {kpi.Sitelevel ? (
+                                                              {kpi.Sitelevel ===
+                                                              "Y" ? (
                                                                 <a
                                                                   href={this.findMatrixValues(
                                                                     subGoal.id,
@@ -1243,7 +1281,8 @@ export default class SystemGoalKpi extends React.Component<
                                                           </td>
                                                           <td
                                                             className={
-                                                              kpi.Sitelevel
+                                                              kpi.Sitelevel ===
+                                                              "Y"
                                                                 ? ""
                                                                 : "no_data"
                                                             }
@@ -1251,8 +1290,15 @@ export default class SystemGoalKpi extends React.Component<
                                                               width: "50px",
                                                             }}
                                                           >
-                                                            {kpi.Sitelevel
-                                                              ? "M"
+                                                            {kpi.Sitelevel ===
+                                                            "Y"
+                                                              ? this.findMatrixValues(
+                                                                  subGoal.id,
+                                                                  kpi.id,
+                                                                  division.id,
+                                                                  dataGoalMetrix,
+                                                                  "ReportType"
+                                                                )
                                                               : ""}
                                                           </td>
                                                           <td
@@ -1280,12 +1326,14 @@ export default class SystemGoalKpi extends React.Component<
                                                                     border: "0",
                                                                   }}
                                                                   className={
-                                                                    kpi.Sitelevel
+                                                                    kpi.Sitelevel ===
+                                                                    "Y"
                                                                       ? ""
                                                                       : "no_data"
                                                                   }
                                                                 >
-                                                                  {kpi.Sitelevel
+                                                                  {kpi.Sitelevel ===
+                                                                  "Y"
                                                                     ? this.findMatrixValues(
                                                                         subGoal.id,
                                                                         kpi.id,
@@ -1307,12 +1355,14 @@ export default class SystemGoalKpi extends React.Component<
                                                                       "80px",
                                                                   }}
                                                                   className={
-                                                                    kpi.Sitelevel
+                                                                    kpi.Sitelevel ===
+                                                                    "Y"
                                                                       ? ""
                                                                       : "no_data"
                                                                   }
                                                                 >
-                                                                  {kpi.Sitelevel
+                                                                  {kpi.Sitelevel ===
+                                                                  "Y"
                                                                     ? this.findMatrixValues(
                                                                         subGoal.id,
                                                                         kpi.id,
@@ -1329,12 +1379,14 @@ export default class SystemGoalKpi extends React.Component<
                                                                     border: "0",
                                                                   }}
                                                                   className={
-                                                                    kpi.Sitelevel
+                                                                    kpi.Sitelevel ===
+                                                                    "Y"
                                                                       ? ""
                                                                       : "no_data"
                                                                   }
                                                                 >
-                                                                  {kpi.Sitelevel
+                                                                  {kpi.Sitelevel ===
+                                                                  "Y"
                                                                     ? this.findMatrixValues(
                                                                         subGoal.id,
                                                                         kpi.id,
@@ -1370,12 +1422,14 @@ export default class SystemGoalKpi extends React.Component<
                                                                     <tr>
                                                                       <td
                                                                         className={
-                                                                          kpi.Sitelevel
+                                                                          kpi.Sitelevel ===
+                                                                          "Y"
                                                                             ? ""
                                                                             : "no_data"
                                                                         }
                                                                       >
-                                                                        {kpi.Sitelevel
+                                                                        {kpi.Sitelevel ===
+                                                                        "Y"
                                                                           ? this.findMatrixValues(
                                                                               subGoal.id,
                                                                               kpi.id,
@@ -1387,14 +1441,16 @@ export default class SystemGoalKpi extends React.Component<
                                                                       </td>
                                                                       <td
                                                                         className={
-                                                                          kpi.Sitelevel
+                                                                          kpi.Sitelevel ===
+                                                                          "Y"
                                                                             ? ""
                                                                             : "no_data"
                                                                         }
                                                                       >
                                                                         <span
                                                                           className={
-                                                                            kpi.Sitelevel
+                                                                            kpi.Sitelevel ===
+                                                                            "Y"
                                                                               ? this.getStatus(
                                                                                   subGoal.id,
                                                                                   kpi.id,
@@ -1418,12 +1474,14 @@ export default class SystemGoalKpi extends React.Component<
                                                                     <tr>
                                                                       <td
                                                                         className={
-                                                                          kpi.Sitelevel
+                                                                          kpi.Sitelevel ===
+                                                                          "Y"
                                                                             ? ""
                                                                             : "no_data"
                                                                         }
                                                                       >
-                                                                        {kpi.Sitelevel
+                                                                        {kpi.Sitelevel ===
+                                                                        "Y"
                                                                           ? this.findMatrixValues(
                                                                               subGoal.id,
                                                                               kpi.id,
@@ -1435,14 +1493,16 @@ export default class SystemGoalKpi extends React.Component<
                                                                       </td>
                                                                       <td
                                                                         className={
-                                                                          kpi.Sitelevel
+                                                                          kpi.Sitelevel ===
+                                                                          "Y"
                                                                             ? ""
                                                                             : "no_data"
                                                                         }
                                                                       >
                                                                         <span
                                                                           className={
-                                                                            kpi.Sitelevel
+                                                                            kpi.Sitelevel ===
+                                                                            "Y"
                                                                               ? this.getStatus(
                                                                                   subGoal.id,
                                                                                   kpi.id,
@@ -1473,12 +1533,14 @@ export default class SystemGoalKpi extends React.Component<
                                                                     border: "0",
                                                                   }}
                                                                   className={
-                                                                    kpi.Sitelevel
+                                                                    kpi.Sitelevel ===
+                                                                    "Y"
                                                                       ? ""
                                                                       : "no_data"
                                                                   }
                                                                 >
-                                                                  {kpi.Sitelevel
+                                                                  {kpi.Sitelevel ===
+                                                                  "Y"
                                                                     ? this.findMatrixValues(
                                                                         subGoal.id,
                                                                         kpi.id,
@@ -1500,12 +1562,14 @@ export default class SystemGoalKpi extends React.Component<
                                                                       "80px",
                                                                   }}
                                                                   className={
-                                                                    kpi.Sitelevel
+                                                                    kpi.Sitelevel ===
+                                                                    "Y"
                                                                       ? ""
                                                                       : "no_data"
                                                                   }
                                                                 >
-                                                                  {kpi.Sitelevel
+                                                                  {kpi.Sitelevel ===
+                                                                  "Y"
                                                                     ? this.findMatrixValues(
                                                                         subGoal.id,
                                                                         kpi.id,
@@ -1522,12 +1586,14 @@ export default class SystemGoalKpi extends React.Component<
                                                                     border: "0",
                                                                   }}
                                                                   className={
-                                                                    kpi.Sitelevel
+                                                                    kpi.Sitelevel ===
+                                                                    "Y"
                                                                       ? ""
                                                                       : "no_data"
                                                                   }
                                                                 >
-                                                                  {kpi.Sitelevel
+                                                                  {kpi.Sitelevel ===
+                                                                  "Y"
                                                                     ? this.findMatrixValues(
                                                                         subGoal.id,
                                                                         kpi.id,
@@ -1561,12 +1627,14 @@ export default class SystemGoalKpi extends React.Component<
                                                                           <tr>
                                                                             <td
                                                                               className={
-                                                                                kpi.Sitelevel
+                                                                                kpi.Sitelevel ===
+                                                                                "Y"
                                                                                   ? ""
                                                                                   : "no_data"
                                                                               }
                                                                             >
-                                                                              {kpi.Sitelevel
+                                                                              {kpi.Sitelevel ===
+                                                                              "Y"
                                                                                 ? this.findMatrixValues(
                                                                                     subGoal.id,
                                                                                     kpi.id,
@@ -1578,14 +1646,16 @@ export default class SystemGoalKpi extends React.Component<
                                                                             </td>
                                                                             <td
                                                                               className={
-                                                                                kpi.Sitelevel
+                                                                                kpi.Sitelevel ===
+                                                                                "Y"
                                                                                   ? ""
                                                                                   : "no_data"
                                                                               }
                                                                             >
                                                                               <span
                                                                                 className={
-                                                                                  kpi.Sitelevel
+                                                                                  kpi.Sitelevel ===
+                                                                                  "Y"
                                                                                     ? this.getStatus(
                                                                                         subGoal.id,
                                                                                         kpi.id,
@@ -1609,12 +1679,14 @@ export default class SystemGoalKpi extends React.Component<
                                                                           <tr>
                                                                             <td
                                                                               className={
-                                                                                kpi.Sitelevel
+                                                                                kpi.Sitelevel ===
+                                                                                "Y"
                                                                                   ? ""
                                                                                   : "no_data"
                                                                               }
                                                                             >
-                                                                              {kpi.Sitelevel
+                                                                              {kpi.Sitelevel ===
+                                                                              "Y"
                                                                                 ? this.findMatrixValues(
                                                                                     subGoal.id,
                                                                                     kpi.id,
@@ -1626,7 +1698,8 @@ export default class SystemGoalKpi extends React.Component<
                                                                             </td>
                                                                             <td
                                                                               className={
-                                                                                kpi.Sitelevel
+                                                                                kpi.Sitelevel ===
+                                                                                "Y"
                                                                                   ? ""
                                                                                   : "no_data"
                                                                               }
@@ -1634,7 +1707,8 @@ export default class SystemGoalKpi extends React.Component<
                                                                               {" "}
                                                                               <span
                                                                                 className={
-                                                                                  kpi.Sitlevel
+                                                                                  kpi.Sitlevel ===
+                                                                                  "Y"
                                                                                     ? this.getStatus(
                                                                                         subGoal.id,
                                                                                         kpi.id,
@@ -1656,12 +1730,14 @@ export default class SystemGoalKpi extends React.Component<
                                                           </td>
                                                           <td
                                                             className={
-                                                              kpi.Sitelevel
+                                                              kpi.Sitelevel ===
+                                                              "Y"
                                                                 ? ""
                                                                 : "no_data"
                                                             }
                                                           >
-                                                            {kpi.Sitelevel ? (
+                                                            {kpi.Sitelevel ===
+                                                            "Y" ? (
                                                               <a
                                                                 href={this.findMatrixValues(
                                                                   subGoal.id,
@@ -1717,7 +1793,13 @@ export default class SystemGoalKpi extends React.Component<
                                                         width: "50px",
                                                       }}
                                                     >
-                                                      M
+                                                      {this.findMatrixValues(
+                                                        subGoal.id,
+                                                        kpi.id,
+                                                        organization.id,
+                                                        dataGoalMetrix,
+                                                        "ReportType"
+                                                      )}
                                                     </td>
                                                     <td
                                                       style={{ padding: "0" }}
