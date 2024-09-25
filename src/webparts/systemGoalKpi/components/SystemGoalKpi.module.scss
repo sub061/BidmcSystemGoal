@@ -462,9 +462,6 @@
         gap: 4px;
         position: absolute;
         top: 5px;
-        &.agg_checkbox_checked {
-          color: #fff;
-        }
         .agg_checkbox{
           width: 16px;
           height: 16px;
@@ -478,10 +475,7 @@
             min-width: 100px;
             height: 56px;
             font-size: 22px;
-            &.agg_active{
-              background-color: #0078d4;
-            color: #fff;
-            }
+            
           }
           &:checked {
             & + span {
@@ -497,6 +491,9 @@
           color: #fff !important;
         }
       }
+      &.agg_active{
+        border: 2px dashed #000;
+       }
     }
     &.secondary {
       background-color: #ebf7ff;

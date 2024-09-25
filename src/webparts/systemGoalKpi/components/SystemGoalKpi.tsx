@@ -248,7 +248,10 @@ export default class SystemGoalKpi extends React.Component<
       } else {
         updatedSelection.add(hospitalId);
       }
-      return { selectedHospitalsNew: updatedSelection };
+      return {
+        isChecked: false,
+        selectedHospitalsNew: updatedSelection,
+      };
     });
   };
 
@@ -256,6 +259,8 @@ export default class SystemGoalKpi extends React.Component<
     divisionId: number,
     hirerachicalHospitalData: any
   ) => {
+    console.log("Division Change ---->");
+
     this.setState((prevState) => {
       const updatedSelection = new Set(prevState.selectedHospitalsNew);
       const hospitalsToToggle: any[] = [];
@@ -279,8 +284,11 @@ export default class SystemGoalKpi extends React.Component<
       } else {
         hospitalsToToggle.forEach((id) => updatedSelection.add(id));
       }
-
-      return { selectedHospitalsNew: updatedSelection };
+      console.log("Update Selection ---->", updatedSelection);
+      return {
+        isChecked: false,
+        selectedHospitalsNew: updatedSelection,
+      };
     });
   };
 
@@ -288,6 +296,12 @@ export default class SystemGoalKpi extends React.Component<
     organizationId: number,
     hirerachicalHospitalData: any
   ) => {
+    console.log("Called ----->");
+    // if (this.state.isChecked) {
+    //   this.setState(() => ({
+    //     isChecked: false,
+    //   }));
+    // }
     this.setState((prevState) => {
       const updatedSelection = new Set(prevState.selectedHospitalsNew);
       const hospitalsToToggle: any[] = [];
@@ -312,7 +326,7 @@ export default class SystemGoalKpi extends React.Component<
         hospitalsToToggle.forEach((id) => updatedSelection.add(id));
       }
 
-      return { selectedHospitalsNew: updatedSelection };
+      return { isChecked: false, selectedHospitalsNew: updatedSelection };
     });
   };
 
@@ -358,6 +372,7 @@ export default class SystemGoalKpi extends React.Component<
     );
     return a ? (a["Actual"] >= a["Target"] ? "success" : "error") : "error";
   };
+
   handleCheckboxChange = (event: any) => {
     const isChecked = event.target.checked;
     this.setState((prev: ISystemGoalKpiWpState) => {
@@ -366,8 +381,7 @@ export default class SystemGoalKpi extends React.Component<
         : new Set([]);
       console.log("1111111111111111111111111", updatedSelectedHospitals);
       return {
-        ...prev,
-        isChecked,
+        isChecked: isChecked,
         selectedHospitalsNew: updatedSelectedHospitals,
       };
     });
@@ -414,7 +428,11 @@ export default class SystemGoalKpi extends React.Component<
               {hirerachicalHospitalData.map((organization: any) => (
                 <>
                   <div className="with_goal_filter">
-                    <div className="cat action primary">
+                    <div
+                      className={`cat action primary ${
+                        isChecked ? "agg_active" : ""
+                      }`}
+                    >
                       <label
                         className={` ${
                           organization.division.every((divison: any) =>
@@ -441,9 +459,7 @@ export default class SystemGoalKpi extends React.Component<
                             )
                           }
                         />
-                        <span className={`${isChecked ? "agg_active" : ""}`}>
-                          {organization.name}
-                        </span>
+                        <span>{organization.name}</span>
                       </label>
                       <span
                         className={`bilh_agg_checkbox ${
@@ -770,6 +786,11 @@ export default class SystemGoalKpi extends React.Component<
                                                   );
                                                 }
                                               );
+                                            console.log(
+                                              isChecked,
+                                              allDivisionSelected,
+                                              selectedHospitalsNew
+                                            );
 
                                             const divisionRows =
                                               organization.division.map(
@@ -787,7 +808,7 @@ export default class SystemGoalKpi extends React.Component<
                                                       {division.hospitals.map(
                                                         (hospital: any) => (
                                                           <tr
-                                                            className={
+                                                            className={`${
                                                               !selectedHospitalsNew.has(
                                                                 hospital.id
                                                               ) ||
@@ -799,7 +820,11 @@ export default class SystemGoalKpi extends React.Component<
                                                               ) !== -1
                                                                 ? "d-none"
                                                                 : ""
-                                                            }
+                                                            } ${
+                                                              isChecked
+                                                                ? "d-none"
+                                                                : ""
+                                                            }`}
                                                           >
                                                             <td
                                                               style={{
@@ -1266,6 +1291,10 @@ export default class SystemGoalKpi extends React.Component<
                                                         <tr
                                                           className={`division_avg ${
                                                             division.id == null
+                                                              ? "d-none"
+                                                              : ""
+                                                          } ${
+                                                            isChecked
                                                               ? "d-none"
                                                               : ""
                                                           }`}
@@ -1738,7 +1767,8 @@ export default class SystemGoalKpi extends React.Component<
                                             return (
                                               <>
                                                 {divisionRows}
-                                                {allDivisionSelected && (
+                                                {(allDivisionSelected ||
+                                                  isChecked) && (
                                                   <tr className="organization_avg">
                                                     <td
                                                       style={{
@@ -1751,7 +1781,9 @@ export default class SystemGoalKpi extends React.Component<
                                                       </button>
                                                     </td>
                                                     <td
-                                                      style={{ width: "50px" }}
+                                                      style={{
+                                                        width: "50px",
+                                                      }}
                                                     >
                                                       M
                                                     </td>

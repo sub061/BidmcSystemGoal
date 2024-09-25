@@ -396,9 +396,6 @@
   position: absolute;
   top: 5px;
 }
-.btn_container .cat.primary .bilh_agg_checkbox.agg_checkbox_checked {
-  color: #fff;
-}
 .btn_container .cat.primary .bilh_agg_checkbox .agg_checkbox {
   width: 16px;
   height: 16px;
@@ -410,16 +407,15 @@
   height: 56px;
   font-size: 22px;
 }
-.btn_container .cat.primary label input + span.agg_active {
-  background-color: #0078d4;
-  color: #fff;
-}
 .btn_container .cat.primary label input:checked + span {
   background-color: #0078d4;
   color: #fff;
 }
 .btn_container .cat.primary .all_selected + .bilh_agg_checkbox {
   color: #fff !important;
+}
+.btn_container .cat.primary.agg_active {
+  border: 2px dashed #000;
 }
 .btn_container .cat.secondary {
   background-color: #ebf7ff;
