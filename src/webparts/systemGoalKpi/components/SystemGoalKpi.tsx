@@ -783,13 +783,13 @@ export default class SystemGoalKpi extends React.Component<
                                                               {" "}
                                                               {kpi.Sitelevel ===
                                                               "Y"
-                                                                ?  this.findMatrixValues(
-                                                        subGoal.id,
-                                                        kpi.id,
-                                                        organization.id,
-                                                        dataGoalMetrix,
-                                                        "ReportType"
-                                                      )
+                                                                ? this.findMatrixValues(
+                                                                    subGoal.id,
+                                                                    kpi.id,
+                                                                    organization.id,
+                                                                    dataGoalMetrix,
+                                                                    "ReportType"
+                                                                  )
                                                                 : ""}
                                                             </td>
                                                             <td

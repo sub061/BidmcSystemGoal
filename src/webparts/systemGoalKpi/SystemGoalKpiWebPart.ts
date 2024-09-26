@@ -34,7 +34,7 @@ export default class SystemGoalKpiWebPart extends BaseClientSideWebPart<ISystemG
   // Get List for System Goal
   public async getSystemGoalConfiguration(): Promise<ISystemGoal[]> {
     try {
-      const response = await fetch("https://localhost:7001/api/operatingmodel");
+      const response = await fetch("https://systemgoalapi.bilh.org/api/operatingmodel");
       if (!response.ok) {
         throw new Error(`Error! status: ${response.status}`);
       }
@@ -50,7 +50,7 @@ export default class SystemGoalKpiWebPart extends BaseClientSideWebPart<ISystemG
   // Get List for System Goal
   public async getGoalConfiguration(): Promise<IGoal[]> {
     try {
-      const response = await fetch("https://localhost:7001/api/pillers");
+      const response = await fetch("https://systemgoalapi.bilh.org/api/pillers");
       if (!response.ok) {
         throw new Error(`Error! status: ${response.status}`);
       }
@@ -66,7 +66,7 @@ export default class SystemGoalKpiWebPart extends BaseClientSideWebPart<ISystemG
   // Get List for System Goal
   public async getSubGoalConfiguration(): Promise<ISubGoal[]> {
     try {
-      const response = await fetch("https://localhost:7001/api/subgoals");
+      const response = await fetch("https://systemgoalapi.bilh.org/api/subgoals");
       if (!response.ok) {
         throw new Error(`Error! status: ${response.status}`);
       }
@@ -86,7 +86,7 @@ export default class SystemGoalKpiWebPart extends BaseClientSideWebPart<ISystemG
 
 
     try {
-      const response = await fetch("https://localhost:7001/api/hospitals");
+      const response = await fetch("https://systemgoalapi.bilh.org/api/hospitals");
       if (!response.ok) {
         throw new Error(`Error! status: ${response.status}`);
       }
@@ -105,7 +105,7 @@ export default class SystemGoalKpiWebPart extends BaseClientSideWebPart<ISystemG
   // Get List for System Goal
   public async getKPIConfiguration(): Promise<IKPI[]> {
     try {
-      const response = await fetch("https://localhost:7001/api/kpis");
+      const response = await fetch("https://systemgoalapi.bilh.org/api/kpis");
       if (!response.ok) {
         throw new Error(`Error! status: ${response.status}`);
       }
@@ -121,7 +121,7 @@ export default class SystemGoalKpiWebPart extends BaseClientSideWebPart<ISystemG
    // Get List for full hospital list
    public async getAllHospitalConfiguration(): Promise<any> {
     try {
-      const response = await fetch("https://localhost:7001/api/hospitals");
+      const response = await fetch("https://systemgoalapi.bilh.org/api/hospitals");
       if (!response.ok) {
         throw new Error(`Error! status: ${response.status}`);
       }
@@ -136,7 +136,7 @@ export default class SystemGoalKpiWebPart extends BaseClientSideWebPart<ISystemG
   // Get List for System Goal
   public async getHospitalConfiguration(): Promise<IHospital[]> {
     try {
-      const response = await fetch("https://localhost:7001/api/hospitals");
+      const response = await fetch("https://systemgoalapi.bilh.org/api/hospitals");
       if (!response.ok) {
         throw new Error(`Error! status: ${response.status}`);
       }
@@ -152,7 +152,7 @@ export default class SystemGoalKpiWebPart extends BaseClientSideWebPart<ISystemG
   // Get List for System Goal
   public async getGoalMetrixConfiguration(): Promise<IGoalMetrix[]> {
     try {
-      const response = await fetch("https://localhost:7001/api/summary");
+      const response = await fetch("https://systemgoalapi.bilh.org/api/summary");
       if (!response.ok) {
         throw new Error(`Error! status: ${response.status}`);
       }
@@ -168,7 +168,7 @@ export default class SystemGoalKpiWebPart extends BaseClientSideWebPart<ISystemG
   // Get List for Operating Model
   public async getOperatingModelConfiguration(): Promise<IOperatingModel[]> {
     try {
-      const response = await fetch("https://localhost:7001/api/operatingmodel");
+      const response = await fetch("https://systemgoalapi.bilh.org/api/operatingmodel");
       if (!response.ok) {
         throw new Error(`Error! status: ${response.status}`);
       }
