@@ -354,7 +354,8 @@ export default class SystemGoalKpi extends React.Component<
     subGoalId: number,
     kpiId: number,
     hospitalId: number,
-    matrix: any
+    matrix: any,
+    key: string
   ) => {
     // Find the item that matches all three criteria
     const a = matrix.find(
@@ -364,7 +365,7 @@ export default class SystemGoalKpi extends React.Component<
         item.SubGoalId === subGoalId
     );
     if (a) {
-      switch (a.MTD_PRIOR_YEAR_VAR_SIGN) {
+      switch (a[key]) {
         case "G":
           return "success";
         case "Y":
@@ -415,11 +416,9 @@ export default class SystemGoalKpi extends React.Component<
       })
       console.log("Response ---->", response);
     } catch (e) {
+      alert(e)
       console.log("Error Occured --->", e)
     }
-
-
-    console.log("Request -------------------->", req)
 
   };
 
@@ -1041,7 +1040,8 @@ export default class SystemGoalKpi extends React.Component<
                                                                                   subGoal.id,
                                                                                   kpi.id,
                                                                                   hospital.id,
-                                                                                  dataGoalMetrix
+                                                                                  dataGoalMetrix,
+                                                                                  "MTD_BUDGET_VAR_SIGN"
                                                                                 )
                                                                                 : ""
                                                                             }
@@ -1094,7 +1094,8 @@ export default class SystemGoalKpi extends React.Component<
                                                                                   subGoal.id,
                                                                                   kpi.id,
                                                                                   hospital.id,
-                                                                                  dataGoalMetrix
+                                                                                  dataGoalMetrix,
+                                                                                  "MTD_PRIOR_YEAR_VAR_SIGN"
                                                                                 )
                                                                                 : ""
                                                                             }
@@ -1245,7 +1246,8 @@ export default class SystemGoalKpi extends React.Component<
                                                                                   subGoal.id,
                                                                                   kpi.id,
                                                                                   hospital.id,
-                                                                                  dataGoalMetrix
+                                                                                  dataGoalMetrix,
+                                                                                  "YTD_BUDGET_VAR_SIGN"
                                                                                 )
                                                                                 : ""
                                                                             }
@@ -1297,7 +1299,8 @@ export default class SystemGoalKpi extends React.Component<
                                                                                   subGoal.id,
                                                                                   kpi.id,
                                                                                   hospital.id,
-                                                                                  dataGoalMetrix
+                                                                                  dataGoalMetrix,
+                                                                                  "YTD_PRIOR_YEAR_VAR_SIGN"
                                                                                 )
                                                                                 : ""
                                                                             }
@@ -1544,7 +1547,8 @@ export default class SystemGoalKpi extends React.Component<
                                                                                 subGoal.id,
                                                                                 kpi.id,
                                                                                 division.id,
-                                                                                dataGoalMetrix
+                                                                                dataGoalMetrix,
+                                                                                "MTD_BUDGET_VAR_SIGN"
                                                                               )
                                                                               : ""
                                                                           }
@@ -1596,7 +1600,8 @@ export default class SystemGoalKpi extends React.Component<
                                                                                 subGoal.id,
                                                                                 kpi.id,
                                                                                 division.id,
-                                                                                dataGoalMetrix
+                                                                                dataGoalMetrix,
+                                                                                "MTD_PRIOR_YEAR_VAR_SIGN"
                                                                               )
                                                                               : ""
                                                                           }
@@ -1749,7 +1754,8 @@ export default class SystemGoalKpi extends React.Component<
                                                                                       subGoal.id,
                                                                                       kpi.id,
                                                                                       division.id,
-                                                                                      dataGoalMetrix
+                                                                                      dataGoalMetrix,
+                                                                                      "YTD_BUDGET_VAR_SIGN"
                                                                                     )
                                                                                     : ""
                                                                                 }
@@ -1802,7 +1808,8 @@ export default class SystemGoalKpi extends React.Component<
                                                                                       subGoal.id,
                                                                                       kpi.id,
                                                                                       division.id,
-                                                                                      dataGoalMetrix
+                                                                                      dataGoalMetrix,
+                                                                                      "YTD_PRIOR_YEAR_VAR_SIGN"
                                                                                     )
                                                                                     : ""
                                                                                 }
@@ -1991,7 +1998,8 @@ export default class SystemGoalKpi extends React.Component<
                                                                         subGoal.id,
                                                                         kpi.id,
                                                                         organization.id,
-                                                                        dataGoalMetrix
+                                                                        dataGoalMetrix,
+                                                                        "MTD_BUDGET_VAR_SIGN"
                                                                       )}
                                                                     ></span>
                                                                   </td>
@@ -2020,7 +2028,8 @@ export default class SystemGoalKpi extends React.Component<
                                                                         subGoal.id,
                                                                         kpi.id,
                                                                         organization.id,
-                                                                        dataGoalMetrix
+                                                                        dataGoalMetrix,
+                                                                        "MTD_PRIOR_YEAR_VAR_SIGN"
                                                                       )}
                                                                     ></span>
                                                                   </td>
@@ -2113,7 +2122,8 @@ export default class SystemGoalKpi extends React.Component<
                                                                         subGoal.id,
                                                                         kpi.id,
                                                                         organization.id,
-                                                                        dataGoalMetrix
+                                                                        dataGoalMetrix,
+                                                                        "YTD_BUDGET_VAR_SIGN"
                                                                       )}
                                                                     ></span>
                                                                   </td>
@@ -2143,7 +2153,8 @@ export default class SystemGoalKpi extends React.Component<
                                                                         subGoal.id,
                                                                         kpi.id,
                                                                         organization.id,
-                                                                        dataGoalMetrix
+                                                                        dataGoalMetrix,
+                                                                        "YTD_PRIOR_YEAR_VAR_SIGN"
                                                                       )}
                                                                     ></span>
                                                                   </td>
