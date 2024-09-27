@@ -116,17 +116,19 @@ export default class SystemGoalKpi extends React.Component<
    */
 
   // Handle Division checkbox changes for adding division in hopsitals
-  divisionRequestChange = (id: number, hirerachicalHospitalData: any
+  divisionRequestChange = (id: number, e: any
   ) => {
     this.setState((prev: any) => {
       let selectedDivsionIds: any = [...prev.pdfDivisionIDs];
-
-      if (selectedDivsionIds.includes(id)) {
-        selectedDivsionIds = selectedDivsionIds.filter((hospitalId: any) => hospitalId !== id);
+      if (!e.target.checked) {
+        if (selectedDivsionIds.includes(id)) {
+          selectedDivsionIds = selectedDivsionIds.filter((hospitalId: any) => hospitalId !== id);
+        }
       } else {
-        selectedDivsionIds.push(id);
+        if (!selectedDivsionIds.includes(id)) {
+          selectedDivsionIds.push(id);
+        }
       }
-
       return { pdfDivisionIDs: selectedDivsionIds };
     });
   };
@@ -354,14 +356,28 @@ export default class SystemGoalKpi extends React.Component<
     hospitalId: number,
     matrix: any
   ) => {
+    // Find the item that matches all three criteria
     const a = matrix.find(
       (item: any) =>
         item.KPIId === kpiId &&
         item.HospitalId === hospitalId &&
         item.SubGoalId === subGoalId
     );
-    return a ? (a["Actual"] >= a["Target"] ? "success" : "error") : "error";
+    if (a) {
+      switch (a.MTD_PRIOR_YEAR_VAR_SIGN) {
+        case "G":
+          return "success";
+        case "Y":
+          return "warning";
+        case "R":
+          return "error ";
+        default:
+          return "error";
+      }
+    }
+    return "error";
   };
+
 
   handleCheckboxChange = (event: any) => {
     const isChecked = event.target.checked;
@@ -415,17 +431,13 @@ export default class SystemGoalKpi extends React.Component<
       checkedSystemGoalsNew,
       dataAllHospital,
       dataKPI,
-      pdfDivisionIDs
     } = this.state;
 
     const hirerachicalHospitalData = this.prepareHospitalHirerachy(
       dataAllHospital || []
     );
     const goalHirerachyData = this.getGoalHirerachy(dataKPI || []);
-    console.log("Data KPI ----------->", dataKPI)
-    console.log("pdfDivisionIDs ----------->", pdfDivisionIDs);
-    console.log("Data of al hospitals ---->", dataAllHospital)
-
+    console.log("Matixxxxxxxxxxxxxxxxxxxx", dataGoalMetrix)
 
     return (
       <section>
@@ -597,12 +609,12 @@ export default class SystemGoalKpi extends React.Component<
                                   (hospital: any) =>
                                     selectedHospitalsNew.has(hospital.id)
                                 )}
-                                onChange={() => {
+                                onChange={(e) => {
                                   this.handleDivisionChange(
                                     division.id,
                                     hirerachicalHospitalData
                                   )
-                                  this.divisionRequestChange(division.id, hirerachicalHospitalData)
+                                  this.divisionRequestChange(division.id, e)
                                 }
                                 }
                               />
@@ -2189,7 +2201,7 @@ export default class SystemGoalKpi extends React.Component<
         </div>
 
         <div className={styles.dummy}></div>
-      </section>
+      </section >
     );
   }
 }
