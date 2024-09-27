@@ -130,17 +130,32 @@
 .system_goel_container .box_model .inner_container tbody td span {
   width: 8px;
   height: 8px;
-  border-radius: 50%;
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  font-family: "Font Awesome 5 Free";
 }
-.system_goel_container .box_model .inner_container tbody td span.success {
-  background-color: #7fba00;
+.system_goel_container .box_model .inner_container tbody td span.success::after {
+  content: "\f062";
+  color: #7fba00;
+  font-size: 12px;
+  font-family: "Font Awesome 5 Free";
+  font-weight: 900;
 }
-.system_goel_container .box_model .inner_container tbody td span.error {
-  background-color: #f05916;
+.system_goel_container .box_model .inner_container tbody td span.error::after {
+  content: "\f063";
+  color: #f05916;
+  font-size: 12px;
+  font-family: "Font Awesome 5 Free";
+  font-weight: 900;
 }
-.system_goel_container .box_model .inner_container tbody td span.warning {
-  background-color: #eac20c;
+.system_goel_container .box_model .inner_container tbody td span.warning::after {
+  content: "\f068";
+  color: #ffc107;
+  font-size: 16px;
+  font-family: "Font Awesome 5 Free";
+  font-weight: 900;
 }
 .system_goel_container .box_model .inner_container tbody td button, .system_goel_container .box_model .inner_container tbody td a {
   box-shadow: 0px 2px 3px rgba(0, 0, 0, 0.1568627451);
