@@ -43,7 +43,7 @@ export interface ISystemGoalKpiWpState {
   selectedOrganizations: Set<number>; // Add this line
   // Add other properties here
   groupedDivisionData: any; // Ensure this matches your actual data type
-  pdfDivisionIDs: Set<number>
+  pdfDivisionIDs: Set<number>;
 }
 
 export default class SystemGoalKpi extends React.Component<
@@ -79,7 +79,9 @@ export default class SystemGoalKpi extends React.Component<
       pdfDivisionIDs: new Set([5]),
     };
 
-    console.log("tsx file constructor    hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh");
+    console.log(
+      "tsx file constructor    hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh"
+    );
   }
 
   // Get Goal
@@ -116,13 +118,14 @@ export default class SystemGoalKpi extends React.Component<
    */
 
   // Handle Division checkbox changes for adding division in hopsitals
-  divisionRequestChange = (id: number, e: any
-  ) => {
+  divisionRequestChange = (id: number, e: any) => {
     this.setState((prev: any) => {
       let selectedDivsionIds: any = [...prev.pdfDivisionIDs];
       if (!e.target.checked) {
         if (selectedDivsionIds.includes(id)) {
-          selectedDivsionIds = selectedDivsionIds.filter((hospitalId: any) => hospitalId !== id);
+          selectedDivsionIds = selectedDivsionIds.filter(
+            (hospitalId: any) => hospitalId !== id
+          );
         }
       } else {
         if (!selectedDivsionIds.includes(id)) {
@@ -133,8 +136,10 @@ export default class SystemGoalKpi extends React.Component<
     });
   };
 
-
-  private organizationRequestChange = (e: any, hirerachicalHospitalData: any): void => {
+  private organizationRequestChange = (
+    e: any,
+    hirerachicalHospitalData: any
+  ): void => {
     const { pdfDivisionIDs } = this.state;
     let updatedDivisionIds: any = [...pdfDivisionIDs];
 
@@ -149,13 +154,14 @@ export default class SystemGoalKpi extends React.Component<
     } else {
       hirerachicalHospitalData.forEach((org: any) => {
         org.division.forEach((div: any) => {
-          updatedDivisionIds = updatedDivisionIds.filter((id: any) => id !== div.id);
+          updatedDivisionIds = updatedDivisionIds.filter(
+            (id: any) => id !== div.id
+          );
         });
       });
     }
     this.setState({ pdfDivisionIDs: updatedDivisionIds });
   };
-
 
   private prepareHospitalHirerachy = (data: IHospital[]) => {
     const result: any = [];
@@ -243,8 +249,7 @@ export default class SystemGoalKpi extends React.Component<
   };
 
   private handleHospitalChange = (hospitalId: number, hospital: any) => {
-
-    console.log("Hospital Data ---->", hospital)
+    console.log("Hospital Data ---->", hospital);
 
     this.setState((prevState) => {
       const updatedSelection = new Set(prevState.selectedHospitalsNew);
@@ -373,12 +378,11 @@ export default class SystemGoalKpi extends React.Component<
         case "R":
           return "error ";
         default:
-          return "error";
+          return " ";
       }
     }
     return "error";
   };
-
 
   handleCheckboxChange = (event: any) => {
     const isChecked = event.target.checked;
@@ -392,7 +396,7 @@ export default class SystemGoalKpi extends React.Component<
       return {
         isChecked: isChecked,
         selectedHospitalsNew: updatedSelectedHospitals,
-        pdfDivisionIDs: updatedSelectedDivsionId
+        pdfDivisionIDs: updatedSelectedDivsionId,
       };
     });
   };
@@ -450,7 +454,7 @@ export default class SystemGoalKpi extends React.Component<
       dataAllHospital || []
     );
     const goalHirerachyData = this.getGoalHirerachy(dataKPI || []);
-    console.log("Matixxxxxxxxxxxxxxxxxxxx", dataGoalMetrix)
+    console.log("Matixxxxxxxxxxxxxxxxxxxx", dataGoalMetrix);
 
     return (
       <section>
@@ -484,8 +488,8 @@ export default class SystemGoalKpi extends React.Component<
                             selectedHospitalsNew.has(hospital.id)
                           )
                         )
-                          ? "all_selected"
-                          : ""
+                            ? "all_selected"
+                            : ""
                           }`}
                       >
                         <input
@@ -500,11 +504,12 @@ export default class SystemGoalKpi extends React.Component<
                             this.handleOrganizationChange(
                               organization.id,
                               hirerachicalHospitalData
-                            )
-                            this.organizationRequestChange(e,
-                              hirerachicalHospitalData)
+                            );
+                            this.organizationRequestChange(
+                              e,
+                              hirerachicalHospitalData
+                            );
                           }}
-
                         />
                         <span>{organization.name}</span>
                       </label>
@@ -601,7 +606,10 @@ export default class SystemGoalKpi extends React.Component<
                           </li>
                         </ul>
                       </div>
-                      <button className="print_btn" onClick={() => this.generatePrintFuctionRequest()}>
+                      <button
+                        className="print_btn"
+                        onClick={() => this.generatePrintFuctionRequest()}
+                      >
                         Print
                       </button>
                     </div>
@@ -626,10 +634,9 @@ export default class SystemGoalKpi extends React.Component<
                                   this.handleDivisionChange(
                                     division.id,
                                     hirerachicalHospitalData
-                                  )
-                                  this.divisionRequestChange(division.id, e)
-                                }
-                                }
+                                  );
+                                  this.divisionRequestChange(division.id, e);
+                                }}
                               />
                               <span>{division.name}</span>
                             </label>
@@ -645,9 +652,11 @@ export default class SystemGoalKpi extends React.Component<
                                       hospital.id
                                     )}
                                     onChange={(e) => {
-                                      this.handleHospitalChange(hospital.id, hospital);
-                                    }
-                                    }
+                                      this.handleHospitalChange(
+                                        hospital.id,
+                                        hospital
+                                      );
+                                    }}
                                   />
                                   <span>{hospital.title}</span>
                                 </label>
@@ -850,14 +859,14 @@ export default class SystemGoalKpi extends React.Component<
                                                             className={`${!selectedHospitalsNew.has(
                                                               hospital.id
                                                             ) ||
-                                                              [
-                                                                5, 13, 15, 21,
-                                                                22,
-                                                              ].indexOf(
-                                                                hospital.id
-                                                              ) !== -1
-                                                              ? "d-none"
-                                                              : ""
+                                                                [
+                                                                  5, 13, 15, 21,
+                                                                  22,
+                                                                ].indexOf(
+                                                                  hospital.id
+                                                                ) !== -1
+                                                                ? "d-none"
+                                                                : ""
                                                               } ${isChecked
                                                                 ? "d-none"
                                                                 : ""
@@ -1352,8 +1361,8 @@ export default class SystemGoalKpi extends React.Component<
                                                                     dataGoalMetrix,
                                                                     "URL"
                                                                   ) === null
-                                                                    ? "disabled"
-                                                                    : ""
+                                                                      ? "disabled"
+                                                                      : ""
                                                                     }`}
                                                                 >
                                                                   Click
@@ -1368,8 +1377,8 @@ export default class SystemGoalKpi extends React.Component<
                                                       {allHospitalsSelected && (
                                                         <tr
                                                           className={`division_avg ${division.id == null
-                                                            ? "d-none"
-                                                            : ""
+                                                              ? "d-none"
+                                                              : ""
                                                             } ${isChecked
                                                               ? "d-none"
                                                               : ""
@@ -1864,8 +1873,8 @@ export default class SystemGoalKpi extends React.Component<
                                                                   dataGoalMetrix,
                                                                   "URL"
                                                                 ) === null
-                                                                  ? "disabled"
-                                                                  : ""
+                                                                    ? "disabled"
+                                                                    : ""
                                                                   }`}
                                                               >
                                                                 Click
@@ -2195,8 +2204,8 @@ export default class SystemGoalKpi extends React.Component<
                                                             dataGoalMetrix,
                                                             "URL"
                                                           ) === null
-                                                            ? "disabled"
-                                                            : ""
+                                                              ? "disabled"
+                                                              : ""
                                                             }`}
                                                         >
                                                           Click
@@ -2226,7 +2235,7 @@ export default class SystemGoalKpi extends React.Component<
         </div>
 
         <div className={styles.dummy}></div>
-      </section >
+      </section>
     );
   }
 }
