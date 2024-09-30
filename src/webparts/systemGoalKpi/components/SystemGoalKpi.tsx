@@ -692,11 +692,12 @@ export default class SystemGoalKpi extends React.Component<
                                         <tr className="border_bkg kpi_row">
                                           <th
                                             // colSpan={5}
+                                            rowSpan={2}
                                             className="kpi_name_title"
                                           >
                                             {kpi.title}
                                           </th>
-                                          <th style={{ width: "50px" }}>Q/M</th>
+                                          <th style={{ width: "50px" }} rowSpan={2}>Q/M</th>
                                           <th>MTD/QTD</th>
                                           <th>% Variance</th>
                                           <th>YTD</th>
@@ -705,8 +706,8 @@ export default class SystemGoalKpi extends React.Component<
                                           <th>Details</th>
                                         </tr>
                                         <tr className="border_bkg kpi_row">
-                                          <th>&nbsp;</th>
-                                          <th style={{ width: "50px" }}></th>
+                                      
+                                          {/* <th style={{ width: "50px" }}></th> */}
                                           <th style={{ padding: "0" }}>
                                             <table>
                                               <tr>
