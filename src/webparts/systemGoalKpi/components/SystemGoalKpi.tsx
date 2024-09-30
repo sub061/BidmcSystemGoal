@@ -398,29 +398,43 @@ export default class SystemGoalKpi extends React.Component<
   };
 
   private generatePrintFuctionRequest = async () => {
-    const { selectedHospitalsNew, pdfDivisionIDs, checkedSystemGoalsNew, dataKPI } = this.state;
+    const { selectedHospitalsNew, pdfDivisionIDs, checkedSystemGoalsNew } = this.state;
 
-    const mergedHospitalIds = Array.from(new Set([...selectedHospitalsNew, ...pdfDivisionIDs])).join(',');
-    const kpiIds = dataKPI?.map((data: any) => data.Id);
+    // Merge and deduplicate hospital IDs
+    const mergedHospitalIds = Array.from(new Set([...selectedHospitalsNew, ...pdfDivisionIDs]));
 
+    // Create the request object with "pillars" and "hospitals" arrays
     const req = {
-      goalIds: Array.from(new Set([...checkedSystemGoalsNew])).join(','),
-      hospitlIds: mergedHospitalIds,
-      KpiIds: kpiIds?.join(','),
-    }
+      "pillars": Array.from(new Set([...checkedSystemGoalsNew])),
+      "hospitals": mergedHospitalIds
+    };
+
+    console.log("Request HJHHHHHHHHHHHHHHHHHHHHHHH ---->", req);
 
     try {
       const response = await fetch("https://systemgoalapi.bilh.org/Print/api/report/", {
-        method: "Post",
+        method: "POST",
+        headers: {
+          'Content-Type': 'application/json'
+        },
         body: JSON.stringify(req)
-      })
-      console.log("Response ---->", response);
-    } catch (e) {
-      alert(e)
-      console.log("Error Occured --->", e)
-    }
+      });
 
+      console.log("Response ---->", response);
+
+      if (response.ok) {
+        const pdfUrl = await response.text();
+        console.log("PDF URL ---->", pdfUrl);
+        window.open(pdfUrl, '_blank');
+      } else {
+        console.error("Failed to generate the report:", response.statusText);
+      }
+    } catch (e) {
+      alert("Error Occurred: " + e);
+      console.log("Error Occurred --->", e);
+    }
   };
+
 
   public render(): React.ReactElement<ISystemGoalKpiProps> {
     const { isChecked } = this.state;
