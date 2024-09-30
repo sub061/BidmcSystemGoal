@@ -386,10 +386,10 @@ export default class SystemGoalKpi extends React.Component<
 
   handleCheckboxChange = (event: any) => {
     const isChecked = event.target.checked;
-    this.setState((prev: ISystemGoalKpiWpState) => {
+    this.setState((prev: any) => {
       const updatedSelectedHospitals = !isChecked
-        ? prev.selectedHospitalsNew
-        : new Set([]);
+        ? new Set([])
+        : new Set([22]);
       const updatedSelectedDivsionId = !isChecked
         ? prev.pdfDivisionIDs
         : new Set([]);
@@ -488,8 +488,8 @@ export default class SystemGoalKpi extends React.Component<
                             selectedHospitalsNew.has(hospital.id)
                           )
                         )
-                            ? "all_selected"
-                            : ""
+                          ? "all_selected"
+                          : ""
                           }`}
                       >
                         <input
@@ -608,6 +608,7 @@ export default class SystemGoalKpi extends React.Component<
                       </div>
                       <button
                         className="print_btn"
+                        disabled={selectedHospitalsNew.size === 0}
                         onClick={() => this.generatePrintFuctionRequest()}
                       >
                         Print
@@ -859,14 +860,14 @@ export default class SystemGoalKpi extends React.Component<
                                                             className={`${!selectedHospitalsNew.has(
                                                               hospital.id
                                                             ) ||
-                                                                [
-                                                                  5, 13, 15, 21,
-                                                                  22,
-                                                                ].indexOf(
-                                                                  hospital.id
-                                                                ) !== -1
-                                                                ? "d-none"
-                                                                : ""
+                                                              [
+                                                                5, 13, 15, 21,
+                                                                22,
+                                                              ].indexOf(
+                                                                hospital.id
+                                                              ) !== -1
+                                                              ? "d-none"
+                                                              : ""
                                                               } ${isChecked
                                                                 ? "d-none"
                                                                 : ""
@@ -1361,8 +1362,8 @@ export default class SystemGoalKpi extends React.Component<
                                                                     dataGoalMetrix,
                                                                     "URL"
                                                                   ) === null
-                                                                      ? "disabled"
-                                                                      : ""
+                                                                    ? "disabled"
+                                                                    : ""
                                                                     }`}
                                                                 >
                                                                   Click
@@ -1377,8 +1378,8 @@ export default class SystemGoalKpi extends React.Component<
                                                       {allHospitalsSelected && (
                                                         <tr
                                                           className={`division_avg ${division.id == null
-                                                              ? "d-none"
-                                                              : ""
+                                                            ? "d-none"
+                                                            : ""
                                                             } ${isChecked
                                                               ? "d-none"
                                                               : ""
@@ -1873,8 +1874,8 @@ export default class SystemGoalKpi extends React.Component<
                                                                   dataGoalMetrix,
                                                                   "URL"
                                                                 ) === null
-                                                                    ? "disabled"
-                                                                    : ""
+                                                                  ? "disabled"
+                                                                  : ""
                                                                   }`}
                                                               >
                                                                 Click
@@ -2204,8 +2205,8 @@ export default class SystemGoalKpi extends React.Component<
                                                             dataGoalMetrix,
                                                             "URL"
                                                           ) === null
-                                                              ? "disabled"
-                                                              : ""
+                                                            ? "disabled"
+                                                            : ""
                                                             }`}
                                                         >
                                                           Click
