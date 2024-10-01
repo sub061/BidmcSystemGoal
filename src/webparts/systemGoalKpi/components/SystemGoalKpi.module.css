@@ -70,7 +70,7 @@
 }
 .system_goel_container .box_model .inner_container thead th {
   padding: 4px;
-  font-size: 13px;
+  font-size: 11px;
   font-weight: normal;
   vertical-align: middle;
   text-align: center;
@@ -83,6 +83,8 @@
 .system_goel_container .box_model .inner_container thead .kpi_name_title:first-child {
   text-align: left;
   width: 250px;
+  background-color: #f1eed9;
+  font-size: 13px;
 }
 .system_goel_container .box_model .inner_container thead .border_bkg {
   border-bottom: 1px solid #e5e5e5;
@@ -121,7 +123,6 @@
   padding: 4px;
   font-size: 12px;
   min-width: 50px;
-  font-weight: 600;
   vertical-align: middle;
   text-align: center;
   color: #323130;
@@ -158,12 +159,10 @@
   font-weight: 900;
 }
 .system_goel_container .box_model .inner_container tbody td button, .system_goel_container .box_model .inner_container tbody td a {
-  box-shadow: 0px 2px 3px rgba(0, 0, 0, 0.1568627451);
-  background-color: #e3f3ff;
-  min-width: 150px;
+  background-color: transparent;
   height: 24px;
   border-radius: 3px;
-  font-size: 12px;
+  font-size: 11px;
   font-weight: 400;
   white-space: nowrap;
   cursor: pointer;
@@ -180,6 +179,8 @@
 }
 .system_goel_container .box_model .inner_container tbody td button {
   pointer-events: none;
+  font-weight: 700;
+  color: #444;
 }
 .system_goel_container .box_model .inner_container tbody td a {
   min-width: unset;
