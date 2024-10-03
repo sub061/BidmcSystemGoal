@@ -691,7 +691,7 @@ export default class SystemGoalKpi extends React.Component<
                                     <table>
                                       <thead>
                                         <tr className="border_bkg kpi_row">
-                                          <th
+                                          <th title="asdfdasffdsfdsadsfds"
                                             // colSpan={5}
                                             rowSpan={2}
                                             className="kpi_name_title"
@@ -704,7 +704,7 @@ export default class SystemGoalKpi extends React.Component<
                                           <th>YTD</th>
                                           <th>% Variance</th>
 
-                                          <th>Details</th>
+                                          <th rowSpan={2}>Details</th>
                                         </tr>
                                         <tr className="border_bkg kpi_row">
                                       
@@ -728,7 +728,7 @@ export default class SystemGoalKpi extends React.Component<
                                                     width: "80px",
                                                   }}
                                                 >
-                                                  Budget or Target
+                                                  Budget/Tgt
                                                 </td>
                                                 <td
                                                   style={{
@@ -752,7 +752,7 @@ export default class SystemGoalKpi extends React.Component<
                                                     borderLeft: "0",
                                                   }}
                                                 >
-                                                  Budget or Target
+                                                  Budget/Tgt
                                                 </td>
                                                 <td
                                                   style={{
@@ -785,7 +785,7 @@ export default class SystemGoalKpi extends React.Component<
                                                     width: "80px",
                                                   }}
                                                 >
-                                                  Budget or Target
+                                                  Budget/Tgt
                                                 </td>
                                                 <td
                                                   style={{
@@ -809,7 +809,7 @@ export default class SystemGoalKpi extends React.Component<
                                                     borderLeft: "0",
                                                   }}
                                                 >
-                                                  Budget or Target
+                                                  Budget/Tgt
                                                 </td>
                                                 <td
                                                   style={{
@@ -822,7 +822,6 @@ export default class SystemGoalKpi extends React.Component<
                                               </tr>
                                             </table>
                                           </th>
-                                          <th></th>
                                         </tr>
                                       </thead>
                                       <tbody>

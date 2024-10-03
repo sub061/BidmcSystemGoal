@@ -190,6 +190,8 @@
 }
 .system_goel_container .box_model .inner_container tbody td a.details {
   min-width: unset;
+  border-color: #525252;
+  background-color: #fff;
 }
 .system_goel_container .box_model .inner_container tbody .budget-py td {
   border: 0;
