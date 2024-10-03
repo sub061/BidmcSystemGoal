@@ -244,6 +244,7 @@ export default class SystemGoalKpi extends React.Component<
         id: kpi.Id,
         title: kpi.Title,
         Sitelevel: kpi.Sitelevel,
+        KPI_DEFINATION: kpi.KPI_DEFINATION
       });
     });
 
@@ -700,9 +701,9 @@ export default class SystemGoalKpi extends React.Component<
                                             data-tooltip-id={`tooltip-${kpi.id}`}
                                           >
                                             {kpi.title}
-                                            <ReactTooltip id={`tooltip-${kpi.id}`} style={{ width: "250px"}}>
+                                            <ReactTooltip id={`tooltip-${kpi.id}`} style={{ width: "250px" }}>
                                               <div style={{ display: 'flex', flexDirection: 'column' }}>
-                                                <span>{kpi.title}</span>
+                                                <span>{kpi?.KPI_DEFINATION || ''}</span>
                                               </div>
                                             </ReactTooltip>                                          </th>
                                           <th style={{ width: "50px" }} rowSpan={2}>Q/M</th>

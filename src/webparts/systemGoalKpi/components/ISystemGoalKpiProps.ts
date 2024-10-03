@@ -90,6 +90,7 @@ export interface IKPI {
   SubGoal: string;
   GoalId: number;
   Sitelevel?: boolean;
+  KPI_DEFINATION?: string;
 }
 export interface ISubGoal {
   Id: number;
