@@ -699,7 +699,7 @@ export default class SystemGoalKpi extends React.Component<
                                             className="kpi_name_title"
                                             data-tooltip-id={`tooltip-${kpi.id}`}
                                           >
-                                            {kpi.title} Asli
+                                            {kpi.title}
                                             <ReactTooltip id={`tooltip-${kpi.id}`} style={{ width: "250px"}}>
                                               <div style={{ display: 'flex', flexDirection: 'column' }}>
                                                 <span>{kpi.title}</span>
