@@ -4,8 +4,10 @@ import * as React from "react";
 import styles from "./SystemGoalKpi.module.scss";
 import "@fortawesome/fontawesome-free/css/all.min.css";
 import "bootstrap/dist/css/bootstrap.min.css";
+import 'react-tooltip/dist/react-tooltip.css';
 
 import "bootstrap/dist/js/bootstrap.min.js";
+import { Tooltip as ReactTooltip } from 'react-tooltip';
 
 import type {
   // IDivision,
@@ -691,13 +693,18 @@ export default class SystemGoalKpi extends React.Component<
                                     <table>
                                       <thead>
                                         <tr className="border_bkg kpi_row">
-                                          <th title="asdfdasffdsfdsadsfds"
+                                          <th
                                             // colSpan={5}
                                             rowSpan={2}
                                             className="kpi_name_title"
+                                            data-tooltip-id={`tooltip-${kpi.id}`}
                                           >
-                                            {kpi.title}
-                                          </th>
+                                            {kpi.title} Asli
+                                            <ReactTooltip id={`tooltip-${kpi.id}`} style={{ width: "250px"}}>
+                                              <div style={{ display: 'flex', flexDirection: 'column' }}>
+                                                <span>{kpi.title}</span>
+                                              </div>
+                                            </ReactTooltip>                                          </th>
                                           <th style={{ width: "50px" }} rowSpan={2}>Q/M</th>
                                           <th>MTD/QTD</th>
                                           <th>% Variance</th>
@@ -707,7 +714,7 @@ export default class SystemGoalKpi extends React.Component<
                                           <th rowSpan={2}>Details</th>
                                         </tr>
                                         <tr className="border_bkg kpi_row">
-                                      
+
                                           {/* <th style={{ width: "50px" }}></th> */}
                                           <th style={{ padding: "0" }}>
                                             <table>
