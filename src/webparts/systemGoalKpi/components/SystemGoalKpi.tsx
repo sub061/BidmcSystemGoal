@@ -482,7 +482,7 @@ export default class SystemGoalKpi extends React.Component<
       <>
 
 
-        <section style={{ position: 'relative' }}>
+        <section>
           {this.state.isloading && (
             <div className="loader_container">
               <div className="box_align">
