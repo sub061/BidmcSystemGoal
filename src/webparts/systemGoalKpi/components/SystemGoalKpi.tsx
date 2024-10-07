@@ -460,6 +460,19 @@ export default class SystemGoalKpi extends React.Component<
     console.log("Matixxxxxxxxxxxxxxxxxxxx", dataGoalMetrix);
 
     return (
+      <>
+      <div className="loader_container">
+      <div className="box_align">
+      <div className="lds-ring">
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+      </div>
+      <span>Loading...</span>
+      </div>
+      </div>
+      
       <section>
         <div
           style={{
@@ -706,13 +719,13 @@ export default class SystemGoalKpi extends React.Component<
                                                 <span>{kpi?.KPI_DEFINATION || ''}</span>
                                               </div>
                                             </ReactTooltip>                                          </th>
-                                          <th style={{ width: "50px" }} rowSpan={2}>Q/M</th>
-                                          <th>MTD/QTD</th>
-                                          <th>% Variance</th>
-                                          <th>YTD</th>
-                                          <th>% Variance</th>
+                                          <th style={{ width: "50px", padding: '0px 4px' }} rowSpan={2}>Q/M</th>
+                                          <th style={{padding: '0px 4px'}}>MTD/QTD</th>
+                                          <th  style={{padding: '0px 4px'}}>% Variance</th>
+                                          <th  style={{padding: '0px 4px'}}>YTD</th>
+                                          <th  style={{padding: '0px 4px'}}>% Variance</th>
 
-                                          <th rowSpan={2}>Details</th>
+                                          <th rowSpan={2} style={{padding: '0px 4px'}}>Details</th>
                                         </tr>
                                         <tr className="border_bkg kpi_row">
 
@@ -2245,6 +2258,7 @@ export default class SystemGoalKpi extends React.Component<
 
         <div className={styles.dummy}></div>
       </section>
+      </>
     );
   }
 }
