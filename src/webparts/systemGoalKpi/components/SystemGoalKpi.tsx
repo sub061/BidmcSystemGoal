@@ -4,10 +4,10 @@ import * as React from "react";
 import styles from "./SystemGoalKpi.module.scss";
 import "@fortawesome/fontawesome-free/css/all.min.css";
 import "bootstrap/dist/css/bootstrap.min.css";
-import 'react-tooltip/dist/react-tooltip.css';
+import "react-tooltip/dist/react-tooltip.css";
 
 import "bootstrap/dist/js/bootstrap.min.js";
-import { Tooltip as ReactTooltip } from 'react-tooltip';
+import { Tooltip as ReactTooltip } from "react-tooltip";
 
 import type {
   // IDivision,
@@ -46,7 +46,7 @@ export interface ISystemGoalKpiWpState {
   // Add other properties here
   groupedDivisionData: any; // Ensure this matches your actual data type
   pdfDivisionIDs: Set<number>;
-  isloading: boolean
+  isloading: boolean;
 }
 
 export default class SystemGoalKpi extends React.Component<
@@ -80,7 +80,7 @@ export default class SystemGoalKpi extends React.Component<
       selectedOrganizations: new Set(), // Initialize this
       groupedDivisionData: {}, // Ensure this matches your actual data type
       pdfDivisionIDs: new Set([5]),
-      isloading: false
+      isloading: false,
     };
 
     console.log(
@@ -246,7 +246,7 @@ export default class SystemGoalKpi extends React.Component<
         id: kpi.Id,
         title: kpi.Title,
         Sitelevel: kpi.Sitelevel,
-        KPI_DEFINATION: kpi.KPI_DEFINATION
+        KPI_DEFINATION: kpi.KPI_DEFINATION,
       });
     });
 
@@ -392,9 +392,7 @@ export default class SystemGoalKpi extends React.Component<
   handleCheckboxChange = (event: any) => {
     const isChecked = event.target.checked;
     this.setState((prev: any) => {
-      const updatedSelectedHospitals = !isChecked
-        ? new Set([])
-        : new Set([22]);
+      const updatedSelectedHospitals = !isChecked ? new Set([]) : new Set([22]);
       const updatedSelectedDivsionId = !isChecked
         ? prev.pdfDivisionIDs
         : new Set([]);
@@ -407,31 +405,37 @@ export default class SystemGoalKpi extends React.Component<
   };
 
   private generatePrintFuctionRequest = async () => {
-    const { selectedHospitalsNew, pdfDivisionIDs, checkedSystemGoalsNew } = this.state;
+    const { selectedHospitalsNew, pdfDivisionIDs, checkedSystemGoalsNew } =
+      this.state;
     // Merge and deduplicate hospital IDs
-    const mergedHospitalIds = Array.from(new Set([...selectedHospitalsNew, ...pdfDivisionIDs]));
+    const mergedHospitalIds = Array.from(
+      new Set([...selectedHospitalsNew, ...pdfDivisionIDs])
+    );
 
     // Create the request object with "pillars" and "hospitals" arrays
     const req = {
-      "pillars": Array.from(new Set([...checkedSystemGoalsNew])),
-      "hospitals": mergedHospitalIds
+      pillars: Array.from(new Set([...checkedSystemGoalsNew])),
+      hospitals: mergedHospitalIds,
     };
 
     this.setState({
-      isloading: true
-    })
+      isloading: true,
+    });
     try {
-      const response = await fetch("https://systemgoalapi.bilh.org/Print/api/report/", {
-        method: "POST",
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(req)
-      });
+      const response = await fetch(
+        "https://systemgoalapi.bilh.org/Print/api/report/",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(req),
+        }
+      );
       console.log("Response ---->", response);
       if (response.ok) {
         const pdfUrl = await response.text();
-        window.open(pdfUrl, '_blank');
+        window.open(pdfUrl, "_blank");
       } else {
         console.error("Failed to generate the report:", response.statusText);
       }
@@ -440,11 +444,10 @@ export default class SystemGoalKpi extends React.Component<
       console.log("Error Occurred --->", e);
     } finally {
       this.setState({
-        isloading: false
-      })
+        isloading: false,
+      });
     }
   };
-
 
   public render(): React.ReactElement<ISystemGoalKpiProps> {
     const { isChecked } = this.state;
@@ -464,17 +467,19 @@ export default class SystemGoalKpi extends React.Component<
 
     return (
       <>
-        {this.state.isloading && <div className="loader_container">
-          <div className="box_align">
-            <div className="lds-ring">
-              <div></div>
-              <div></div>
-              <div></div>
-              <div></div>
+        {this.state.isloading && (
+          <div className="loader_container">
+            <div className="box_align">
+              <div className="lds-ring">
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+              </div>
+              <span>Loading...</span>
             </div>
-            <span>Loading...</span>
           </div>
-        </div>}
+        )}
 
         <section>
           <div
@@ -498,26 +503,29 @@ export default class SystemGoalKpi extends React.Component<
                   <>
                     <div className="with_goal_filter">
                       <div
-                        className={`cat action primary ${isChecked ? "agg_active" : ""
-                          }`}
+                        className={`cat action primary ${
+                          isChecked ? "agg_active" : ""
+                        }`}
                       >
                         <label
-                          className={` ${organization.division.every((divison: any) =>
-                            divison.hospitals.every((hospital: any) =>
-                              selectedHospitalsNew.has(hospital.id)
+                          className={` ${
+                            organization.division.every((divison: any) =>
+                              divison.hospitals.every((hospital: any) =>
+                                selectedHospitalsNew.has(hospital.id)
+                              )
                             )
-                          )
-                            ? "all_selected"
-                            : ""
-                            }`}
+                              ? "all_selected"
+                              : ""
+                          }`}
                         >
                           <input
                             type="checkbox"
                             value={organization.id}
-                            checked={organization.division.every((divison: any) =>
-                              divison.hospitals.every((hospital: any) =>
-                                selectedHospitalsNew.has(hospital.id)
-                              )
+                            checked={organization.division.every(
+                              (divison: any) =>
+                                divison.hospitals.every((hospital: any) =>
+                                  selectedHospitalsNew.has(hospital.id)
+                                )
                             )}
                             onChange={(e) => {
                               this.handleOrganizationChange(
@@ -533,8 +541,9 @@ export default class SystemGoalKpi extends React.Component<
                           <span>{organization.name}</span>
                         </label>
                         <span
-                          className={`bilh_agg_checkbox ${isChecked ? "agg_checkbox_checked" : ""
-                            }`}
+                          className={`bilh_agg_checkbox ${
+                            isChecked ? "agg_checkbox_checked" : ""
+                          }`}
                         >
                           <input
                             type="checkbox"
@@ -619,7 +628,10 @@ export default class SystemGoalKpi extends React.Component<
                                 checked={checkedSystemGoalsNew.has(4)}
                                 onChange={() => this.handleGoalChange(4)}
                               />
-                              <label htmlFor="Strategy" className="dropdown-item">
+                              <label
+                                htmlFor="Strategy"
+                                className="dropdown-item"
+                              >
                                 Strategy
                               </label>
                             </li>
@@ -638,8 +650,9 @@ export default class SystemGoalKpi extends React.Component<
                       {hirerachicalHospitalData[0].division.map(
                         (division: any) => (
                           <div
-                            className={`inner_btn_group ${division.id == null ? "d-none" : ""
-                              }`}
+                            className={`inner_btn_group ${
+                              division.id == null ? "d-none" : ""
+                            }`}
                           >
                             <div className="cat action secondary">
                               <label>
@@ -693,8 +706,11 @@ export default class SystemGoalKpi extends React.Component<
                         {/** Box Model */}
                         {goalHirerachyData.map((goal: any) => (
                           <div
-                            className={`box_model ${!checkedSystemGoalsNew.has(goal.id) ? "d-none" : ""
-                              }`}
+                            className={`box_model ${
+                              !checkedSystemGoalsNew.has(goal.id)
+                                ? "d-none"
+                                : ""
+                            }`}
                           >
                             <div className="header">{goal.name}</div>
                             <div>
@@ -717,21 +733,52 @@ export default class SystemGoalKpi extends React.Component<
                                               data-tooltip-id={`tooltip-${kpi.id}`}
                                             >
                                               {kpi.title}
-                                              <ReactTooltip id={`tooltip-${kpi.id}`} style={{ width: "250px" }}>
-                                                <div style={{ display: 'flex', flexDirection: 'column' }}>
-                                                  <span>{kpi?.KPI_DEFINATION || ''}</span>
+                                              <ReactTooltip
+                                                id={`tooltip-${kpi.id}`}
+                                                style={{ width: "250px" }}
+                                              >
+                                                <div
+                                                  style={{
+                                                    display: "flex",
+                                                    flexDirection: "column",
+                                                  }}
+                                                >
+                                                  <span>
+                                                    {kpi?.KPI_DEFINATION || ""}
+                                                  </span>
                                                 </div>
-                                              </ReactTooltip>                                          </th>
-                                            <th style={{ width: "50px", padding: '0px 4px' }} rowSpan={2}>Q/M</th>
-                                            <th style={{ padding: '0px 4px' }}>MTD/QTD</th>
-                                            <th style={{ padding: '0px 4px' }}>% Variance</th>
-                                            <th style={{ padding: '0px 4px' }}>YTD</th>
-                                            <th style={{ padding: '0px 4px' }}>% Variance</th>
+                                              </ReactTooltip>{" "}
+                                            </th>
+                                            <th
+                                              style={{
+                                                width: "50px",
+                                                padding: "0px 4px",
+                                              }}
+                                              rowSpan={2}
+                                            >
+                                              Q/M
+                                            </th>
+                                            <th style={{ padding: "0px 4px" }}>
+                                              MTD/QTD
+                                            </th>
+                                            <th style={{ padding: "0px 4px" }}>
+                                              % Variance
+                                            </th>
+                                            <th style={{ padding: "0px 4px" }}>
+                                              YTD
+                                            </th>
+                                            <th style={{ padding: "0px 4px" }}>
+                                              % Variance
+                                            </th>
 
-                                            <th rowSpan={2} style={{ padding: '0px 4px' }}>Details</th>
+                                            <th
+                                              rowSpan={2}
+                                              style={{ padding: "0px 4px" }}
+                                            >
+                                              Details
+                                            </th>
                                           </tr>
                                           <tr className="border_bkg kpi_row">
-
                                             {/* <th style={{ width: "50px" }}></th> */}
                                             <th style={{ padding: "0" }}>
                                               <table>
@@ -881,37 +928,68 @@ export default class SystemGoalKpi extends React.Component<
                                                         {division.hospitals.map(
                                                           (hospital: any) => (
                                                             <tr
-                                                              className={`${!selectedHospitalsNew.has(
-                                                                hospital.id
-                                                              ) ||
+                                                              className={`${
+                                                                !selectedHospitalsNew.has(
+                                                                  hospital.id
+                                                                ) ||
                                                                 [
                                                                   5, 13, 15, 21,
                                                                   22,
                                                                 ].indexOf(
                                                                   hospital.id
                                                                 ) !== -1
-                                                                ? "d-none"
-                                                                : ""
-                                                                } ${isChecked
                                                                   ? "d-none"
                                                                   : ""
-                                                                }`}
+                                                              } ${
+                                                                isChecked
+                                                                  ? "d-none"
+                                                                  : ""
+                                                              }`}
                                                             >
                                                               <td
+                                                                data-tooltip-id={`tooltip-${hospital.id}_${kpi.id}`}
                                                                 style={{
                                                                   textAlign:
                                                                     "left",
                                                                 }}
                                                               >
+                                                                <ReactTooltip
+                                                                  id={`tooltip-${hospital.id}_${kpi.id}`}
+                                                                  style={{
+                                                                    width:
+                                                                      "250px",
+                                                                  }}
+                                                                >
+                                                                  <div
+                                                                    style={{
+                                                                      display:
+                                                                        "flex",
+                                                                      flexDirection:
+                                                                        "column",
+                                                                    }}
+                                                                  >
+                                                                    <span>
+                                                                      {this.findMatrixValues(
+                                                                        subGoal.id,
+                                                                        kpi.id,
+                                                                        hospital.id,
+                                                                        dataGoalMetrix,
+                                                                        "Comment"
+                                                                      ) || ""}
+                                                                    </span>
+                                                                  </div>
+                                                                </ReactTooltip>
                                                                 <button>
-                                                                  {hospital.title}
+                                                                  {
+                                                                    hospital.title
+                                                                  }
                                                                 </button>
                                                               </td>
 
                                                               <td
                                                                 className={
                                                                   kpi.Sitelevel ===
-                                                                    "Y"
+                                                                  "Y"
                                                                     ? ""
                                                                     : "no_data"
                                                                 }
@@ -921,14 +999,14 @@ export default class SystemGoalKpi extends React.Component<
                                                               >
                                                                 {" "}
                                                                 {kpi.Sitelevel ===
-                                                                  "Y"
+                                                                "Y"
                                                                   ? this.findMatrixValues(
-                                                                    subGoal.id,
-                                                                    kpi.id,
-                                                                    organization.id,
-                                                                    dataGoalMetrix,
-                                                                    "ReportType"
-                                                                  )
+                                                                      subGoal.id,
+                                                                      kpi.id,
+                                                                      hospital.id,
+                                                                      dataGoalMetrix,
+                                                                      "ReportType"
+                                                                    )
                                                                   : ""}
                                                               </td>
                                                               <td
@@ -958,20 +1036,20 @@ export default class SystemGoalKpi extends React.Component<
                                                                       }}
                                                                       className={
                                                                         kpi.Sitelevel ===
-                                                                          "Y"
+                                                                        "Y"
                                                                           ? ""
                                                                           : "no_data"
                                                                       }
                                                                     >
                                                                       {kpi.Sitelevel ===
-                                                                        "Y"
+                                                                      "Y"
                                                                         ? this.findMatrixValues(
-                                                                          subGoal.id,
-                                                                          kpi.id,
-                                                                          hospital.id,
-                                                                          dataGoalMetrix,
-                                                                          "MTD_ACTUAL"
-                                                                        )
+                                                                            subGoal.id,
+                                                                            kpi.id,
+                                                                            hospital.id,
+                                                                            dataGoalMetrix,
+                                                                            "MTD_ACTUAL"
+                                                                          )
                                                                         : ""}
                                                                     </td>
                                                                     <td
@@ -987,20 +1065,20 @@ export default class SystemGoalKpi extends React.Component<
                                                                       }}
                                                                       className={
                                                                         kpi.Sitelevel ===
-                                                                          "Y"
+                                                                        "Y"
                                                                           ? ""
                                                                           : "no_data"
                                                                       }
                                                                     >
                                                                       {kpi.Sitelevel ===
-                                                                        "Y"
+                                                                      "Y"
                                                                         ? this.findMatrixValues(
-                                                                          subGoal.id,
-                                                                          kpi.id,
-                                                                          hospital.id,
-                                                                          dataGoalMetrix,
-                                                                          "MTD_BUDGET"
-                                                                        )
+                                                                            subGoal.id,
+                                                                            kpi.id,
+                                                                            hospital.id,
+                                                                            dataGoalMetrix,
+                                                                            "MTD_BUDGET"
+                                                                          )
                                                                         : ""}
                                                                     </td>
                                                                     <td
@@ -1012,20 +1090,20 @@ export default class SystemGoalKpi extends React.Component<
                                                                       }}
                                                                       className={
                                                                         kpi.Sitelevel ===
-                                                                          "Y"
+                                                                        "Y"
                                                                           ? ""
                                                                           : "no_data"
                                                                       }
                                                                     >
                                                                       {kpi.Sitelevel ===
-                                                                        "Y"
+                                                                      "Y"
                                                                         ? this.findMatrixValues(
-                                                                          subGoal.id,
-                                                                          kpi.id,
-                                                                          hospital.id,
-                                                                          dataGoalMetrix,
-                                                                          "MTD_PRIOR_YEAR"
-                                                                        )
+                                                                            subGoal.id,
+                                                                            kpi.id,
+                                                                            hospital.id,
+                                                                            dataGoalMetrix,
+                                                                            "MTD_PRIOR_YEAR"
+                                                                          )
                                                                         : ""}
                                                                     </td>
                                                                   </tr>
@@ -1055,26 +1133,26 @@ export default class SystemGoalKpi extends React.Component<
                                                                           <td
                                                                             className={
                                                                               kpi.Sitelevel ===
-                                                                                "Y"
+                                                                              "Y"
                                                                                 ? ""
                                                                                 : "no_data"
                                                                             }
                                                                           >
                                                                             {kpi.Sitelevel ===
-                                                                              "Y"
+                                                                            "Y"
                                                                               ? this.findMatrixValues(
-                                                                                subGoal.id,
-                                                                                kpi.id,
-                                                                                hospital.id,
-                                                                                dataGoalMetrix,
-                                                                                "MTD_BUDGET_VARIANCE"
-                                                                              )
+                                                                                  subGoal.id,
+                                                                                  kpi.id,
+                                                                                  hospital.id,
+                                                                                  dataGoalMetrix,
+                                                                                  "MTD_BUDGET_VARIANCE"
+                                                                                )
                                                                               : ""}
                                                                           </td>
                                                                           <td
                                                                             className={
                                                                               kpi.Sitelevel ===
-                                                                                "Y"
+                                                                              "Y"
                                                                                 ? ""
                                                                                 : "no_data"
                                                                             }
@@ -1083,14 +1161,14 @@ export default class SystemGoalKpi extends React.Component<
                                                                             <span
                                                                               className={
                                                                                 kpi.Sitelevel ===
-                                                                                  "Y"
+                                                                                "Y"
                                                                                   ? this.getStatus(
-                                                                                    subGoal.id,
-                                                                                    kpi.id,
-                                                                                    hospital.id,
-                                                                                    dataGoalMetrix,
-                                                                                    "MTD_BUDGET_VAR_SIGN"
-                                                                                  )
+                                                                                      subGoal.id,
+                                                                                      kpi.id,
+                                                                                      hospital.id,
+                                                                                      dataGoalMetrix,
+                                                                                      "MTD_BUDGET_VAR_SIGN"
+                                                                                    )
                                                                                   : ""
                                                                               }
                                                                             ></span>
@@ -1109,26 +1187,26 @@ export default class SystemGoalKpi extends React.Component<
                                                                           <td
                                                                             className={
                                                                               kpi.Sitelevel ===
-                                                                                "Y"
+                                                                              "Y"
                                                                                 ? ""
                                                                                 : "no_data"
                                                                             }
                                                                           >
                                                                             {kpi.Sitelevel ===
-                                                                              "Y"
+                                                                            "Y"
                                                                               ? this.findMatrixValues(
-                                                                                subGoal.id,
-                                                                                kpi.id,
-                                                                                hospital.id,
-                                                                                dataGoalMetrix,
-                                                                                "MTD_PRIOR_YEAR_VARIANCE"
-                                                                              )
+                                                                                  subGoal.id,
+                                                                                  kpi.id,
+                                                                                  hospital.id,
+                                                                                  dataGoalMetrix,
+                                                                                  "MTD_PRIOR_YEAR_VARIANCE"
+                                                                                )
                                                                               : ""}
                                                                           </td>
                                                                           <td
                                                                             className={
                                                                               kpi.Sitelevel ===
-                                                                                "Y"
+                                                                              "Y"
                                                                                 ? ""
                                                                                 : "no_data"
                                                                             }
@@ -1137,14 +1215,14 @@ export default class SystemGoalKpi extends React.Component<
                                                                             <span
                                                                               className={
                                                                                 kpi.Sitelevel ===
-                                                                                  "Y"
+                                                                                "Y"
                                                                                   ? this.getStatus(
-                                                                                    subGoal.id,
-                                                                                    kpi.id,
-                                                                                    hospital.id,
-                                                                                    dataGoalMetrix,
-                                                                                    "MTD_PRIOR_YEAR_VAR_SIGN"
-                                                                                  )
+                                                                                      subGoal.id,
+                                                                                      kpi.id,
+                                                                                      hospital.id,
+                                                                                      dataGoalMetrix,
+                                                                                      "MTD_PRIOR_YEAR_VAR_SIGN"
+                                                                                    )
                                                                                   : ""
                                                                               }
                                                                             ></span>
@@ -1171,20 +1249,20 @@ export default class SystemGoalKpi extends React.Component<
                                                                       }}
                                                                       className={
                                                                         kpi.Sitelevel ===
-                                                                          "Y"
+                                                                        "Y"
                                                                           ? ""
                                                                           : "no_data"
                                                                       }
                                                                     >
                                                                       {kpi.Sitelevel ===
-                                                                        "Y"
+                                                                      "Y"
                                                                         ? this.findMatrixValues(
-                                                                          subGoal.id,
-                                                                          kpi.id,
-                                                                          hospital.id,
-                                                                          dataGoalMetrix,
-                                                                          "YTD_ACTUAL"
-                                                                        )
+                                                                            subGoal.id,
+                                                                            kpi.id,
+                                                                            hospital.id,
+                                                                            dataGoalMetrix,
+                                                                            "YTD_ACTUAL"
+                                                                          )
                                                                         : ""}
                                                                     </td>
                                                                     <td
@@ -1200,20 +1278,20 @@ export default class SystemGoalKpi extends React.Component<
                                                                       }}
                                                                       className={
                                                                         kpi.Sitelevel ===
-                                                                          "Y"
+                                                                        "Y"
                                                                           ? ""
                                                                           : "no_data"
                                                                       }
                                                                     >
                                                                       {kpi.Sitelevel ===
-                                                                        "Y"
+                                                                      "Y"
                                                                         ? this.findMatrixValues(
-                                                                          subGoal.id,
-                                                                          kpi.id,
-                                                                          hospital.id,
-                                                                          dataGoalMetrix,
-                                                                          "YTD_BUDGET"
-                                                                        )
+                                                                            subGoal.id,
+                                                                            kpi.id,
+                                                                            hospital.id,
+                                                                            dataGoalMetrix,
+                                                                            "YTD_BUDGET"
+                                                                          )
                                                                         : ""}
                                                                     </td>
                                                                     <td
@@ -1225,20 +1303,20 @@ export default class SystemGoalKpi extends React.Component<
                                                                       }}
                                                                       className={
                                                                         kpi.Sitelevel ===
-                                                                          "Y"
+                                                                        "Y"
                                                                           ? ""
                                                                           : "no_data"
                                                                       }
                                                                     >
                                                                       {kpi.Sitelevel ===
-                                                                        "Y"
+                                                                      "Y"
                                                                         ? this.findMatrixValues(
-                                                                          subGoal.id,
-                                                                          kpi.id,
-                                                                          hospital.id,
-                                                                          dataGoalMetrix,
-                                                                          "YTD_PRIOR_YEAR"
-                                                                        )
+                                                                            subGoal.id,
+                                                                            kpi.id,
+                                                                            hospital.id,
+                                                                            dataGoalMetrix,
+                                                                            "YTD_PRIOR_YEAR"
+                                                                          )
                                                                         : ""}
                                                                     </td>
                                                                   </tr>
@@ -1262,26 +1340,26 @@ export default class SystemGoalKpi extends React.Component<
                                                                           <td
                                                                             className={
                                                                               kpi.Sitelevel ===
-                                                                                "Y"
+                                                                              "Y"
                                                                                 ? ""
                                                                                 : "no_data"
                                                                             }
                                                                           >
                                                                             {kpi.Sitelevel ===
-                                                                              "Y"
+                                                                            "Y"
                                                                               ? this.findMatrixValues(
-                                                                                subGoal.id,
-                                                                                kpi.id,
-                                                                                hospital.id,
-                                                                                dataGoalMetrix,
-                                                                                "YTD_BUDGET_VARIANCE"
-                                                                              )
+                                                                                  subGoal.id,
+                                                                                  kpi.id,
+                                                                                  hospital.id,
+                                                                                  dataGoalMetrix,
+                                                                                  "YTD_BUDGET_VARIANCE"
+                                                                                )
                                                                               : ""}
                                                                           </td>
                                                                           <td
                                                                             className={
                                                                               kpi.Sitelevel ===
-                                                                                "Y"
+                                                                              "Y"
                                                                                 ? ""
                                                                                 : "no_data"
                                                                             }
@@ -1289,14 +1367,14 @@ export default class SystemGoalKpi extends React.Component<
                                                                             <span
                                                                               className={
                                                                                 kpi.Sitelevel ===
-                                                                                  "Y"
+                                                                                "Y"
                                                                                   ? this.getStatus(
-                                                                                    subGoal.id,
-                                                                                    kpi.id,
-                                                                                    hospital.id,
-                                                                                    dataGoalMetrix,
-                                                                                    "YTD_BUDGET_VAR_SIGN"
-                                                                                  )
+                                                                                      subGoal.id,
+                                                                                      kpi.id,
+                                                                                      hospital.id,
+                                                                                      dataGoalMetrix,
+                                                                                      "YTD_BUDGET_VAR_SIGN"
+                                                                                    )
                                                                                   : ""
                                                                               }
                                                                             ></span>
@@ -1315,26 +1393,26 @@ export default class SystemGoalKpi extends React.Component<
                                                                           <td
                                                                             className={
                                                                               kpi.Sitelevel ===
-                                                                                "Y"
+                                                                              "Y"
                                                                                 ? ""
                                                                                 : "no_data"
                                                                             }
                                                                           >
                                                                             {kpi.Sitelevel ===
-                                                                              "Y"
+                                                                            "Y"
                                                                               ? this.findMatrixValues(
-                                                                                subGoal.id,
-                                                                                kpi.id,
-                                                                                hospital.id,
-                                                                                dataGoalMetrix,
-                                                                                "YTD_PRIOR_YEAR_VARIANCE"
-                                                                              )
+                                                                                  subGoal.id,
+                                                                                  kpi.id,
+                                                                                  hospital.id,
+                                                                                  dataGoalMetrix,
+                                                                                  "YTD_PRIOR_YEAR_VARIANCE"
+                                                                                )
                                                                               : ""}
                                                                           </td>
                                                                           <td
                                                                             className={
                                                                               kpi.Sitelevel ===
-                                                                                "Y"
+                                                                              "Y"
                                                                                 ? ""
                                                                                 : "no_data"
                                                                             }
@@ -1342,14 +1420,14 @@ export default class SystemGoalKpi extends React.Component<
                                                                             <span
                                                                               className={
                                                                                 kpi.Sitelevel ===
-                                                                                  "Y"
+                                                                                "Y"
                                                                                   ? this.getStatus(
-                                                                                    subGoal.id,
-                                                                                    kpi.id,
-                                                                                    hospital.id,
-                                                                                    dataGoalMetrix,
-                                                                                    "YTD_PRIOR_YEAR_VAR_SIGN"
-                                                                                  )
+                                                                                      subGoal.id,
+                                                                                      kpi.id,
+                                                                                      hospital.id,
+                                                                                      dataGoalMetrix,
+                                                                                      "YTD_PRIOR_YEAR_VAR_SIGN"
+                                                                                    )
                                                                                   : ""
                                                                               }
                                                                             ></span>
@@ -1363,13 +1441,13 @@ export default class SystemGoalKpi extends React.Component<
                                                               <td
                                                                 className={
                                                                   kpi.Sitelevel ===
-                                                                    "Y"
+                                                                  "Y"
                                                                     ? ""
                                                                     : "no_data"
                                                                 }
                                                               >
                                                                 {kpi.Sitelevel ===
-                                                                  "Y" ? (
+                                                                "Y" ? (
                                                                   <a
                                                                     href={this.findMatrixValues(
                                                                       subGoal.id,
@@ -1379,16 +1457,25 @@ export default class SystemGoalKpi extends React.Component<
                                                                       "URL"
                                                                     )}
                                                                     target="_blank"
-                                                                    className={`details ${this.findMatrixValues(
-                                                                      subGoal.id,
-                                                                      kpi.id,
-                                                                      hospital.id,
-                                                                      dataGoalMetrix,
-                                                                      "URL"
-                                                                    ) === null
-                                                                      ? "disabled"
-                                                                      : ""
-                                                                      }`}
+                                                                    className={`details ${
+                                                                      this.findMatrixValues(
+                                                                        subGoal.id,
+                                                                        kpi.id,
+                                                                        hospital.id,
+                                                                        dataGoalMetrix,
+                                                                        "URL"
+                                                                      ) ===
+                                                                        null ||
+                                                                      this.findMatrixValues(
+                                                                        subGoal.id,
+                                                                        kpi.id,
+                                                                        hospital.id,
+                                                                        dataGoalMetrix,
+                                                                        "URL"
+                                                                      ) === ""
+                                                                        ? "disabled"
+                                                                        : ""
+                                                                    }`}
                                                                   >
                                                                     Click
                                                                   </a>
@@ -1401,19 +1488,51 @@ export default class SystemGoalKpi extends React.Component<
                                                         )}
                                                         {allHospitalsSelected && (
                                                           <tr
-                                                            className={`division_avg ${division.id == null
-                                                              ? "d-none"
-                                                              : ""
-                                                              } ${isChecked
+                                                            className={`division_avg ${
+                                                              division.id ==
+                                                              null
                                                                 ? "d-none"
                                                                 : ""
-                                                              }`}
+                                                            } ${
+                                                              isChecked
+                                                                ? "d-none"
+                                                                : ""
+                                                            }`}
                                                           >
                                                             <td
+                                                              data-tooltip-id={`tooltip-${division.id}_${kpi.id}`}
                                                               style={{
-                                                                textAlign: "left",
+                                                                textAlign:
+                                                                  "left",
                                                               }}
                                                             >
+                                                              <ReactTooltip
+                                                                id={`tooltip-${division.id}_${kpi.id}`}
+                                                                style={{
+                                                                  width:
+                                                                    "250px",
+                                                                }}
+                                                              >
+                                                                <div
+                                                                  style={{
+                                                                    display:
+                                                                      "flex",
+                                                                    flexDirection:
+                                                                      "column",
+                                                                  }}
+                                                                >
+                                                                  <span>
+                                                                    {this.findMatrixValues(
+                                                                      subGoal.id,
+                                                                      kpi.id,
+                                                                      organization.id,
+                                                                      dataGoalMetrix,
+                                                                      "Comment"
+                                                                    ) || ""}
+                                                                  </span>
+                                                                </div>
+                                                              </ReactTooltip>
+
                                                               <button>
                                                                 {division.name}{" "}
                                                                 (Agg.)
@@ -1422,7 +1541,7 @@ export default class SystemGoalKpi extends React.Component<
                                                             <td
                                                               className={
                                                                 kpi.Sitelevel ===
-                                                                  "Y"
+                                                                "Y"
                                                                   ? ""
                                                                   : "no_data"
                                                               }
@@ -1431,14 +1550,14 @@ export default class SystemGoalKpi extends React.Component<
                                                               }}
                                                             >
                                                               {kpi.Sitelevel ===
-                                                                "Y"
+                                                              "Y"
                                                                 ? this.findMatrixValues(
-                                                                  subGoal.id,
-                                                                  kpi.id,
-                                                                  division.id,
-                                                                  dataGoalMetrix,
-                                                                  "ReportType"
-                                                                )
+                                                                    subGoal.id,
+                                                                    kpi.id,
+                                                                    division.id,
+                                                                    dataGoalMetrix,
+                                                                    "ReportType"
+                                                                  )
                                                                 : ""}
                                                             </td>
                                                             <td
@@ -1463,24 +1582,25 @@ export default class SystemGoalKpi extends React.Component<
                                                                     style={{
                                                                       textAlign:
                                                                         "center",
-                                                                      border: "0",
+                                                                      border:
+                                                                        "0",
                                                                     }}
                                                                     className={
                                                                       kpi.Sitelevel ===
-                                                                        "Y"
+                                                                      "Y"
                                                                         ? ""
                                                                         : "no_data"
                                                                     }
                                                                   >
                                                                     {kpi.Sitelevel ===
-                                                                      "Y"
+                                                                    "Y"
                                                                       ? this.findMatrixValues(
-                                                                        subGoal.id,
-                                                                        kpi.id,
-                                                                        division.id,
-                                                                        dataGoalMetrix,
-                                                                        "MTD_ACTUAL"
-                                                                      )
+                                                                          subGoal.id,
+                                                                          kpi.id,
+                                                                          division.id,
+                                                                          dataGoalMetrix,
+                                                                          "MTD_ACTUAL"
+                                                                        )
                                                                       : ""}
                                                                   </td>
                                                                   <td
@@ -1496,44 +1616,45 @@ export default class SystemGoalKpi extends React.Component<
                                                                     }}
                                                                     className={
                                                                       kpi.Sitelevel ===
-                                                                        "Y"
+                                                                      "Y"
                                                                         ? ""
                                                                         : "no_data"
                                                                     }
                                                                   >
                                                                     {kpi.Sitelevel ===
-                                                                      "Y"
+                                                                    "Y"
                                                                       ? this.findMatrixValues(
-                                                                        subGoal.id,
-                                                                        kpi.id,
-                                                                        division.id,
-                                                                        dataGoalMetrix,
-                                                                        "MTD_BUDGET"
-                                                                      )
+                                                                          subGoal.id,
+                                                                          kpi.id,
+                                                                          division.id,
+                                                                          dataGoalMetrix,
+                                                                          "MTD_BUDGET"
+                                                                        )
                                                                       : ""}
                                                                   </td>
                                                                   <td
                                                                     style={{
                                                                       textAlign:
                                                                         "center",
-                                                                      border: "0",
+                                                                      border:
+                                                                        "0",
                                                                     }}
                                                                     className={
                                                                       kpi.Sitelevel ===
-                                                                        "Y"
+                                                                      "Y"
                                                                         ? ""
                                                                         : "no_data"
                                                                     }
                                                                   >
                                                                     {kpi.Sitelevel ===
-                                                                      "Y"
+                                                                    "Y"
                                                                       ? this.findMatrixValues(
-                                                                        subGoal.id,
-                                                                        kpi.id,
-                                                                        division.id,
-                                                                        dataGoalMetrix,
-                                                                        "MTD_PRIOR_YEAR"
-                                                                      )
+                                                                          subGoal.id,
+                                                                          kpi.id,
+                                                                          division.id,
+                                                                          dataGoalMetrix,
+                                                                          "MTD_PRIOR_YEAR"
+                                                                        )
                                                                       : ""}
                                                                   </td>
                                                                 </tr>
@@ -1563,26 +1684,26 @@ export default class SystemGoalKpi extends React.Component<
                                                                         <td
                                                                           className={
                                                                             kpi.Sitelevel ===
-                                                                              "Y"
+                                                                            "Y"
                                                                               ? ""
                                                                               : "no_data"
                                                                           }
                                                                         >
                                                                           {kpi.Sitelevel ===
-                                                                            "Y"
+                                                                          "Y"
                                                                             ? this.findMatrixValues(
-                                                                              subGoal.id,
-                                                                              kpi.id,
-                                                                              division.id,
-                                                                              dataGoalMetrix,
-                                                                              "MTD_BUDGET_VARIANCE"
-                                                                            )
+                                                                                subGoal.id,
+                                                                                kpi.id,
+                                                                                division.id,
+                                                                                dataGoalMetrix,
+                                                                                "MTD_BUDGET_VARIANCE"
+                                                                              )
                                                                             : ""}{" "}
                                                                         </td>
                                                                         <td
                                                                           className={
                                                                             kpi.Sitelevel ===
-                                                                              "Y"
+                                                                            "Y"
                                                                               ? ""
                                                                               : "no_data"
                                                                           }
@@ -1590,14 +1711,14 @@ export default class SystemGoalKpi extends React.Component<
                                                                           <span
                                                                             className={
                                                                               kpi.Sitelevel ===
-                                                                                "Y"
+                                                                              "Y"
                                                                                 ? this.getStatus(
-                                                                                  subGoal.id,
-                                                                                  kpi.id,
-                                                                                  division.id,
-                                                                                  dataGoalMetrix,
-                                                                                  "MTD_BUDGET_VAR_SIGN"
-                                                                                )
+                                                                                    subGoal.id,
+                                                                                    kpi.id,
+                                                                                    division.id,
+                                                                                    dataGoalMetrix,
+                                                                                    "MTD_BUDGET_VAR_SIGN"
+                                                                                  )
                                                                                 : ""
                                                                             }
                                                                           ></span>
@@ -1616,26 +1737,26 @@ export default class SystemGoalKpi extends React.Component<
                                                                         <td
                                                                           className={
                                                                             kpi.Sitelevel ===
-                                                                              "Y"
+                                                                            "Y"
                                                                               ? ""
                                                                               : "no_data"
                                                                           }
                                                                         >
                                                                           {kpi.Sitelevel ===
-                                                                            "Y"
+                                                                          "Y"
                                                                             ? this.findMatrixValues(
-                                                                              subGoal.id,
-                                                                              kpi.id,
-                                                                              division.id,
-                                                                              dataGoalMetrix,
-                                                                              "MTD_PRIOR_YEAR_VARIANCE"
-                                                                            )
+                                                                                subGoal.id,
+                                                                                kpi.id,
+                                                                                division.id,
+                                                                                dataGoalMetrix,
+                                                                                "MTD_PRIOR_YEAR_VARIANCE"
+                                                                              )
                                                                             : ""}
                                                                         </td>
                                                                         <td
                                                                           className={
                                                                             kpi.Sitelevel ===
-                                                                              "Y"
+                                                                            "Y"
                                                                               ? ""
                                                                               : "no_data"
                                                                           }
@@ -1643,14 +1764,14 @@ export default class SystemGoalKpi extends React.Component<
                                                                           <span
                                                                             className={
                                                                               kpi.Sitelevel ===
-                                                                                "Y"
+                                                                              "Y"
                                                                                 ? this.getStatus(
-                                                                                  subGoal.id,
-                                                                                  kpi.id,
-                                                                                  division.id,
-                                                                                  dataGoalMetrix,
-                                                                                  "MTD_PRIOR_YEAR_VAR_SIGN"
-                                                                                )
+                                                                                    subGoal.id,
+                                                                                    kpi.id,
+                                                                                    division.id,
+                                                                                    dataGoalMetrix,
+                                                                                    "MTD_PRIOR_YEAR_VAR_SIGN"
+                                                                                  )
                                                                                 : ""
                                                                             }
                                                                           ></span>
@@ -1672,24 +1793,25 @@ export default class SystemGoalKpi extends React.Component<
                                                                     style={{
                                                                       textAlign:
                                                                         "center",
-                                                                      border: "0",
+                                                                      border:
+                                                                        "0",
                                                                     }}
                                                                     className={
                                                                       kpi.Sitelevel ===
-                                                                        "Y"
+                                                                      "Y"
                                                                         ? ""
                                                                         : "no_data"
                                                                     }
                                                                   >
                                                                     {kpi.Sitelevel ===
-                                                                      "Y"
+                                                                    "Y"
                                                                       ? this.findMatrixValues(
-                                                                        subGoal.id,
-                                                                        kpi.id,
-                                                                        division.id,
-                                                                        dataGoalMetrix,
-                                                                        "YTD_ACTUAL"
-                                                                      )
+                                                                          subGoal.id,
+                                                                          kpi.id,
+                                                                          division.id,
+                                                                          dataGoalMetrix,
+                                                                          "YTD_ACTUAL"
+                                                                        )
                                                                       : ""}
                                                                   </td>
                                                                   <td
@@ -1705,44 +1827,45 @@ export default class SystemGoalKpi extends React.Component<
                                                                     }}
                                                                     className={
                                                                       kpi.Sitelevel ===
-                                                                        "Y"
+                                                                      "Y"
                                                                         ? ""
                                                                         : "no_data"
                                                                     }
                                                                   >
                                                                     {kpi.Sitelevel ===
-                                                                      "Y"
+                                                                    "Y"
                                                                       ? this.findMatrixValues(
-                                                                        subGoal.id,
-                                                                        kpi.id,
-                                                                        division.id,
-                                                                        dataGoalMetrix,
-                                                                        "YTD_BUDGET"
-                                                                      )
+                                                                          subGoal.id,
+                                                                          kpi.id,
+                                                                          division.id,
+                                                                          dataGoalMetrix,
+                                                                          "YTD_BUDGET"
+                                                                        )
                                                                       : ""}
                                                                   </td>
                                                                   <td
                                                                     style={{
                                                                       textAlign:
                                                                         "center",
-                                                                      border: "0",
+                                                                      border:
+                                                                        "0",
                                                                     }}
                                                                     className={
                                                                       kpi.Sitelevel ===
-                                                                        "Y"
+                                                                      "Y"
                                                                         ? ""
                                                                         : "no_data"
                                                                     }
                                                                   >
                                                                     {kpi.Sitelevel ===
-                                                                      "Y"
+                                                                    "Y"
                                                                       ? this.findMatrixValues(
-                                                                        subGoal.id,
-                                                                        kpi.id,
-                                                                        division.id,
-                                                                        dataGoalMetrix,
-                                                                        "YTD_PRIOR_YEAR"
-                                                                      )
+                                                                          subGoal.id,
+                                                                          kpi.id,
+                                                                          division.id,
+                                                                          dataGoalMetrix,
+                                                                          "YTD_PRIOR_YEAR"
+                                                                        )
                                                                       : ""}
                                                                   </td>
                                                                 </tr>
@@ -1759,7 +1882,8 @@ export default class SystemGoalKpi extends React.Component<
                                                                     style={{
                                                                       padding:
                                                                         "0",
-                                                                      border: "0",
+                                                                      border:
+                                                                        "0",
                                                                     }}
                                                                   >
                                                                     <table className="budget-py">
@@ -1770,26 +1894,26 @@ export default class SystemGoalKpi extends React.Component<
                                                                               <td
                                                                                 className={
                                                                                   kpi.Sitelevel ===
-                                                                                    "Y"
+                                                                                  "Y"
                                                                                     ? ""
                                                                                     : "no_data"
                                                                                 }
                                                                               >
                                                                                 {kpi.Sitelevel ===
-                                                                                  "Y"
+                                                                                "Y"
                                                                                   ? this.findMatrixValues(
-                                                                                    subGoal.id,
-                                                                                    kpi.id,
-                                                                                    division.id,
-                                                                                    dataGoalMetrix,
-                                                                                    "YTD_BUDGET_VARIANCE"
-                                                                                  )
+                                                                                      subGoal.id,
+                                                                                      kpi.id,
+                                                                                      division.id,
+                                                                                      dataGoalMetrix,
+                                                                                      "YTD_BUDGET_VARIANCE"
+                                                                                    )
                                                                                   : ""}
                                                                               </td>
                                                                               <td
                                                                                 className={
                                                                                   kpi.Sitelevel ===
-                                                                                    "Y"
+                                                                                  "Y"
                                                                                     ? ""
                                                                                     : "no_data"
                                                                                 }
@@ -1797,14 +1921,14 @@ export default class SystemGoalKpi extends React.Component<
                                                                                 <span
                                                                                   className={
                                                                                     kpi.Sitelevel ===
-                                                                                      "Y"
+                                                                                    "Y"
                                                                                       ? this.getStatus(
-                                                                                        subGoal.id,
-                                                                                        kpi.id,
-                                                                                        division.id,
-                                                                                        dataGoalMetrix,
-                                                                                        "YTD_BUDGET_VAR_SIGN"
-                                                                                      )
+                                                                                          subGoal.id,
+                                                                                          kpi.id,
+                                                                                          division.id,
+                                                                                          dataGoalMetrix,
+                                                                                          "YTD_BUDGET_VAR_SIGN"
+                                                                                        )
                                                                                       : ""
                                                                                   }
                                                                                 ></span>
@@ -1823,26 +1947,26 @@ export default class SystemGoalKpi extends React.Component<
                                                                               <td
                                                                                 className={
                                                                                   kpi.Sitelevel ===
-                                                                                    "Y"
+                                                                                  "Y"
                                                                                     ? ""
                                                                                     : "no_data"
                                                                                 }
                                                                               >
                                                                                 {kpi.Sitelevel ===
-                                                                                  "Y"
+                                                                                "Y"
                                                                                   ? this.findMatrixValues(
-                                                                                    subGoal.id,
-                                                                                    kpi.id,
-                                                                                    division.id,
-                                                                                    dataGoalMetrix,
-                                                                                    "YTD_PRIOR_YEAR_VARIANCE"
-                                                                                  )
+                                                                                      subGoal.id,
+                                                                                      kpi.id,
+                                                                                      division.id,
+                                                                                      dataGoalMetrix,
+                                                                                      "YTD_PRIOR_YEAR_VARIANCE"
+                                                                                    )
                                                                                   : ""}
                                                                               </td>
                                                                               <td
                                                                                 className={
                                                                                   kpi.Sitelevel ===
-                                                                                    "Y"
+                                                                                  "Y"
                                                                                     ? ""
                                                                                     : "no_data"
                                                                                 }
@@ -1851,14 +1975,14 @@ export default class SystemGoalKpi extends React.Component<
                                                                                 <span
                                                                                   className={
                                                                                     kpi.Sitlevel ===
-                                                                                      "Y"
+                                                                                    "Y"
                                                                                       ? this.getStatus(
-                                                                                        subGoal.id,
-                                                                                        kpi.id,
-                                                                                        division.id,
-                                                                                        dataGoalMetrix,
-                                                                                        "YTD_PRIOR_YEAR_VAR_SIGN"
-                                                                                      )
+                                                                                          subGoal.id,
+                                                                                          kpi.id,
+                                                                                          division.id,
+                                                                                          dataGoalMetrix,
+                                                                                          "YTD_PRIOR_YEAR_VAR_SIGN"
+                                                                                        )
                                                                                       : ""
                                                                                   }
                                                                                 ></span>
@@ -1875,13 +1999,13 @@ export default class SystemGoalKpi extends React.Component<
                                                             <td
                                                               className={
                                                                 kpi.Sitelevel ===
-                                                                  "Y"
+                                                                "Y"
                                                                   ? ""
                                                                   : "no_data"
                                                               }
                                                             >
                                                               {kpi.Sitelevel ===
-                                                                "Y" ? (
+                                                              "Y" ? (
                                                                 <a
                                                                   href={this.findMatrixValues(
                                                                     subGoal.id,
@@ -1891,16 +2015,25 @@ export default class SystemGoalKpi extends React.Component<
                                                                     "URL"
                                                                   )}
                                                                   target="_blank"
-                                                                  className={`details ${this.findMatrixValues(
-                                                                    subGoal.id,
-                                                                    kpi.id,
-                                                                    division.id,
-                                                                    dataGoalMetrix,
-                                                                    "URL"
-                                                                  ) === null
-                                                                    ? "disabled"
-                                                                    : ""
-                                                                    }`}
+                                                                  className={`details ${
+                                                                    this.findMatrixValues(
+                                                                      subGoal.id,
+                                                                      kpi.id,
+                                                                      division.id,
+                                                                      dataGoalMetrix,
+                                                                      "URL"
+                                                                    ) ===
+                                                                      null ||
+                                                                    this.findMatrixValues(
+                                                                      subGoal.id,
+                                                                      kpi.id,
+                                                                      division.id,
+                                                                      dataGoalMetrix,
+                                                                      "URL"
+                                                                    ) === ""
+                                                                      ? "disabled"
+                                                                      : ""
+                                                                  }`}
                                                                 >
                                                                   Click
                                                                 </a>
@@ -1920,324 +2053,360 @@ export default class SystemGoalKpi extends React.Component<
                                                   {divisionRows}
                                                   {(allDivisionSelected ||
                                                     isChecked) && (
-                                                      <tr className="organization_avg">
-                                                        <td
+                                                    <tr className="organization_avg">
+                                                      <td
+                                                        data-tooltip-id={`tooltip-${organization.id}_${kpi.id}`}
+                                                        style={{
+                                                          textAlign: "left",
+                                                        }}
+                                                      >
+                                                        <ReactTooltip
+                                                          id={`tooltip-${organization.id}_${kpi.id}`}
                                                           style={{
-                                                            textAlign: "left",
+                                                            width: "250px",
                                                           }}
                                                         >
-                                                          <button>
-                                                            {organization.name}{" "}
-                                                            (Agg.)
-                                                          </button>
-                                                        </td>
-                                                        <td
-                                                          style={{
-                                                            width: "50px",
-                                                          }}
-                                                        >
-                                                          {this.findMatrixValues(
+                                                          <div
+                                                            style={{
+                                                              display: "flex",
+                                                              flexDirection:
+                                                                "column",
+                                                            }}
+                                                          >
+                                                            <span>
+                                                              {this.findMatrixValues(
+                                                                subGoal.id,
+                                                                kpi.id,
+                                                                organization.id,
+                                                                dataGoalMetrix,
+                                                                "Comment"
+                                                              ) || ""}
+                                                            </span>
+                                                          </div>
+                                                        </ReactTooltip>
+
+                                                        <button>
+                                                          {organization.name}{" "}
+                                                          (Agg.)
+                                                        </button>
+                                                      </td>
+                                                      <td
+                                                        style={{
+                                                          width: "50px",
+                                                        }}
+                                                      >
+                                                        {this.findMatrixValues(
+                                                          subGoal.id,
+                                                          kpi.id,
+                                                          organization.id,
+                                                          dataGoalMetrix,
+                                                          "ReportType"
+                                                        )}
+                                                      </td>
+                                                      <td
+                                                        style={{ padding: "0" }}
+                                                        className={
+                                                          this.findMatrixValues(
                                                             subGoal.id,
                                                             kpi.id,
                                                             organization.id,
                                                             dataGoalMetrix,
-                                                            "ReportType"
-                                                          )}
-                                                        </td>
-                                                        <td
-                                                          style={{ padding: "0" }}
-                                                          className={
-                                                            this.findMatrixValues(
-                                                              subGoal.id,
-                                                              kpi.id,
-                                                              organization.id,
-                                                              dataGoalMetrix,
-                                                              "ActualVerify"
-                                                            ) == true
-                                                              ? "change_status"
-                                                              : ""
-                                                          }
-                                                        >
-                                                          <table>
-                                                            <tr>
-                                                              <td
-                                                                style={{
-                                                                  textAlign:
-                                                                    "center",
-                                                                  border: "0",
-                                                                }}
-                                                              >
-                                                                {this.findMatrixValues(
-                                                                  subGoal.id,
-                                                                  kpi.id,
-                                                                  organization.id,
-                                                                  dataGoalMetrix,
-                                                                  "MTD_ACTUAL"
-                                                                )}
-                                                              </td>
-                                                              <td
-                                                                style={{
-                                                                  textAlign:
-                                                                    "center",
-                                                                  borderTop: "0",
-                                                                  borderBottom: "0",
-                                                                  width: "80px",
-                                                                }}
-                                                              >
-                                                                {this.findMatrixValues(
-                                                                  subGoal.id,
-                                                                  kpi.id,
-                                                                  organization.id,
-                                                                  dataGoalMetrix,
-                                                                  "MTD_BUDGET"
-                                                                )}
-                                                              </td>
+                                                            "ActualVerify"
+                                                          ) == true
+                                                            ? "change_status"
+                                                            : ""
+                                                        }
+                                                      >
+                                                        <table>
+                                                          <tr>
+                                                            <td
+                                                              style={{
+                                                                textAlign:
+                                                                  "center",
+                                                                border: "0",
+                                                              }}
+                                                            >
+                                                              {this.findMatrixValues(
+                                                                subGoal.id,
+                                                                kpi.id,
+                                                                organization.id,
+                                                                dataGoalMetrix,
+                                                                "MTD_ACTUAL"
+                                                              )}
+                                                            </td>
+                                                            <td
+                                                              style={{
+                                                                textAlign:
+                                                                  "center",
+                                                                borderTop: "0",
+                                                                borderBottom:
+                                                                  "0",
+                                                                width: "80px",
+                                                              }}
+                                                            >
+                                                              {this.findMatrixValues(
+                                                                subGoal.id,
+                                                                kpi.id,
+                                                                organization.id,
+                                                                dataGoalMetrix,
+                                                                "MTD_BUDGET"
+                                                              )}
+                                                            </td>
 
-                                                              <td
-                                                                style={{
-                                                                  textAlign:
-                                                                    "center",
-                                                                  border: "0",
-                                                                }}
-                                                              >
-                                                                {this.findMatrixValues(
-                                                                  subGoal.id,
-                                                                  kpi.id,
-                                                                  organization.id,
-                                                                  dataGoalMetrix,
-                                                                  "MTD_PRIOR_YEAR"
-                                                                )}
-                                                              </td>
-                                                            </tr>
-                                                          </table>
-                                                        </td>
-                                                        <td
-                                                          style={{ padding: "0" }}
-                                                          className={
+                                                            <td
+                                                              style={{
+                                                                textAlign:
+                                                                  "center",
+                                                                border: "0",
+                                                              }}
+                                                            >
+                                                              {this.findMatrixValues(
+                                                                subGoal.id,
+                                                                kpi.id,
+                                                                organization.id,
+                                                                dataGoalMetrix,
+                                                                "MTD_PRIOR_YEAR"
+                                                              )}
+                                                            </td>
+                                                          </tr>
+                                                        </table>
+                                                      </td>
+                                                      <td
+                                                        style={{ padding: "0" }}
+                                                        className={
+                                                          this.findMatrixValues(
+                                                            subGoal.id,
+                                                            kpi.id,
+                                                            organization.id,
+                                                            dataGoalMetrix,
+                                                            "TargetVerified"
+                                                          ) == true
+                                                            ? "change_status"
+                                                            : ""
+                                                        }
+                                                      >
+                                                        <table className="budget-py">
+                                                          <tr>
+                                                            <td>
+                                                              <table>
+                                                                <tr>
+                                                                  <td>
+                                                                    {this.findMatrixValues(
+                                                                      subGoal.id,
+                                                                      kpi.id,
+                                                                      organization.id,
+                                                                      dataGoalMetrix,
+                                                                      "MTD_BUDGET_VARIANCE"
+                                                                    )}
+                                                                  </td>
+                                                                  <td>
+                                                                    {}
+                                                                    <span
+                                                                      className={this.getStatus(
+                                                                        subGoal.id,
+                                                                        kpi.id,
+                                                                        organization.id,
+                                                                        dataGoalMetrix,
+                                                                        "MTD_BUDGET_VAR_SIGN"
+                                                                      )}
+                                                                    ></span>
+                                                                  </td>
+                                                                </tr>
+                                                              </table>
+                                                            </td>
+                                                            <td
+                                                              style={{
+                                                                width: "110px",
+                                                              }}
+                                                            >
+                                                              <table>
+                                                                <tr>
+                                                                  <td>
+                                                                    {this.findMatrixValues(
+                                                                      subGoal.id,
+                                                                      kpi.id,
+                                                                      organization.id,
+                                                                      dataGoalMetrix,
+                                                                      "MTD_PRIOR_YEAR_VARIANCE"
+                                                                    )}
+                                                                  </td>
+                                                                  <td>
+                                                                    <span
+                                                                      className={this.getStatus(
+                                                                        subGoal.id,
+                                                                        kpi.id,
+                                                                        organization.id,
+                                                                        dataGoalMetrix,
+                                                                        "MTD_PRIOR_YEAR_VAR_SIGN"
+                                                                      )}
+                                                                    ></span>
+                                                                  </td>
+                                                                </tr>
+                                                              </table>
+                                                            </td>
+                                                          </tr>
+                                                        </table>
+                                                      </td>
+                                                      <td
+                                                        style={{ padding: "0" }}
+                                                      >
+                                                        <table>
+                                                          <tr>
+                                                            <td
+                                                              style={{
+                                                                textAlign:
+                                                                  "center",
+                                                                border: "0",
+                                                              }}
+                                                            >
+                                                              {this.findMatrixValues(
+                                                                subGoal.id,
+                                                                kpi.id,
+                                                                organization.id,
+                                                                dataGoalMetrix,
+                                                                "YTD_ACTUAL"
+                                                              )}
+                                                            </td>
+                                                            <td
+                                                              style={{
+                                                                textAlign:
+                                                                  "center",
+                                                                borderTop: "0",
+                                                                borderBottom:
+                                                                  "0",
+                                                                width: "80px",
+                                                              }}
+                                                            >
+                                                              {this.findMatrixValues(
+                                                                subGoal.id,
+                                                                kpi.id,
+                                                                organization.id,
+                                                                dataGoalMetrix,
+                                                                "YTD_BUDGET"
+                                                              )}
+                                                            </td>
+                                                            <td
+                                                              style={{
+                                                                textAlign:
+                                                                  "center",
+                                                                border: "0",
+                                                              }}
+                                                            >
+                                                              {this.findMatrixValues(
+                                                                subGoal.id,
+                                                                kpi.id,
+                                                                organization.id,
+                                                                dataGoalMetrix,
+                                                                "YTD_PRIOR_YEAR"
+                                                              )}
+                                                            </td>
+                                                          </tr>
+                                                        </table>
+                                                      </td>
+                                                      <td
+                                                        style={{ padding: "0" }}
+                                                      >
+                                                        <table className="budget-py">
+                                                          <tr>
+                                                            <td
+                                                              style={{
+                                                                padding: "0",
+                                                              }}
+                                                            >
+                                                              <table>
+                                                                <tr>
+                                                                  <td>
+                                                                    {this.findMatrixValues(
+                                                                      subGoal.id,
+                                                                      kpi.id,
+                                                                      organization.id,
+                                                                      dataGoalMetrix,
+                                                                      "YTD_BUDGET_VARIANCE"
+                                                                    )}
+                                                                  </td>
+                                                                  <td>
+                                                                    {" "}
+                                                                    <span
+                                                                      className={this.getStatus(
+                                                                        subGoal.id,
+                                                                        kpi.id,
+                                                                        organization.id,
+                                                                        dataGoalMetrix,
+                                                                        "YTD_BUDGET_VAR_SIGN"
+                                                                      )}
+                                                                    ></span>
+                                                                  </td>
+                                                                </tr>
+                                                              </table>
+                                                            </td>
+                                                            <td
+                                                              style={{
+                                                                width: "110px",
+                                                              }}
+                                                            >
+                                                              <table>
+                                                                <tr>
+                                                                  <td>
+                                                                    {this.findMatrixValues(
+                                                                      subGoal.id,
+                                                                      kpi.id,
+                                                                      organization.id,
+                                                                      dataGoalMetrix,
+                                                                      "YTD_PRIOR_YEAR_VARIANCE"
+                                                                    )}
+                                                                  </td>
+                                                                  <td>
+                                                                    {" "}
+                                                                    <span
+                                                                      className={this.getStatus(
+                                                                        subGoal.id,
+                                                                        kpi.id,
+                                                                        organization.id,
+                                                                        dataGoalMetrix,
+                                                                        "YTD_PRIOR_YEAR_VAR_SIGN"
+                                                                      )}
+                                                                    ></span>
+                                                                  </td>
+                                                                </tr>
+                                                              </table>
+                                                            </td>
+                                                          </tr>
+                                                        </table>
+                                                      </td>
+                                                      <td>
+                                                        <a
+                                                          href={this.findMatrixValues(
+                                                            subGoal.id,
+                                                            kpi.id,
+                                                            organization.id,
+                                                            dataGoalMetrix,
+                                                            "URL"
+                                                          )}
+                                                          target="_blank"
+                                                          className={`details ${
                                                             this.findMatrixValues(
                                                               subGoal.id,
                                                               kpi.id,
                                                               organization.id,
                                                               dataGoalMetrix,
-                                                              "TargetVerified"
-                                                            ) == true
-                                                              ? "change_status"
-                                                              : ""
-                                                          }
-                                                        >
-                                                          <table className="budget-py">
-                                                            <tr>
-                                                              <td>
-                                                                <table>
-                                                                  <tr>
-                                                                    <td>
-                                                                      {this.findMatrixValues(
-                                                                        subGoal.id,
-                                                                        kpi.id,
-                                                                        organization.id,
-                                                                        dataGoalMetrix,
-                                                                        "MTD_BUDGET_VARIANCE"
-                                                                      )}
-                                                                    </td>
-                                                                    <td>
-                                                                      { }
-                                                                      <span
-                                                                        className={this.getStatus(
-                                                                          subGoal.id,
-                                                                          kpi.id,
-                                                                          organization.id,
-                                                                          dataGoalMetrix,
-                                                                          "MTD_BUDGET_VAR_SIGN"
-                                                                        )}
-                                                                      ></span>
-                                                                    </td>
-                                                                  </tr>
-                                                                </table>
-                                                              </td>
-                                                              <td
-                                                                style={{
-                                                                  width: "110px",
-                                                                }}
-                                                              >
-                                                                <table>
-                                                                  <tr>
-                                                                    <td>
-                                                                      {this.findMatrixValues(
-                                                                        subGoal.id,
-                                                                        kpi.id,
-                                                                        organization.id,
-                                                                        dataGoalMetrix,
-                                                                        "MTD_PRIOR_YEAR_VARIANCE"
-                                                                      )}
-                                                                    </td>
-                                                                    <td>
-                                                                      <span
-                                                                        className={this.getStatus(
-                                                                          subGoal.id,
-                                                                          kpi.id,
-                                                                          organization.id,
-                                                                          dataGoalMetrix,
-                                                                          "MTD_PRIOR_YEAR_VAR_SIGN"
-                                                                        )}
-                                                                      ></span>
-                                                                    </td>
-                                                                  </tr>
-                                                                </table>
-                                                              </td>
-                                                            </tr>
-                                                          </table>
-                                                        </td>
-                                                        <td
-                                                          style={{ padding: "0" }}
-                                                        >
-                                                          <table>
-                                                            <tr>
-                                                              <td
-                                                                style={{
-                                                                  textAlign:
-                                                                    "center",
-                                                                  border: "0",
-                                                                }}
-                                                              >
-                                                                {this.findMatrixValues(
-                                                                  subGoal.id,
-                                                                  kpi.id,
-                                                                  organization.id,
-                                                                  dataGoalMetrix,
-                                                                  "YTD_ACTUAL"
-                                                                )}
-                                                              </td>
-                                                              <td
-                                                                style={{
-                                                                  textAlign:
-                                                                    "center",
-                                                                  borderTop: "0",
-                                                                  borderBottom: "0",
-                                                                  width: "80px",
-                                                                }}
-                                                              >
-                                                                {this.findMatrixValues(
-                                                                  subGoal.id,
-                                                                  kpi.id,
-                                                                  organization.id,
-                                                                  dataGoalMetrix,
-                                                                  "YTD_BUDGET"
-                                                                )}
-                                                              </td>
-                                                              <td
-                                                                style={{
-                                                                  textAlign:
-                                                                    "center",
-                                                                  border: "0",
-                                                                }}
-                                                              >
-                                                                {this.findMatrixValues(
-                                                                  subGoal.id,
-                                                                  kpi.id,
-                                                                  organization.id,
-                                                                  dataGoalMetrix,
-                                                                  "YTD_PRIOR_YEAR"
-                                                                )}
-                                                              </td>
-                                                            </tr>
-                                                          </table>
-                                                        </td>
-                                                        <td
-                                                          style={{ padding: "0" }}
-                                                        >
-                                                          <table className="budget-py">
-                                                            <tr>
-                                                              <td
-                                                                style={{
-                                                                  padding: "0",
-                                                                }}
-                                                              >
-                                                                <table>
-                                                                  <tr>
-                                                                    <td>
-                                                                      {this.findMatrixValues(
-                                                                        subGoal.id,
-                                                                        kpi.id,
-                                                                        organization.id,
-                                                                        dataGoalMetrix,
-                                                                        "YTD_BUDGET_VARIANCE"
-                                                                      )}
-                                                                    </td>
-                                                                    <td>
-                                                                      {" "}
-                                                                      <span
-                                                                        className={this.getStatus(
-                                                                          subGoal.id,
-                                                                          kpi.id,
-                                                                          organization.id,
-                                                                          dataGoalMetrix,
-                                                                          "YTD_BUDGET_VAR_SIGN"
-                                                                        )}
-                                                                      ></span>
-                                                                    </td>
-                                                                  </tr>
-                                                                </table>
-                                                              </td>
-                                                              <td
-                                                                style={{
-                                                                  width: "110px",
-                                                                }}
-                                                              >
-                                                                <table>
-                                                                  <tr>
-                                                                    <td>
-                                                                      {this.findMatrixValues(
-                                                                        subGoal.id,
-                                                                        kpi.id,
-                                                                        organization.id,
-                                                                        dataGoalMetrix,
-                                                                        "YTD_PRIOR_YEAR_VARIANCE"
-                                                                      )}
-                                                                    </td>
-                                                                    <td>
-                                                                      {" "}
-                                                                      <span
-                                                                        className={this.getStatus(
-                                                                          subGoal.id,
-                                                                          kpi.id,
-                                                                          organization.id,
-                                                                          dataGoalMetrix,
-                                                                          "YTD_PRIOR_YEAR_VAR_SIGN"
-                                                                        )}
-                                                                      ></span>
-                                                                    </td>
-                                                                  </tr>
-                                                                </table>
-                                                              </td>
-                                                            </tr>
-                                                          </table>
-                                                        </td>
-                                                        <td>
-                                                          <a
-                                                            href={this.findMatrixValues(
+                                                              "URL"
+                                                            ) === null ||
+                                                            this.findMatrixValues(
                                                               subGoal.id,
                                                               kpi.id,
                                                               organization.id,
                                                               dataGoalMetrix,
                                                               "URL"
-                                                            )}
-                                                            target="_blank"
-                                                            className={`details ${this.findMatrixValues(
-                                                              subGoal.id,
-                                                              kpi.id,
-                                                              organization.id,
-                                                              dataGoalMetrix,
-                                                              "URL"
-                                                            ) === null
+                                                            ) === ""
                                                               ? "disabled"
                                                               : ""
-                                                              }`}
-                                                          >
-                                                            Click
-                                                          </a>
-                                                        </td>
-                                                      </tr>
-                                                    )}
+                                                          }`}
+                                                        >
+                                                          Click
+                                                        </a>
+                                                      </td>
+                                                    </tr>
+                                                  )}
                                                 </>
                                               );
                                             }
