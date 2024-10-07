@@ -46,6 +46,7 @@ export interface ISystemGoalKpiWpState {
   // Add other properties here
   groupedDivisionData: any; // Ensure this matches your actual data type
   pdfDivisionIDs: Set<number>;
+  isloading: boolean
 }
 
 export default class SystemGoalKpi extends React.Component<
@@ -79,6 +80,7 @@ export default class SystemGoalKpi extends React.Component<
       selectedOrganizations: new Set(), // Initialize this
       groupedDivisionData: {}, // Ensure this matches your actual data type
       pdfDivisionIDs: new Set([5]),
+      isloading: false
     };
 
     console.log(
@@ -406,7 +408,6 @@ export default class SystemGoalKpi extends React.Component<
 
   private generatePrintFuctionRequest = async () => {
     const { selectedHospitalsNew, pdfDivisionIDs, checkedSystemGoalsNew } = this.state;
-
     // Merge and deduplicate hospital IDs
     const mergedHospitalIds = Array.from(new Set([...selectedHospitalsNew, ...pdfDivisionIDs]));
 
@@ -416,8 +417,9 @@ export default class SystemGoalKpi extends React.Component<
       "hospitals": mergedHospitalIds
     };
 
-    console.log("Request HJHHHHHHHHHHHHHHHHHHHHHHH ---->", req);
-
+    this.setState({
+      isloading: true
+    })
     try {
       const response = await fetch("https://systemgoalapi.bilh.org/Print/api/report/", {
         method: "POST",
@@ -426,12 +428,9 @@ export default class SystemGoalKpi extends React.Component<
         },
         body: JSON.stringify(req)
       });
-
       console.log("Response ---->", response);
-
       if (response.ok) {
         const pdfUrl = await response.text();
-        console.log("PDF URL ---->", pdfUrl);
         window.open(pdfUrl, '_blank');
       } else {
         console.error("Failed to generate the report:", response.statusText);
@@ -439,6 +438,10 @@ export default class SystemGoalKpi extends React.Component<
     } catch (e) {
       alert("Error Occurred: " + e);
       console.log("Error Occurred --->", e);
+    } finally {
+      this.setState({
+        isloading: false
+      })
     }
   };
 
@@ -457,436 +460,948 @@ export default class SystemGoalKpi extends React.Component<
       dataAllHospital || []
     );
     const goalHirerachyData = this.getGoalHirerachy(dataKPI || []);
-    console.log("Matixxxxxxxxxxxxxxxxxxxx", dataGoalMetrix);
+    console.log("Asli matrix Data ---->", dataGoalMetrix);
 
     return (
       <>
-      <div className="loader_container">
-      <div className="box_align">
-      <div className="lds-ring">
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-      </div>
-      <span>Loading...</span>
-      </div>
-      </div>
-      
-      <section>
-        <div
-          style={{
-            width: "100%",
-            fontSize: "36px",
-            textAlign: "center",
-            marginBottom: "32px",
-          }}
-        >
-          {this.props.title}
-        </div>
+        {this.state.isloading && <div className="loader_container">
+          <div className="box_align">
+            <div className="lds-ring">
+              <div></div>
+              <div></div>
+              <div></div>
+              <div></div>
+            </div>
+            <span>Loading...</span>
+          </div>
+        </div>}
 
-        <div>
-          <div className="btn_container">
-            <h3>
-              <span>System Goal 2025</span>
-            </h3>
-            <div>
-              {hirerachicalHospitalData.map((organization: any) => (
-                <>
-                  <div className="with_goal_filter">
-                    <div
-                      className={`cat action primary ${isChecked ? "agg_active" : ""
-                        }`}
-                    >
-                      <label
-                        className={` ${organization.division.every((divison: any) =>
-                          divison.hospitals.every((hospital: any) =>
-                            selectedHospitalsNew.has(hospital.id)
-                          )
-                        )
-                          ? "all_selected"
-                          : ""
+        <section>
+          <div
+            style={{
+              width: "100%",
+              fontSize: "36px",
+              textAlign: "center",
+              marginBottom: "32px",
+            }}
+          >
+            {this.props.title}
+          </div>
+
+          <div>
+            <div className="btn_container">
+              <h3>
+                <span>System Goal 2025</span>
+              </h3>
+              <div>
+                {hirerachicalHospitalData.map((organization: any) => (
+                  <>
+                    <div className="with_goal_filter">
+                      <div
+                        className={`cat action primary ${isChecked ? "agg_active" : ""
                           }`}
                       >
-                        <input
-                          type="checkbox"
-                          value={organization.id}
-                          checked={organization.division.every((divison: any) =>
+                        <label
+                          className={` ${organization.division.every((divison: any) =>
                             divison.hospitals.every((hospital: any) =>
                               selectedHospitalsNew.has(hospital.id)
                             )
-                          )}
-                          onChange={(e) => {
-                            this.handleOrganizationChange(
-                              organization.id,
-                              hirerachicalHospitalData
-                            );
-                            this.organizationRequestChange(
-                              e,
-                              hirerachicalHospitalData
-                            );
-                          }}
-                        />
-                        <span>{organization.name}</span>
-                      </label>
-                      <span
-                        className={`bilh_agg_checkbox ${isChecked ? "agg_checkbox_checked" : ""
-                          }`}
-                      >
-                        <input
-                          type="checkbox"
-                          className="agg_checkbox"
-                          checked={isChecked}
-                          onChange={this.handleCheckboxChange}
-                        />
-                        BILH (Agg.)
-                      </span>
-                    </div>
-                    <div className="filter_right">
-                      <div className="dropdown">
-                        <button
-                          className="btn dropdown-toggle"
-                          type="button"
-                          data-bs-toggle="dropdown"
-                          aria-expanded="false"
-                        >
-                          <i className="fas fa-filter"></i>
-                          <span
-                            style={{
-                              flex: "1",
-                              textAlign: "left",
-                              position: "relative",
-                              top: "-1px",
-                            }}
-                          >
-                            {" "}
-                            System Goal
-                          </span>
-                        </button>
-                        <ul className="dropdown-menu">
-                          <li>
-                            <input
-                              type="checkbox"
-                              name="People"
-                              className="form-check-input"
-                              id="People"
-                              checked={checkedSystemGoalsNew.has(1)}
-                              onChange={() => this.handleGoalChange(1)}
-                            />
-                            <label className="dropdown-item" htmlFor="People">
-                              People
-                            </label>
-                          </li>
-                          <li>
-                            <input
-                              type="checkbox"
-                              name="Quality&Experience"
-                              className="form-check-input"
-                              id="Quality&Experience"
-                              checked={checkedSystemGoalsNew.has(2)}
-                              onChange={() => this.handleGoalChange(2)}
-                            />
-                            <label
-                              htmlFor="Quality&Experience"
-                              className="dropdown-item"
-                            >
-                              Quality & Experience
-                            </label>
-                          </li>
-                          <li>
-                            <input
-                              type="checkbox"
-                              className="form-check-input"
-                              id="FinanceandOperations"
-                              checked={checkedSystemGoalsNew.has(3)}
-                              onChange={() => this.handleGoalChange(3)}
-                            />
-                            <label
-                              htmlFor="FinanceandOperations"
-                              className="dropdown-item"
-                            >
-                              Finance and Operations
-                            </label>
-                          </li>
-                          <li>
-                            <input
-                              type="checkbox"
-                              className="form-check-input"
-                              id="Strategy"
-                              checked={checkedSystemGoalsNew.has(4)}
-                              onChange={() => this.handleGoalChange(4)}
-                            />
-                            <label htmlFor="Strategy" className="dropdown-item">
-                              Strategy
-                            </label>
-                          </li>
-                        </ul>
-                      </div>
-                      <button
-                        className="print_btn"
-                        disabled={selectedHospitalsNew.size === 0}
-                        onClick={() => this.generatePrintFuctionRequest()}
-                      >
-                        Print
-                      </button>
-                    </div>
-                  </div>
-                  <div className="multi_btn_group">
-                    {hirerachicalHospitalData[0].division.map(
-                      (division: any) => (
-                        <div
-                          className={`inner_btn_group ${division.id == null ? "d-none" : ""
+                          )
+                            ? "all_selected"
+                            : ""
                             }`}
                         >
-                          <div className="cat action secondary">
-                            <label>
+                          <input
+                            type="checkbox"
+                            value={organization.id}
+                            checked={organization.division.every((divison: any) =>
+                              divison.hospitals.every((hospital: any) =>
+                                selectedHospitalsNew.has(hospital.id)
+                              )
+                            )}
+                            onChange={(e) => {
+                              this.handleOrganizationChange(
+                                organization.id,
+                                hirerachicalHospitalData
+                              );
+                              this.organizationRequestChange(
+                                e,
+                                hirerachicalHospitalData
+                              );
+                            }}
+                          />
+                          <span>{organization.name}</span>
+                        </label>
+                        <span
+                          className={`bilh_agg_checkbox ${isChecked ? "agg_checkbox_checked" : ""
+                            }`}
+                        >
+                          <input
+                            type="checkbox"
+                            className="agg_checkbox"
+                            checked={isChecked}
+                            onChange={this.handleCheckboxChange}
+                          />
+                          BILH (Agg.)
+                        </span>
+                      </div>
+                      <div className="filter_right">
+                        <div className="dropdown">
+                          <button
+                            className="btn dropdown-toggle"
+                            type="button"
+                            data-bs-toggle="dropdown"
+                            aria-expanded="false"
+                          >
+                            <i className="fas fa-filter"></i>
+                            <span
+                              style={{
+                                flex: "1",
+                                textAlign: "left",
+                                position: "relative",
+                                top: "-1px",
+                              }}
+                            >
+                              {" "}
+                              System Goal
+                            </span>
+                          </button>
+                          <ul className="dropdown-menu">
+                            <li>
                               <input
                                 type="checkbox"
-                                value={division.id}
-                                checked={division.hospitals.every(
-                                  (hospital: any) =>
-                                    selectedHospitalsNew.has(hospital.id)
-                                )}
-                                onChange={(e) => {
-                                  this.handleDivisionChange(
-                                    division.id,
-                                    hirerachicalHospitalData
-                                  );
-                                  this.divisionRequestChange(division.id, e);
-                                }}
+                                name="People"
+                                className="form-check-input"
+                                id="People"
+                                checked={checkedSystemGoalsNew.has(1)}
+                                onChange={() => this.handleGoalChange(1)}
                               />
-                              <span>{division.name}</span>
-                            </label>
-                          </div>
-                          <div className="btn_group">
-                            {division.hospitals.map((hospital: any) => (
-                              <div className="cat action">
-                                <label key="">
-                                  <input
-                                    type="checkbox"
-                                    value={hospital.id}
-                                    checked={selectedHospitalsNew.has(
-                                      hospital.id
-                                    )}
-                                    onChange={(e) => {
-                                      this.handleHospitalChange(
-                                        hospital.id,
-                                        hospital
-                                      );
-                                    }}
-                                  />
-                                  <span>{hospital.title}</span>
-                                </label>
-                              </div>
-                            ))}
-                          </div>
+                              <label className="dropdown-item" htmlFor="People">
+                                People
+                              </label>
+                            </li>
+                            <li>
+                              <input
+                                type="checkbox"
+                                name="Quality&Experience"
+                                className="form-check-input"
+                                id="Quality&Experience"
+                                checked={checkedSystemGoalsNew.has(2)}
+                                onChange={() => this.handleGoalChange(2)}
+                              />
+                              <label
+                                htmlFor="Quality&Experience"
+                                className="dropdown-item"
+                              >
+                                Quality & Experience
+                              </label>
+                            </li>
+                            <li>
+                              <input
+                                type="checkbox"
+                                className="form-check-input"
+                                id="FinanceandOperations"
+                                checked={checkedSystemGoalsNew.has(3)}
+                                onChange={() => this.handleGoalChange(3)}
+                              />
+                              <label
+                                htmlFor="FinanceandOperations"
+                                className="dropdown-item"
+                              >
+                                Finance and Operations
+                              </label>
+                            </li>
+                            <li>
+                              <input
+                                type="checkbox"
+                                className="form-check-input"
+                                id="Strategy"
+                                checked={checkedSystemGoalsNew.has(4)}
+                                onChange={() => this.handleGoalChange(4)}
+                              />
+                              <label htmlFor="Strategy" className="dropdown-item">
+                                Strategy
+                              </label>
+                            </li>
+                          </ul>
                         </div>
-                      )
-                    )}
-                  </div>
-
-                  <div>
-                    <div className="system_goel_container">
-                      {/** Box Model */}
-                      {goalHirerachyData.map((goal: any) => (
-                        <div
-                          className={`box_model ${!checkedSystemGoalsNew.has(goal.id) ? "d-none" : ""
-                            }`}
+                        <button
+                          className="print_btn"
+                          disabled={selectedHospitalsNew.size === 0}
+                          onClick={() => this.generatePrintFuctionRequest()}
                         >
-                          <div className="header">{goal.name}</div>
-                          <div>
+                          Print
+                        </button>
+                      </div>
+                    </div>
+                    <div className="multi_btn_group">
+                      {hirerachicalHospitalData[0].division.map(
+                        (division: any) => (
+                          <div
+                            className={`inner_btn_group ${division.id == null ? "d-none" : ""
+                              }`}
+                          >
+                            <div className="cat action secondary">
+                              <label>
+                                <input
+                                  type="checkbox"
+                                  value={division.id}
+                                  checked={division.hospitals.every(
+                                    (hospital: any) =>
+                                      selectedHospitalsNew.has(hospital.id)
+                                  )}
+                                  onChange={(e) => {
+                                    this.handleDivisionChange(
+                                      division.id,
+                                      hirerachicalHospitalData
+                                    );
+                                    this.divisionRequestChange(division.id, e);
+                                  }}
+                                />
+                                <span>{division.name}</span>
+                              </label>
+                            </div>
+                            <div className="btn_group">
+                              {division.hospitals.map((hospital: any) => (
+                                <div className="cat action">
+                                  <label key="">
+                                    <input
+                                      type="checkbox"
+                                      value={hospital.id}
+                                      checked={selectedHospitalsNew.has(
+                                        hospital.id
+                                      )}
+                                      onChange={(e) => {
+                                        this.handleHospitalChange(
+                                          hospital.id,
+                                          hospital
+                                        );
+                                      }}
+                                    />
+                                    <span>{hospital.title}</span>
+                                  </label>
+                                </div>
+                              ))}
+                            </div>
+                          </div>
+                        )
+                      )}
+                    </div>
+
+                    <div>
+                      <div className="system_goel_container">
+                        {/** Box Model */}
+                        {goalHirerachyData.map((goal: any) => (
+                          <div
+                            className={`box_model ${!checkedSystemGoalsNew.has(goal.id) ? "d-none" : ""
+                              }`}
+                          >
+                            <div className="header">{goal.name}</div>
                             <div>
-                              {goal.subGoal.map((subGoal: any) => (
-                                <div className="inner_container">
-                                  <div className="inner_header">
-                                    {subGoal.name}
-                                  </div>
+                              <div>
+                                {goal.subGoal.map((subGoal: any) => (
+                                  <div className="inner_container">
+                                    <div className="inner_header">
+                                      {subGoal.name}
+                                    </div>
 
-                                  {/** KPI's Table */}
-                                  {subGoal.kpi.map((kpi: any) => (
-                                    <table>
-                                      <thead>
-                                        <tr className="border_bkg kpi_row">
-                                          <th
-                                            // colSpan={5}
-                                            rowSpan={2}
-                                            className="kpi_name_title"
-                                            data-tooltip-id={`tooltip-${kpi.id}`}
-                                          >
-                                            {kpi.title}
-                                            <ReactTooltip id={`tooltip-${kpi.id}`} style={{ width: "250px" }}>
-                                              <div style={{ display: 'flex', flexDirection: 'column' }}>
-                                                <span>{kpi?.KPI_DEFINATION || ''}</span>
-                                              </div>
-                                            </ReactTooltip>                                          </th>
-                                          <th style={{ width: "50px", padding: '0px 4px' }} rowSpan={2}>Q/M</th>
-                                          <th style={{padding: '0px 4px'}}>MTD/QTD</th>
-                                          <th  style={{padding: '0px 4px'}}>% Variance</th>
-                                          <th  style={{padding: '0px 4px'}}>YTD</th>
-                                          <th  style={{padding: '0px 4px'}}>% Variance</th>
+                                    {/** KPI's Table */}
+                                    {subGoal.kpi.map((kpi: any) => (
+                                      <table>
+                                        <thead>
+                                          <tr className="border_bkg kpi_row">
+                                            <th
+                                              // colSpan={5}
+                                              rowSpan={2}
+                                              className="kpi_name_title"
+                                              data-tooltip-id={`tooltip-${kpi.id}`}
+                                            >
+                                              {kpi.title}
+                                              <ReactTooltip id={`tooltip-${kpi.id}`} style={{ width: "250px" }}>
+                                                <div style={{ display: 'flex', flexDirection: 'column' }}>
+                                                  <span>{kpi?.KPI_DEFINATION || ''}</span>
+                                                </div>
+                                              </ReactTooltip>                                          </th>
+                                            <th style={{ width: "50px", padding: '0px 4px' }} rowSpan={2}>Q/M</th>
+                                            <th style={{ padding: '0px 4px' }}>MTD/QTD</th>
+                                            <th style={{ padding: '0px 4px' }}>% Variance</th>
+                                            <th style={{ padding: '0px 4px' }}>YTD</th>
+                                            <th style={{ padding: '0px 4px' }}>% Variance</th>
 
-                                          <th rowSpan={2} style={{padding: '0px 4px'}}>Details</th>
-                                        </tr>
-                                        <tr className="border_bkg kpi_row">
+                                            <th rowSpan={2} style={{ padding: '0px 4px' }}>Details</th>
+                                          </tr>
+                                          <tr className="border_bkg kpi_row">
 
-                                          {/* <th style={{ width: "50px" }}></th> */}
-                                          <th style={{ padding: "0" }}>
-                                            <table>
-                                              <tr>
-                                                <td
-                                                  style={{
-                                                    textAlign: "center",
-                                                    border: "0",
-                                                  }}
-                                                >
-                                                  Actual
-                                                </td>
-                                                <td
-                                                  style={{
-                                                    textAlign: "center",
-                                                    borderTop: "0",
-                                                    borderBottom: "0",
-                                                    width: "80px",
-                                                  }}
-                                                >
-                                                  Budget/Tgt
-                                                </td>
-                                                <td
-                                                  style={{
-                                                    textAlign: "center",
-                                                    border: "0",
-                                                  }}
-                                                >
-                                                  Prior Yr
-                                                </td>
-                                              </tr>
-                                            </table>
-                                          </th>
-                                          <th style={{ padding: "0" }}>
-                                            <table>
-                                              <tr>
-                                                <td
-                                                  style={{
-                                                    textAlign: "center",
-                                                    borderTop: "0",
-                                                    borderBottom: "0",
-                                                    borderLeft: "0",
-                                                  }}
-                                                >
-                                                  Budget/Tgt
-                                                </td>
-                                                <td
-                                                  style={{
-                                                    width: "110px",
-                                                    border: "0",
-                                                  }}
-                                                >
-                                                  to PY
-                                                </td>
-                                              </tr>
-                                            </table>
-                                          </th>
+                                            {/* <th style={{ width: "50px" }}></th> */}
+                                            <th style={{ padding: "0" }}>
+                                              <table>
+                                                <tr>
+                                                  <td
+                                                    style={{
+                                                      textAlign: "center",
+                                                      border: "0",
+                                                    }}
+                                                  >
+                                                    Actual
+                                                  </td>
+                                                  <td
+                                                    style={{
+                                                      textAlign: "center",
+                                                      borderTop: "0",
+                                                      borderBottom: "0",
+                                                      width: "80px",
+                                                    }}
+                                                  >
+                                                    Budget/Tgt
+                                                  </td>
+                                                  <td
+                                                    style={{
+                                                      textAlign: "center",
+                                                      border: "0",
+                                                    }}
+                                                  >
+                                                    Prior Yr
+                                                  </td>
+                                                </tr>
+                                              </table>
+                                            </th>
+                                            <th style={{ padding: "0" }}>
+                                              <table>
+                                                <tr>
+                                                  <td
+                                                    style={{
+                                                      textAlign: "center",
+                                                      borderTop: "0",
+                                                      borderBottom: "0",
+                                                      borderLeft: "0",
+                                                    }}
+                                                  >
+                                                    Budget/Tgt
+                                                  </td>
+                                                  <td
+                                                    style={{
+                                                      width: "110px",
+                                                      border: "0",
+                                                    }}
+                                                  >
+                                                    to PY
+                                                  </td>
+                                                </tr>
+                                              </table>
+                                            </th>
 
-                                          <th style={{ padding: "0" }}>
-                                            <table>
-                                              <tr>
-                                                <td
-                                                  style={{
-                                                    textAlign: "center",
-                                                    border: "0",
-                                                  }}
-                                                >
-                                                  Actual
-                                                </td>
-                                                <td
-                                                  style={{
-                                                    textAlign: "center",
-                                                    borderTop: "0",
-                                                    borderBottom: "0",
-                                                    width: "80px",
-                                                  }}
-                                                >
-                                                  Budget/Tgt
-                                                </td>
-                                                <td
-                                                  style={{
-                                                    textAlign: "center",
-                                                    border: "0",
-                                                  }}
-                                                >
-                                                  Prior Yr
-                                                </td>
-                                              </tr>
-                                            </table>
-                                          </th>
-                                          <th style={{ padding: "0" }}>
-                                            <table>
-                                              <tr>
-                                                <td
-                                                  style={{
-                                                    textAlign: "center",
-                                                    borderTop: "0",
-                                                    borderBottom: "0",
-                                                    borderLeft: "0",
-                                                  }}
-                                                >
-                                                  Budget/Tgt
-                                                </td>
-                                                <td
-                                                  style={{
-                                                    width: "110px",
-                                                    border: "0",
-                                                  }}
-                                                >
-                                                  to PY
-                                                </td>
-                                              </tr>
-                                            </table>
-                                          </th>
-                                        </tr>
-                                      </thead>
-                                      <tbody>
-                                        {hirerachicalHospitalData.map(
-                                          (organization: any) => {
-                                            const allDivisionSelected =
-                                              organization.division.every(
-                                                (division: any) => {
-                                                  // Check if the division is selected
-                                                  return division.hospitals.every(
-                                                    (hospital: any) => {
-                                                      return selectedHospitalsNew.has(
-                                                        hospital.id
-                                                      );
-                                                    }
-                                                  );
-                                                }
-                                              );
-
-                                            const divisionRows =
-                                              organization.division.map(
-                                                (division: any) => {
-                                                  const allHospitalsSelected =
-                                                    division.hospitals.every(
-                                                      (hospital: any) =>
-                                                        selectedHospitalsNew.has(
+                                            <th style={{ padding: "0" }}>
+                                              <table>
+                                                <tr>
+                                                  <td
+                                                    style={{
+                                                      textAlign: "center",
+                                                      border: "0",
+                                                    }}
+                                                  >
+                                                    Actual
+                                                  </td>
+                                                  <td
+                                                    style={{
+                                                      textAlign: "center",
+                                                      borderTop: "0",
+                                                      borderBottom: "0",
+                                                      width: "80px",
+                                                    }}
+                                                  >
+                                                    Budget/Tgt
+                                                  </td>
+                                                  <td
+                                                    style={{
+                                                      textAlign: "center",
+                                                      border: "0",
+                                                    }}
+                                                  >
+                                                    Prior Yr
+                                                  </td>
+                                                </tr>
+                                              </table>
+                                            </th>
+                                            <th style={{ padding: "0" }}>
+                                              <table>
+                                                <tr>
+                                                  <td
+                                                    style={{
+                                                      textAlign: "center",
+                                                      borderTop: "0",
+                                                      borderBottom: "0",
+                                                      borderLeft: "0",
+                                                    }}
+                                                  >
+                                                    Budget/Tgt
+                                                  </td>
+                                                  <td
+                                                    style={{
+                                                      width: "110px",
+                                                      border: "0",
+                                                    }}
+                                                  >
+                                                    to PY
+                                                  </td>
+                                                </tr>
+                                              </table>
+                                            </th>
+                                          </tr>
+                                        </thead>
+                                        <tbody>
+                                          {hirerachicalHospitalData.map(
+                                            (organization: any) => {
+                                              const allDivisionSelected =
+                                                organization.division.every(
+                                                  (division: any) => {
+                                                    // Check if the division is selected
+                                                    return division.hospitals.every(
+                                                      (hospital: any) => {
+                                                        return selectedHospitalsNew.has(
                                                           hospital.id
-                                                        )
+                                                        );
+                                                      }
                                                     );
+                                                  }
+                                                );
 
-                                                  return (
-                                                    <>
-                                                      {division.hospitals.map(
-                                                        (hospital: any) => (
-                                                          <tr
-                                                            className={`${!selectedHospitalsNew.has(
-                                                              hospital.id
-                                                            ) ||
-                                                              [
-                                                                5, 13, 15, 21,
-                                                                22,
-                                                              ].indexOf(
+                                              const divisionRows =
+                                                organization.division.map(
+                                                  (division: any) => {
+                                                    const allHospitalsSelected =
+                                                      division.hospitals.every(
+                                                        (hospital: any) =>
+                                                          selectedHospitalsNew.has(
+                                                            hospital.id
+                                                          )
+                                                      );
+
+                                                    return (
+                                                      <>
+                                                        {division.hospitals.map(
+                                                          (hospital: any) => (
+                                                            <tr
+                                                              className={`${!selectedHospitalsNew.has(
                                                                 hospital.id
-                                                              ) !== -1
+                                                              ) ||
+                                                                [
+                                                                  5, 13, 15, 21,
+                                                                  22,
+                                                                ].indexOf(
+                                                                  hospital.id
+                                                                ) !== -1
+                                                                ? "d-none"
+                                                                : ""
+                                                                } ${isChecked
+                                                                  ? "d-none"
+                                                                  : ""
+                                                                }`}
+                                                            >
+                                                              <td
+                                                                style={{
+                                                                  textAlign:
+                                                                    "left",
+                                                                }}
+                                                              >
+                                                                <button>
+                                                                  {hospital.title}
+                                                                </button>
+                                                              </td>
+
+                                                              <td
+                                                                className={
+                                                                  kpi.Sitelevel ===
+                                                                    "Y"
+                                                                    ? ""
+                                                                    : "no_data"
+                                                                }
+                                                                style={{
+                                                                  width: "50px",
+                                                                }}
+                                                              >
+                                                                {" "}
+                                                                {kpi.Sitelevel ===
+                                                                  "Y"
+                                                                  ? this.findMatrixValues(
+                                                                    subGoal.id,
+                                                                    kpi.id,
+                                                                    organization.id,
+                                                                    dataGoalMetrix,
+                                                                    "ReportType"
+                                                                  )
+                                                                  : ""}
+                                                              </td>
+                                                              <td
+                                                                style={{
+                                                                  padding: "0",
+                                                                }}
+                                                                className={
+                                                                  this.findMatrixValues(
+                                                                    subGoal.id,
+                                                                    kpi.id,
+                                                                    hospital.id,
+                                                                    dataGoalMetrix,
+                                                                    "ActualVerify"
+                                                                  ) == true
+                                                                    ? "change_status"
+                                                                    : ""
+                                                                }
+                                                              >
+                                                                <table>
+                                                                  <tr>
+                                                                    <td
+                                                                      style={{
+                                                                        textAlign:
+                                                                          "center",
+                                                                        border:
+                                                                          "0",
+                                                                      }}
+                                                                      className={
+                                                                        kpi.Sitelevel ===
+                                                                          "Y"
+                                                                          ? ""
+                                                                          : "no_data"
+                                                                      }
+                                                                    >
+                                                                      {kpi.Sitelevel ===
+                                                                        "Y"
+                                                                        ? this.findMatrixValues(
+                                                                          subGoal.id,
+                                                                          kpi.id,
+                                                                          hospital.id,
+                                                                          dataGoalMetrix,
+                                                                          "MTD_ACTUAL"
+                                                                        )
+                                                                        : ""}
+                                                                    </td>
+                                                                    <td
+                                                                      style={{
+                                                                        textAlign:
+                                                                          "center",
+                                                                        borderTop:
+                                                                          "0",
+                                                                        borderBottom:
+                                                                          "0",
+                                                                        width:
+                                                                          "80px",
+                                                                      }}
+                                                                      className={
+                                                                        kpi.Sitelevel ===
+                                                                          "Y"
+                                                                          ? ""
+                                                                          : "no_data"
+                                                                      }
+                                                                    >
+                                                                      {kpi.Sitelevel ===
+                                                                        "Y"
+                                                                        ? this.findMatrixValues(
+                                                                          subGoal.id,
+                                                                          kpi.id,
+                                                                          hospital.id,
+                                                                          dataGoalMetrix,
+                                                                          "MTD_BUDGET"
+                                                                        )
+                                                                        : ""}
+                                                                    </td>
+                                                                    <td
+                                                                      style={{
+                                                                        textAlign:
+                                                                          "center",
+                                                                        border:
+                                                                          "0",
+                                                                      }}
+                                                                      className={
+                                                                        kpi.Sitelevel ===
+                                                                          "Y"
+                                                                          ? ""
+                                                                          : "no_data"
+                                                                      }
+                                                                    >
+                                                                      {kpi.Sitelevel ===
+                                                                        "Y"
+                                                                        ? this.findMatrixValues(
+                                                                          subGoal.id,
+                                                                          kpi.id,
+                                                                          hospital.id,
+                                                                          dataGoalMetrix,
+                                                                          "MTD_PRIOR_YEAR"
+                                                                        )
+                                                                        : ""}
+                                                                    </td>
+                                                                  </tr>
+                                                                </table>
+                                                              </td>
+                                                              <td
+                                                                style={{
+                                                                  padding: "0",
+                                                                }}
+                                                                className={
+                                                                  this.findMatrixValues(
+                                                                    subGoal.id,
+                                                                    kpi.id,
+                                                                    hospital.id,
+                                                                    dataGoalMetrix,
+                                                                    "TargetVerified"
+                                                                  ) == true
+                                                                    ? "change_status"
+                                                                    : ""
+                                                                }
+                                                              >
+                                                                <table className="budget-py">
+                                                                  <tr>
+                                                                    <td>
+                                                                      <table>
+                                                                        <tr>
+                                                                          <td
+                                                                            className={
+                                                                              kpi.Sitelevel ===
+                                                                                "Y"
+                                                                                ? ""
+                                                                                : "no_data"
+                                                                            }
+                                                                          >
+                                                                            {kpi.Sitelevel ===
+                                                                              "Y"
+                                                                              ? this.findMatrixValues(
+                                                                                subGoal.id,
+                                                                                kpi.id,
+                                                                                hospital.id,
+                                                                                dataGoalMetrix,
+                                                                                "MTD_BUDGET_VARIANCE"
+                                                                              )
+                                                                              : ""}
+                                                                          </td>
+                                                                          <td
+                                                                            className={
+                                                                              kpi.Sitelevel ===
+                                                                                "Y"
+                                                                                ? ""
+                                                                                : "no_data"
+                                                                            }
+                                                                          >
+                                                                            {" "}
+                                                                            <span
+                                                                              className={
+                                                                                kpi.Sitelevel ===
+                                                                                  "Y"
+                                                                                  ? this.getStatus(
+                                                                                    subGoal.id,
+                                                                                    kpi.id,
+                                                                                    hospital.id,
+                                                                                    dataGoalMetrix,
+                                                                                    "MTD_BUDGET_VAR_SIGN"
+                                                                                  )
+                                                                                  : ""
+                                                                              }
+                                                                            ></span>
+                                                                          </td>
+                                                                        </tr>
+                                                                      </table>
+                                                                    </td>
+                                                                    <td
+                                                                      style={{
+                                                                        width:
+                                                                          "110px",
+                                                                      }}
+                                                                    >
+                                                                      <table>
+                                                                        <tr>
+                                                                          <td
+                                                                            className={
+                                                                              kpi.Sitelevel ===
+                                                                                "Y"
+                                                                                ? ""
+                                                                                : "no_data"
+                                                                            }
+                                                                          >
+                                                                            {kpi.Sitelevel ===
+                                                                              "Y"
+                                                                              ? this.findMatrixValues(
+                                                                                subGoal.id,
+                                                                                kpi.id,
+                                                                                hospital.id,
+                                                                                dataGoalMetrix,
+                                                                                "MTD_PRIOR_YEAR_VARIANCE"
+                                                                              )
+                                                                              : ""}
+                                                                          </td>
+                                                                          <td
+                                                                            className={
+                                                                              kpi.Sitelevel ===
+                                                                                "Y"
+                                                                                ? ""
+                                                                                : "no_data"
+                                                                            }
+                                                                          >
+                                                                            {" "}
+                                                                            <span
+                                                                              className={
+                                                                                kpi.Sitelevel ===
+                                                                                  "Y"
+                                                                                  ? this.getStatus(
+                                                                                    subGoal.id,
+                                                                                    kpi.id,
+                                                                                    hospital.id,
+                                                                                    dataGoalMetrix,
+                                                                                    "MTD_PRIOR_YEAR_VAR_SIGN"
+                                                                                  )
+                                                                                  : ""
+                                                                              }
+                                                                            ></span>
+                                                                          </td>
+                                                                        </tr>
+                                                                      </table>
+                                                                    </td>
+                                                                  </tr>
+                                                                </table>
+                                                              </td>
+                                                              <td
+                                                                style={{
+                                                                  padding: "0",
+                                                                }}
+                                                              >
+                                                                <table>
+                                                                  <tr>
+                                                                    <td
+                                                                      style={{
+                                                                        textAlign:
+                                                                          "center",
+                                                                        border:
+                                                                          "0",
+                                                                      }}
+                                                                      className={
+                                                                        kpi.Sitelevel ===
+                                                                          "Y"
+                                                                          ? ""
+                                                                          : "no_data"
+                                                                      }
+                                                                    >
+                                                                      {kpi.Sitelevel ===
+                                                                        "Y"
+                                                                        ? this.findMatrixValues(
+                                                                          subGoal.id,
+                                                                          kpi.id,
+                                                                          hospital.id,
+                                                                          dataGoalMetrix,
+                                                                          "YTD_ACTUAL"
+                                                                        )
+                                                                        : ""}
+                                                                    </td>
+                                                                    <td
+                                                                      style={{
+                                                                        textAlign:
+                                                                          "center",
+                                                                        borderTop:
+                                                                          "0",
+                                                                        borderBottom:
+                                                                          "0",
+                                                                        width:
+                                                                          "80px",
+                                                                      }}
+                                                                      className={
+                                                                        kpi.Sitelevel ===
+                                                                          "Y"
+                                                                          ? ""
+                                                                          : "no_data"
+                                                                      }
+                                                                    >
+                                                                      {kpi.Sitelevel ===
+                                                                        "Y"
+                                                                        ? this.findMatrixValues(
+                                                                          subGoal.id,
+                                                                          kpi.id,
+                                                                          hospital.id,
+                                                                          dataGoalMetrix,
+                                                                          "YTD_BUDGET"
+                                                                        )
+                                                                        : ""}
+                                                                    </td>
+                                                                    <td
+                                                                      style={{
+                                                                        textAlign:
+                                                                          "center",
+                                                                        border:
+                                                                          "0",
+                                                                      }}
+                                                                      className={
+                                                                        kpi.Sitelevel ===
+                                                                          "Y"
+                                                                          ? ""
+                                                                          : "no_data"
+                                                                      }
+                                                                    >
+                                                                      {kpi.Sitelevel ===
+                                                                        "Y"
+                                                                        ? this.findMatrixValues(
+                                                                          subGoal.id,
+                                                                          kpi.id,
+                                                                          hospital.id,
+                                                                          dataGoalMetrix,
+                                                                          "YTD_PRIOR_YEAR"
+                                                                        )
+                                                                        : ""}
+                                                                    </td>
+                                                                  </tr>
+                                                                </table>
+                                                              </td>
+                                                              <td
+                                                                style={{
+                                                                  padding: "0",
+                                                                }}
+                                                              >
+                                                                <table className="budget-py">
+                                                                  <tr>
+                                                                    <td
+                                                                      style={{
+                                                                        padding:
+                                                                          "0",
+                                                                      }}
+                                                                    >
+                                                                      <table>
+                                                                        <tr>
+                                                                          <td
+                                                                            className={
+                                                                              kpi.Sitelevel ===
+                                                                                "Y"
+                                                                                ? ""
+                                                                                : "no_data"
+                                                                            }
+                                                                          >
+                                                                            {kpi.Sitelevel ===
+                                                                              "Y"
+                                                                              ? this.findMatrixValues(
+                                                                                subGoal.id,
+                                                                                kpi.id,
+                                                                                hospital.id,
+                                                                                dataGoalMetrix,
+                                                                                "YTD_BUDGET_VARIANCE"
+                                                                              )
+                                                                              : ""}
+                                                                          </td>
+                                                                          <td
+                                                                            className={
+                                                                              kpi.Sitelevel ===
+                                                                                "Y"
+                                                                                ? ""
+                                                                                : "no_data"
+                                                                            }
+                                                                          >
+                                                                            <span
+                                                                              className={
+                                                                                kpi.Sitelevel ===
+                                                                                  "Y"
+                                                                                  ? this.getStatus(
+                                                                                    subGoal.id,
+                                                                                    kpi.id,
+                                                                                    hospital.id,
+                                                                                    dataGoalMetrix,
+                                                                                    "YTD_BUDGET_VAR_SIGN"
+                                                                                  )
+                                                                                  : ""
+                                                                              }
+                                                                            ></span>
+                                                                          </td>
+                                                                        </tr>
+                                                                      </table>
+                                                                    </td>
+                                                                    <td
+                                                                      style={{
+                                                                        width:
+                                                                          "110px",
+                                                                      }}
+                                                                    >
+                                                                      <table>
+                                                                        <tr>
+                                                                          <td
+                                                                            className={
+                                                                              kpi.Sitelevel ===
+                                                                                "Y"
+                                                                                ? ""
+                                                                                : "no_data"
+                                                                            }
+                                                                          >
+                                                                            {kpi.Sitelevel ===
+                                                                              "Y"
+                                                                              ? this.findMatrixValues(
+                                                                                subGoal.id,
+                                                                                kpi.id,
+                                                                                hospital.id,
+                                                                                dataGoalMetrix,
+                                                                                "YTD_PRIOR_YEAR_VARIANCE"
+                                                                              )
+                                                                              : ""}
+                                                                          </td>
+                                                                          <td
+                                                                            className={
+                                                                              kpi.Sitelevel ===
+                                                                                "Y"
+                                                                                ? ""
+                                                                                : "no_data"
+                                                                            }
+                                                                          >
+                                                                            <span
+                                                                              className={
+                                                                                kpi.Sitelevel ===
+                                                                                  "Y"
+                                                                                  ? this.getStatus(
+                                                                                    subGoal.id,
+                                                                                    kpi.id,
+                                                                                    hospital.id,
+                                                                                    dataGoalMetrix,
+                                                                                    "YTD_PRIOR_YEAR_VAR_SIGN"
+                                                                                  )
+                                                                                  : ""
+                                                                              }
+                                                                            ></span>
+                                                                          </td>
+                                                                        </tr>
+                                                                      </table>
+                                                                    </td>
+                                                                  </tr>
+                                                                </table>
+                                                              </td>
+                                                              <td
+                                                                className={
+                                                                  kpi.Sitelevel ===
+                                                                    "Y"
+                                                                    ? ""
+                                                                    : "no_data"
+                                                                }
+                                                              >
+                                                                {kpi.Sitelevel ===
+                                                                  "Y" ? (
+                                                                  <a
+                                                                    href={this.findMatrixValues(
+                                                                      subGoal.id,
+                                                                      kpi.id,
+                                                                      hospital.id,
+                                                                      dataGoalMetrix,
+                                                                      "URL"
+                                                                    )}
+                                                                    target="_blank"
+                                                                    className={`details ${this.findMatrixValues(
+                                                                      subGoal.id,
+                                                                      kpi.id,
+                                                                      hospital.id,
+                                                                      dataGoalMetrix,
+                                                                      "URL"
+                                                                    ) === null
+                                                                      ? "disabled"
+                                                                      : ""
+                                                                      }`}
+                                                                  >
+                                                                    Click
+                                                                  </a>
+                                                                ) : (
+                                                                  ""
+                                                                )}
+                                                              </td>
+                                                            </tr>
+                                                          )
+                                                        )}
+                                                        {allHospitalsSelected && (
+                                                          <tr
+                                                            className={`division_avg ${division.id == null
                                                               ? "d-none"
                                                               : ""
                                                               } ${isChecked
@@ -896,15 +1411,14 @@ export default class SystemGoalKpi extends React.Component<
                                                           >
                                                             <td
                                                               style={{
-                                                                textAlign:
-                                                                  "left",
+                                                                textAlign: "left",
                                                               }}
                                                             >
                                                               <button>
-                                                                {hospital.title}
+                                                                {division.name}{" "}
+                                                                (Agg.)
                                                               </button>
                                                             </td>
-
                                                             <td
                                                               className={
                                                                 kpi.Sitelevel ===
@@ -916,13 +1430,12 @@ export default class SystemGoalKpi extends React.Component<
                                                                 width: "50px",
                                                               }}
                                                             >
-                                                              {" "}
                                                               {kpi.Sitelevel ===
                                                                 "Y"
                                                                 ? this.findMatrixValues(
                                                                   subGoal.id,
                                                                   kpi.id,
-                                                                  organization.id,
+                                                                  division.id,
                                                                   dataGoalMetrix,
                                                                   "ReportType"
                                                                 )
@@ -936,7 +1449,7 @@ export default class SystemGoalKpi extends React.Component<
                                                                 this.findMatrixValues(
                                                                   subGoal.id,
                                                                   kpi.id,
-                                                                  hospital.id,
+                                                                  division.id,
                                                                   dataGoalMetrix,
                                                                   "ActualVerify"
                                                                 ) == true
@@ -950,8 +1463,7 @@ export default class SystemGoalKpi extends React.Component<
                                                                     style={{
                                                                       textAlign:
                                                                         "center",
-                                                                      border:
-                                                                        "0",
+                                                                      border: "0",
                                                                     }}
                                                                     className={
                                                                       kpi.Sitelevel ===
@@ -965,7 +1477,7 @@ export default class SystemGoalKpi extends React.Component<
                                                                       ? this.findMatrixValues(
                                                                         subGoal.id,
                                                                         kpi.id,
-                                                                        hospital.id,
+                                                                        division.id,
                                                                         dataGoalMetrix,
                                                                         "MTD_ACTUAL"
                                                                       )
@@ -994,7 +1506,7 @@ export default class SystemGoalKpi extends React.Component<
                                                                       ? this.findMatrixValues(
                                                                         subGoal.id,
                                                                         kpi.id,
-                                                                        hospital.id,
+                                                                        division.id,
                                                                         dataGoalMetrix,
                                                                         "MTD_BUDGET"
                                                                       )
@@ -1004,8 +1516,7 @@ export default class SystemGoalKpi extends React.Component<
                                                                     style={{
                                                                       textAlign:
                                                                         "center",
-                                                                      border:
-                                                                        "0",
+                                                                      border: "0",
                                                                     }}
                                                                     className={
                                                                       kpi.Sitelevel ===
@@ -1019,7 +1530,7 @@ export default class SystemGoalKpi extends React.Component<
                                                                       ? this.findMatrixValues(
                                                                         subGoal.id,
                                                                         kpi.id,
-                                                                        hospital.id,
+                                                                        division.id,
                                                                         dataGoalMetrix,
                                                                         "MTD_PRIOR_YEAR"
                                                                       )
@@ -1036,7 +1547,7 @@ export default class SystemGoalKpi extends React.Component<
                                                                 this.findMatrixValues(
                                                                   subGoal.id,
                                                                   kpi.id,
-                                                                  hospital.id,
+                                                                  division.id,
                                                                   dataGoalMetrix,
                                                                   "TargetVerified"
                                                                 ) == true
@@ -1062,11 +1573,11 @@ export default class SystemGoalKpi extends React.Component<
                                                                             ? this.findMatrixValues(
                                                                               subGoal.id,
                                                                               kpi.id,
-                                                                              hospital.id,
+                                                                              division.id,
                                                                               dataGoalMetrix,
                                                                               "MTD_BUDGET_VARIANCE"
                                                                             )
-                                                                            : ""}
+                                                                            : ""}{" "}
                                                                         </td>
                                                                         <td
                                                                           className={
@@ -1076,7 +1587,6 @@ export default class SystemGoalKpi extends React.Component<
                                                                               : "no_data"
                                                                           }
                                                                         >
-                                                                          {" "}
                                                                           <span
                                                                             className={
                                                                               kpi.Sitelevel ===
@@ -1084,7 +1594,7 @@ export default class SystemGoalKpi extends React.Component<
                                                                                 ? this.getStatus(
                                                                                   subGoal.id,
                                                                                   kpi.id,
-                                                                                  hospital.id,
+                                                                                  division.id,
                                                                                   dataGoalMetrix,
                                                                                   "MTD_BUDGET_VAR_SIGN"
                                                                                 )
@@ -1116,7 +1626,7 @@ export default class SystemGoalKpi extends React.Component<
                                                                             ? this.findMatrixValues(
                                                                               subGoal.id,
                                                                               kpi.id,
-                                                                              hospital.id,
+                                                                              division.id,
                                                                               dataGoalMetrix,
                                                                               "MTD_PRIOR_YEAR_VARIANCE"
                                                                             )
@@ -1130,7 +1640,6 @@ export default class SystemGoalKpi extends React.Component<
                                                                               : "no_data"
                                                                           }
                                                                         >
-                                                                          {" "}
                                                                           <span
                                                                             className={
                                                                               kpi.Sitelevel ===
@@ -1138,7 +1647,7 @@ export default class SystemGoalKpi extends React.Component<
                                                                                 ? this.getStatus(
                                                                                   subGoal.id,
                                                                                   kpi.id,
-                                                                                  hospital.id,
+                                                                                  division.id,
                                                                                   dataGoalMetrix,
                                                                                   "MTD_PRIOR_YEAR_VAR_SIGN"
                                                                                 )
@@ -1163,8 +1672,7 @@ export default class SystemGoalKpi extends React.Component<
                                                                     style={{
                                                                       textAlign:
                                                                         "center",
-                                                                      border:
-                                                                        "0",
+                                                                      border: "0",
                                                                     }}
                                                                     className={
                                                                       kpi.Sitelevel ===
@@ -1178,7 +1686,7 @@ export default class SystemGoalKpi extends React.Component<
                                                                       ? this.findMatrixValues(
                                                                         subGoal.id,
                                                                         kpi.id,
-                                                                        hospital.id,
+                                                                        division.id,
                                                                         dataGoalMetrix,
                                                                         "YTD_ACTUAL"
                                                                       )
@@ -1207,7 +1715,7 @@ export default class SystemGoalKpi extends React.Component<
                                                                       ? this.findMatrixValues(
                                                                         subGoal.id,
                                                                         kpi.id,
-                                                                        hospital.id,
+                                                                        division.id,
                                                                         dataGoalMetrix,
                                                                         "YTD_BUDGET"
                                                                       )
@@ -1217,8 +1725,7 @@ export default class SystemGoalKpi extends React.Component<
                                                                     style={{
                                                                       textAlign:
                                                                         "center",
-                                                                      border:
-                                                                        "0",
+                                                                      border: "0",
                                                                     }}
                                                                     className={
                                                                       kpi.Sitelevel ===
@@ -1232,7 +1739,7 @@ export default class SystemGoalKpi extends React.Component<
                                                                       ? this.findMatrixValues(
                                                                         subGoal.id,
                                                                         kpi.id,
-                                                                        hospital.id,
+                                                                        division.id,
                                                                         dataGoalMetrix,
                                                                         "YTD_PRIOR_YEAR"
                                                                       )
@@ -1246,110 +1753,118 @@ export default class SystemGoalKpi extends React.Component<
                                                                 padding: "0",
                                                               }}
                                                             >
-                                                              <table className="budget-py">
+                                                              <table>
                                                                 <tr>
                                                                   <td
                                                                     style={{
                                                                       padding:
                                                                         "0",
+                                                                      border: "0",
                                                                     }}
                                                                   >
-                                                                    <table>
+                                                                    <table className="budget-py">
                                                                       <tr>
-                                                                        <td
-                                                                          className={
-                                                                            kpi.Sitelevel ===
-                                                                              "Y"
-                                                                              ? ""
-                                                                              : "no_data"
-                                                                          }
-                                                                        >
-                                                                          {kpi.Sitelevel ===
-                                                                            "Y"
-                                                                            ? this.findMatrixValues(
-                                                                              subGoal.id,
-                                                                              kpi.id,
-                                                                              hospital.id,
-                                                                              dataGoalMetrix,
-                                                                              "YTD_BUDGET_VARIANCE"
-                                                                            )
-                                                                            : ""}
+                                                                        <td>
+                                                                          <table>
+                                                                            <tr>
+                                                                              <td
+                                                                                className={
+                                                                                  kpi.Sitelevel ===
+                                                                                    "Y"
+                                                                                    ? ""
+                                                                                    : "no_data"
+                                                                                }
+                                                                              >
+                                                                                {kpi.Sitelevel ===
+                                                                                  "Y"
+                                                                                  ? this.findMatrixValues(
+                                                                                    subGoal.id,
+                                                                                    kpi.id,
+                                                                                    division.id,
+                                                                                    dataGoalMetrix,
+                                                                                    "YTD_BUDGET_VARIANCE"
+                                                                                  )
+                                                                                  : ""}
+                                                                              </td>
+                                                                              <td
+                                                                                className={
+                                                                                  kpi.Sitelevel ===
+                                                                                    "Y"
+                                                                                    ? ""
+                                                                                    : "no_data"
+                                                                                }
+                                                                              >
+                                                                                <span
+                                                                                  className={
+                                                                                    kpi.Sitelevel ===
+                                                                                      "Y"
+                                                                                      ? this.getStatus(
+                                                                                        subGoal.id,
+                                                                                        kpi.id,
+                                                                                        division.id,
+                                                                                        dataGoalMetrix,
+                                                                                        "YTD_BUDGET_VAR_SIGN"
+                                                                                      )
+                                                                                      : ""
+                                                                                  }
+                                                                                ></span>
+                                                                              </td>
+                                                                            </tr>
+                                                                          </table>
                                                                         </td>
                                                                         <td
-                                                                          className={
-                                                                            kpi.Sitelevel ===
-                                                                              "Y"
-                                                                              ? ""
-                                                                              : "no_data"
-                                                                          }
+                                                                          style={{
+                                                                            width:
+                                                                              "110px",
+                                                                          }}
                                                                         >
-                                                                          <span
-                                                                            className={
-                                                                              kpi.Sitelevel ===
-                                                                                "Y"
-                                                                                ? this.getStatus(
-                                                                                  subGoal.id,
-                                                                                  kpi.id,
-                                                                                  hospital.id,
-                                                                                  dataGoalMetrix,
-                                                                                  "YTD_BUDGET_VAR_SIGN"
-                                                                                )
-                                                                                : ""
-                                                                            }
-                                                                          ></span>
-                                                                        </td>
-                                                                      </tr>
-                                                                    </table>
-                                                                  </td>
-                                                                  <td
-                                                                    style={{
-                                                                      width:
-                                                                        "110px",
-                                                                    }}
-                                                                  >
-                                                                    <table>
-                                                                      <tr>
-                                                                        <td
-                                                                          className={
-                                                                            kpi.Sitelevel ===
-                                                                              "Y"
-                                                                              ? ""
-                                                                              : "no_data"
-                                                                          }
-                                                                        >
-                                                                          {kpi.Sitelevel ===
-                                                                            "Y"
-                                                                            ? this.findMatrixValues(
-                                                                              subGoal.id,
-                                                                              kpi.id,
-                                                                              hospital.id,
-                                                                              dataGoalMetrix,
-                                                                              "YTD_PRIOR_YEAR_VARIANCE"
-                                                                            )
-                                                                            : ""}
-                                                                        </td>
-                                                                        <td
-                                                                          className={
-                                                                            kpi.Sitelevel ===
-                                                                              "Y"
-                                                                              ? ""
-                                                                              : "no_data"
-                                                                          }
-                                                                        >
-                                                                          <span
-                                                                            className={
-                                                                              kpi.Sitelevel ===
-                                                                                "Y"
-                                                                                ? this.getStatus(
-                                                                                  subGoal.id,
-                                                                                  kpi.id,
-                                                                                  hospital.id,
-                                                                                  dataGoalMetrix,
-                                                                                  "YTD_PRIOR_YEAR_VAR_SIGN"
-                                                                                )
-                                                                                : ""
-                                                                            }
-                                                                          ></span>
+                                                                          <table>
+                                                                            <tr>
+                                                                              <td
+                                                                                className={
+                                                                                  kpi.Sitelevel ===
+                                                                                    "Y"
+                                                                                    ? ""
+                                                                                    : "no_data"
+                                                                                }
+                                                                              >
+                                                                                {kpi.Sitelevel ===
+                                                                                  "Y"
+                                                                                  ? this.findMatrixValues(
+                                                                                    subGoal.id,
+                                                                                    kpi.id,
+                                                                                    division.id,
+                                                                                    dataGoalMetrix,
+                                                                                    "YTD_PRIOR_YEAR_VARIANCE"
+                                                                                  )
+                                                                                  : ""}
+                                                                              </td>
+                                                                              <td
+                                                                                className={
+                                                                                  kpi.Sitelevel ===
+                                                                                    "Y"
+                                                                                    ? ""
+                                                                                    : "no_data"
+                                                                                }
+                                                                              >
+                                                                                {" "}
+                                                                                <span
+                                                                                  className={
+                                                                                    kpi.Sitlevel ===
+                                                                                      "Y"
+                                                                                      ? this.getStatus(
+                                                                                        subGoal.id,
+                                                                                        kpi.id,
+                                                                                        division.id,
+                                                                                        dataGoalMetrix,
+                                                                                        "YTD_PRIOR_YEAR_VAR_SIGN"
+                                                                                      )
+                                                                                      : ""
+                                                                                  }
+                                                                                ></span>
+                                                                              </td>
+                                                                            </tr>
+                                                                          </table>
                                                                         </td>
                                                                       </tr>
                                                                     </table>
@@ -1371,7 +1886,7 @@ export default class SystemGoalKpi extends React.Component<
                                                                   href={this.findMatrixValues(
                                                                     subGoal.id,
                                                                     kpi.id,
-                                                                    hospital.id,
+                                                                    division.id,
                                                                     dataGoalMetrix,
                                                                     "URL"
                                                                   )}
@@ -1379,7 +1894,7 @@ export default class SystemGoalKpi extends React.Component<
                                                                   className={`details ${this.findMatrixValues(
                                                                     subGoal.id,
                                                                     kpi.id,
-                                                                    hospital.id,
+                                                                    division.id,
                                                                     dataGoalMetrix,
                                                                     "URL"
                                                                   ) === null
@@ -1394,870 +1909,358 @@ export default class SystemGoalKpi extends React.Component<
                                                               )}
                                                             </td>
                                                           </tr>
-                                                        )
-                                                      )}
-                                                      {allHospitalsSelected && (
-                                                        <tr
-                                                          className={`division_avg ${division.id == null
-                                                            ? "d-none"
-                                                            : ""
-                                                            } ${isChecked
-                                                              ? "d-none"
-                                                              : ""
-                                                            }`}
-                                                        >
-                                                          <td
-                                                            style={{
-                                                              textAlign: "left",
-                                                            }}
-                                                          >
-                                                            <button>
-                                                              {division.name}{" "}
-                                                              (Agg.)
-                                                            </button>
-                                                          </td>
-                                                          <td
-                                                            className={
-                                                              kpi.Sitelevel ===
-                                                                "Y"
-                                                                ? ""
-                                                                : "no_data"
-                                                            }
-                                                            style={{
-                                                              width: "50px",
-                                                            }}
-                                                          >
-                                                            {kpi.Sitelevel ===
-                                                              "Y"
-                                                              ? this.findMatrixValues(
-                                                                subGoal.id,
-                                                                kpi.id,
-                                                                division.id,
-                                                                dataGoalMetrix,
-                                                                "ReportType"
-                                                              )
-                                                              : ""}
-                                                          </td>
-                                                          <td
-                                                            style={{
-                                                              padding: "0",
-                                                            }}
-                                                            className={
-                                                              this.findMatrixValues(
-                                                                subGoal.id,
-                                                                kpi.id,
-                                                                division.id,
-                                                                dataGoalMetrix,
-                                                                "ActualVerify"
-                                                              ) == true
-                                                                ? "change_status"
-                                                                : ""
-                                                            }
-                                                          >
-                                                            <table>
-                                                              <tr>
-                                                                <td
-                                                                  style={{
-                                                                    textAlign:
-                                                                      "center",
-                                                                    border: "0",
-                                                                  }}
-                                                                  className={
-                                                                    kpi.Sitelevel ===
-                                                                      "Y"
-                                                                      ? ""
-                                                                      : "no_data"
-                                                                  }
-                                                                >
-                                                                  {kpi.Sitelevel ===
-                                                                    "Y"
-                                                                    ? this.findMatrixValues(
-                                                                      subGoal.id,
-                                                                      kpi.id,
-                                                                      division.id,
-                                                                      dataGoalMetrix,
-                                                                      "MTD_ACTUAL"
-                                                                    )
-                                                                    : ""}
-                                                                </td>
-                                                                <td
-                                                                  style={{
-                                                                    textAlign:
-                                                                      "center",
-                                                                    borderTop:
-                                                                      "0",
-                                                                    borderBottom:
-                                                                      "0",
-                                                                    width:
-                                                                      "80px",
-                                                                  }}
-                                                                  className={
-                                                                    kpi.Sitelevel ===
-                                                                      "Y"
-                                                                      ? ""
-                                                                      : "no_data"
-                                                                  }
-                                                                >
-                                                                  {kpi.Sitelevel ===
-                                                                    "Y"
-                                                                    ? this.findMatrixValues(
-                                                                      subGoal.id,
-                                                                      kpi.id,
-                                                                      division.id,
-                                                                      dataGoalMetrix,
-                                                                      "MTD_BUDGET"
-                                                                    )
-                                                                    : ""}
-                                                                </td>
-                                                                <td
-                                                                  style={{
-                                                                    textAlign:
-                                                                      "center",
-                                                                    border: "0",
-                                                                  }}
-                                                                  className={
-                                                                    kpi.Sitelevel ===
-                                                                      "Y"
-                                                                      ? ""
-                                                                      : "no_data"
-                                                                  }
-                                                                >
-                                                                  {kpi.Sitelevel ===
-                                                                    "Y"
-                                                                    ? this.findMatrixValues(
-                                                                      subGoal.id,
-                                                                      kpi.id,
-                                                                      division.id,
-                                                                      dataGoalMetrix,
-                                                                      "MTD_PRIOR_YEAR"
-                                                                    )
-                                                                    : ""}
-                                                                </td>
-                                                              </tr>
-                                                            </table>
-                                                          </td>
-                                                          <td
-                                                            style={{
-                                                              padding: "0",
-                                                            }}
-                                                            className={
-                                                              this.findMatrixValues(
-                                                                subGoal.id,
-                                                                kpi.id,
-                                                                division.id,
-                                                                dataGoalMetrix,
-                                                                "TargetVerified"
-                                                              ) == true
-                                                                ? "change_status"
-                                                                : ""
-                                                            }
-                                                          >
-                                                            <table className="budget-py">
-                                                              <tr>
-                                                                <td>
-                                                                  <table>
-                                                                    <tr>
-                                                                      <td
-                                                                        className={
-                                                                          kpi.Sitelevel ===
-                                                                            "Y"
-                                                                            ? ""
-                                                                            : "no_data"
-                                                                        }
-                                                                      >
-                                                                        {kpi.Sitelevel ===
-                                                                          "Y"
-                                                                          ? this.findMatrixValues(
-                                                                            subGoal.id,
-                                                                            kpi.id,
-                                                                            division.id,
-                                                                            dataGoalMetrix,
-                                                                            "MTD_BUDGET_VARIANCE"
-                                                                          )
-                                                                          : ""}{" "}
-                                                                      </td>
-                                                                      <td
-                                                                        className={
-                                                                          kpi.Sitelevel ===
-                                                                            "Y"
-                                                                            ? ""
-                                                                            : "no_data"
-                                                                        }
-                                                                      >
-                                                                        <span
-                                                                          className={
-                                                                            kpi.Sitelevel ===
-                                                                              "Y"
-                                                                              ? this.getStatus(
-                                                                                subGoal.id,
-                                                                                kpi.id,
-                                                                                division.id,
-                                                                                dataGoalMetrix,
-                                                                                "MTD_BUDGET_VAR_SIGN"
-                                                                              )
-                                                                              : ""
-                                                                          }
-                                                                        ></span>
-                                                                      </td>
-                                                                    </tr>
-                                                                  </table>
-                                                                </td>
-                                                                <td
-                                                                  style={{
-                                                                    width:
-                                                                      "110px",
-                                                                  }}
-                                                                >
-                                                                  <table>
-                                                                    <tr>
-                                                                      <td
-                                                                        className={
-                                                                          kpi.Sitelevel ===
-                                                                            "Y"
-                                                                            ? ""
-                                                                            : "no_data"
-                                                                        }
-                                                                      >
-                                                                        {kpi.Sitelevel ===
-                                                                          "Y"
-                                                                          ? this.findMatrixValues(
-                                                                            subGoal.id,
-                                                                            kpi.id,
-                                                                            division.id,
-                                                                            dataGoalMetrix,
-                                                                            "MTD_PRIOR_YEAR_VARIANCE"
-                                                                          )
-                                                                          : ""}
-                                                                      </td>
-                                                                      <td
-                                                                        className={
-                                                                          kpi.Sitelevel ===
-                                                                            "Y"
-                                                                            ? ""
-                                                                            : "no_data"
-                                                                        }
-                                                                      >
-                                                                        <span
-                                                                          className={
-                                                                            kpi.Sitelevel ===
-                                                                              "Y"
-                                                                              ? this.getStatus(
-                                                                                subGoal.id,
-                                                                                kpi.id,
-                                                                                division.id,
-                                                                                dataGoalMetrix,
-                                                                                "MTD_PRIOR_YEAR_VAR_SIGN"
-                                                                              )
-                                                                              : ""
-                                                                          }
-                                                                        ></span>
-                                                                      </td>
-                                                                    </tr>
-                                                                  </table>
-                                                                </td>
-                                                              </tr>
-                                                            </table>
-                                                          </td>
-                                                          <td
-                                                            style={{
-                                                              padding: "0",
-                                                            }}
-                                                          >
-                                                            <table>
-                                                              <tr>
-                                                                <td
-                                                                  style={{
-                                                                    textAlign:
-                                                                      "center",
-                                                                    border: "0",
-                                                                  }}
-                                                                  className={
-                                                                    kpi.Sitelevel ===
-                                                                      "Y"
-                                                                      ? ""
-                                                                      : "no_data"
-                                                                  }
-                                                                >
-                                                                  {kpi.Sitelevel ===
-                                                                    "Y"
-                                                                    ? this.findMatrixValues(
-                                                                      subGoal.id,
-                                                                      kpi.id,
-                                                                      division.id,
-                                                                      dataGoalMetrix,
-                                                                      "YTD_ACTUAL"
-                                                                    )
-                                                                    : ""}
-                                                                </td>
-                                                                <td
-                                                                  style={{
-                                                                    textAlign:
-                                                                      "center",
-                                                                    borderTop:
-                                                                      "0",
-                                                                    borderBottom:
-                                                                      "0",
-                                                                    width:
-                                                                      "80px",
-                                                                  }}
-                                                                  className={
-                                                                    kpi.Sitelevel ===
-                                                                      "Y"
-                                                                      ? ""
-                                                                      : "no_data"
-                                                                  }
-                                                                >
-                                                                  {kpi.Sitelevel ===
-                                                                    "Y"
-                                                                    ? this.findMatrixValues(
-                                                                      subGoal.id,
-                                                                      kpi.id,
-                                                                      division.id,
-                                                                      dataGoalMetrix,
-                                                                      "YTD_BUDGET"
-                                                                    )
-                                                                    : ""}
-                                                                </td>
-                                                                <td
-                                                                  style={{
-                                                                    textAlign:
-                                                                      "center",
-                                                                    border: "0",
-                                                                  }}
-                                                                  className={
-                                                                    kpi.Sitelevel ===
-                                                                      "Y"
-                                                                      ? ""
-                                                                      : "no_data"
-                                                                  }
-                                                                >
-                                                                  {kpi.Sitelevel ===
-                                                                    "Y"
-                                                                    ? this.findMatrixValues(
-                                                                      subGoal.id,
-                                                                      kpi.id,
-                                                                      division.id,
-                                                                      dataGoalMetrix,
-                                                                      "YTD_PRIOR_YEAR"
-                                                                    )
-                                                                    : ""}
-                                                                </td>
-                                                              </tr>
-                                                            </table>
-                                                          </td>
-                                                          <td
-                                                            style={{
-                                                              padding: "0",
-                                                            }}
-                                                          >
-                                                            <table>
-                                                              <tr>
-                                                                <td
-                                                                  style={{
-                                                                    padding:
-                                                                      "0",
-                                                                    border: "0",
-                                                                  }}
-                                                                >
-                                                                  <table className="budget-py">
-                                                                    <tr>
-                                                                      <td>
-                                                                        <table>
-                                                                          <tr>
-                                                                            <td
-                                                                              className={
-                                                                                kpi.Sitelevel ===
-                                                                                  "Y"
-                                                                                  ? ""
-                                                                                  : "no_data"
-                                                                              }
-                                                                            >
-                                                                              {kpi.Sitelevel ===
-                                                                                "Y"
-                                                                                ? this.findMatrixValues(
-                                                                                  subGoal.id,
-                                                                                  kpi.id,
-                                                                                  division.id,
-                                                                                  dataGoalMetrix,
-                                                                                  "YTD_BUDGET_VARIANCE"
-                                                                                )
-                                                                                : ""}
-                                                                            </td>
-                                                                            <td
-                                                                              className={
-                                                                                kpi.Sitelevel ===
-                                                                                  "Y"
-                                                                                  ? ""
-                                                                                  : "no_data"
-                                                                              }
-                                                                            >
-                                                                              <span
-                                                                                className={
-                                                                                  kpi.Sitelevel ===
-                                                                                    "Y"
-                                                                                    ? this.getStatus(
-                                                                                      subGoal.id,
-                                                                                      kpi.id,
-                                                                                      division.id,
-                                                                                      dataGoalMetrix,
-                                                                                      "YTD_BUDGET_VAR_SIGN"
-                                                                                    )
-                                                                                    : ""
-                                                                                }
-                                                                              ></span>
-                                                                            </td>
-                                                                          </tr>
-                                                                        </table>
-                                                                      </td>
-                                                                      <td
-                                                                        style={{
-                                                                          width:
-                                                                            "110px",
-                                                                        }}
-                                                                      >
-                                                                        <table>
-                                                                          <tr>
-                                                                            <td
-                                                                              className={
-                                                                                kpi.Sitelevel ===
-                                                                                  "Y"
-                                                                                  ? ""
-                                                                                  : "no_data"
-                                                                              }
-                                                                            >
-                                                                              {kpi.Sitelevel ===
-                                                                                "Y"
-                                                                                ? this.findMatrixValues(
-                                                                                  subGoal.id,
-                                                                                  kpi.id,
-                                                                                  division.id,
-                                                                                  dataGoalMetrix,
-                                                                                  "YTD_PRIOR_YEAR_VARIANCE"
-                                                                                )
-                                                                                : ""}
-                                                                            </td>
-                                                                            <td
-                                                                              className={
-                                                                                kpi.Sitelevel ===
-                                                                                  "Y"
-                                                                                  ? ""
-                                                                                  : "no_data"
-                                                                              }
-                                                                            >
-                                                                              {" "}
-                                                                              <span
-                                                                                className={
-                                                                                  kpi.Sitlevel ===
-                                                                                    "Y"
-                                                                                    ? this.getStatus(
-                                                                                      subGoal.id,
-                                                                                      kpi.id,
-                                                                                      division.id,
-                                                                                      dataGoalMetrix,
-                                                                                      "YTD_PRIOR_YEAR_VAR_SIGN"
-                                                                                    )
-                                                                                    : ""
-                                                                                }
-                                                                              ></span>
-                                                                            </td>
-                                                                          </tr>
-                                                                        </table>
-                                                                      </td>
-                                                                    </tr>
-                                                                  </table>
-                                                                </td>
-                                                              </tr>
-                                                            </table>
-                                                          </td>
-                                                          <td
-                                                            className={
-                                                              kpi.Sitelevel ===
-                                                                "Y"
-                                                                ? ""
-                                                                : "no_data"
-                                                            }
-                                                          >
-                                                            {kpi.Sitelevel ===
-                                                              "Y" ? (
-                                                              <a
-                                                                href={this.findMatrixValues(
-                                                                  subGoal.id,
-                                                                  kpi.id,
-                                                                  division.id,
-                                                                  dataGoalMetrix,
-                                                                  "URL"
-                                                                )}
-                                                                target="_blank"
-                                                                className={`details ${this.findMatrixValues(
-                                                                  subGoal.id,
-                                                                  kpi.id,
-                                                                  division.id,
-                                                                  dataGoalMetrix,
-                                                                  "URL"
-                                                                ) === null
-                                                                  ? "disabled"
-                                                                  : ""
-                                                                  }`}
-                                                              >
-                                                                Click
-                                                              </a>
-                                                            ) : (
-                                                              ""
-                                                            )}
-                                                          </td>
-                                                        </tr>
-                                                      )}
-                                                    </>
-                                                  );
-                                                }
-                                              );
-
-                                            return (
-                                              <>
-                                                {divisionRows}
-                                                {(allDivisionSelected ||
-                                                  isChecked) && (
-                                                    <tr className="organization_avg">
-                                                      <td
-                                                        style={{
-                                                          textAlign: "left",
-                                                        }}
-                                                      >
-                                                        <button>
-                                                          {organization.name}{" "}
-                                                          (Agg.)
-                                                        </button>
-                                                      </td>
-                                                      <td
-                                                        style={{
-                                                          width: "50px",
-                                                        }}
-                                                      >
-                                                        {this.findMatrixValues(
-                                                          subGoal.id,
-                                                          kpi.id,
-                                                          organization.id,
-                                                          dataGoalMetrix,
-                                                          "ReportType"
                                                         )}
-                                                      </td>
-                                                      <td
-                                                        style={{ padding: "0" }}
-                                                        className={
-                                                          this.findMatrixValues(
-                                                            subGoal.id,
-                                                            kpi.id,
-                                                            organization.id,
-                                                            dataGoalMetrix,
-                                                            "ActualVerify"
-                                                          ) == true
-                                                            ? "change_status"
-                                                            : ""
-                                                        }
-                                                      >
-                                                        <table>
-                                                          <tr>
-                                                            <td
-                                                              style={{
-                                                                textAlign:
-                                                                  "center",
-                                                                border: "0",
-                                                              }}
-                                                            >
-                                                              {this.findMatrixValues(
-                                                                subGoal.id,
-                                                                kpi.id,
-                                                                organization.id,
-                                                                dataGoalMetrix,
-                                                                "MTD_ACTUAL"
-                                                              )}
-                                                            </td>
-                                                            <td
-                                                              style={{
-                                                                textAlign:
-                                                                  "center",
-                                                                borderTop: "0",
-                                                                borderBottom: "0",
-                                                                width: "80px",
-                                                              }}
-                                                            >
-                                                              {this.findMatrixValues(
-                                                                subGoal.id,
-                                                                kpi.id,
-                                                                organization.id,
-                                                                dataGoalMetrix,
-                                                                "MTD_BUDGET"
-                                                              )}
-                                                            </td>
+                                                      </>
+                                                    );
+                                                  }
+                                                );
 
-                                                            <td
-                                                              style={{
-                                                                textAlign:
-                                                                  "center",
-                                                                border: "0",
-                                                              }}
-                                                            >
-                                                              {this.findMatrixValues(
-                                                                subGoal.id,
-                                                                kpi.id,
-                                                                organization.id,
-                                                                dataGoalMetrix,
-                                                                "MTD_PRIOR_YEAR"
-                                                              )}
-                                                            </td>
-                                                          </tr>
-                                                        </table>
-                                                      </td>
-                                                      <td
-                                                        style={{ padding: "0" }}
-                                                        className={
-                                                          this.findMatrixValues(
-                                                            subGoal.id,
-                                                            kpi.id,
-                                                            organization.id,
-                                                            dataGoalMetrix,
-                                                            "TargetVerified"
-                                                          ) == true
-                                                            ? "change_status"
-                                                            : ""
-                                                        }
-                                                      >
-                                                        <table className="budget-py">
-                                                          <tr>
-                                                            <td>
-                                                              <table>
-                                                                <tr>
-                                                                  <td>
-                                                                    {this.findMatrixValues(
-                                                                      subGoal.id,
-                                                                      kpi.id,
-                                                                      organization.id,
-                                                                      dataGoalMetrix,
-                                                                      "MTD_BUDGET_VARIANCE"
-                                                                    )}
-                                                                  </td>
-                                                                  <td>
-                                                                    { }
-                                                                    <span
-                                                                      className={this.getStatus(
-                                                                        subGoal.id,
-                                                                        kpi.id,
-                                                                        organization.id,
-                                                                        dataGoalMetrix,
-                                                                        "MTD_BUDGET_VAR_SIGN"
-                                                                      )}
-                                                                    ></span>
-                                                                  </td>
-                                                                </tr>
-                                                              </table>
-                                                            </td>
-                                                            <td
-                                                              style={{
-                                                                width: "110px",
-                                                              }}
-                                                            >
-                                                              <table>
-                                                                <tr>
-                                                                  <td>
-                                                                    {this.findMatrixValues(
-                                                                      subGoal.id,
-                                                                      kpi.id,
-                                                                      organization.id,
-                                                                      dataGoalMetrix,
-                                                                      "MTD_PRIOR_YEAR_VARIANCE"
-                                                                    )}
-                                                                  </td>
-                                                                  <td>
-                                                                    <span
-                                                                      className={this.getStatus(
-                                                                        subGoal.id,
-                                                                        kpi.id,
-                                                                        organization.id,
-                                                                        dataGoalMetrix,
-                                                                        "MTD_PRIOR_YEAR_VAR_SIGN"
-                                                                      )}
-                                                                    ></span>
-                                                                  </td>
-                                                                </tr>
-                                                              </table>
-                                                            </td>
-                                                          </tr>
-                                                        </table>
-                                                      </td>
-                                                      <td
-                                                        style={{ padding: "0" }}
-                                                      >
-                                                        <table>
-                                                          <tr>
-                                                            <td
-                                                              style={{
-                                                                textAlign:
-                                                                  "center",
-                                                                border: "0",
-                                                              }}
-                                                            >
-                                                              {this.findMatrixValues(
-                                                                subGoal.id,
-                                                                kpi.id,
-                                                                organization.id,
-                                                                dataGoalMetrix,
-                                                                "YTD_ACTUAL"
-                                                              )}
-                                                            </td>
-                                                            <td
-                                                              style={{
-                                                                textAlign:
-                                                                  "center",
-                                                                borderTop: "0",
-                                                                borderBottom: "0",
-                                                                width: "80px",
-                                                              }}
-                                                            >
-                                                              {this.findMatrixValues(
-                                                                subGoal.id,
-                                                                kpi.id,
-                                                                organization.id,
-                                                                dataGoalMetrix,
-                                                                "YTD_BUDGET"
-                                                              )}
-                                                            </td>
-                                                            <td
-                                                              style={{
-                                                                textAlign:
-                                                                  "center",
-                                                                border: "0",
-                                                              }}
-                                                            >
-                                                              {this.findMatrixValues(
-                                                                subGoal.id,
-                                                                kpi.id,
-                                                                organization.id,
-                                                                dataGoalMetrix,
-                                                                "YTD_PRIOR_YEAR"
-                                                              )}
-                                                            </td>
-                                                          </tr>
-                                                        </table>
-                                                      </td>
-                                                      <td
-                                                        style={{ padding: "0" }}
-                                                      >
-                                                        <table className="budget-py">
-                                                          <tr>
-                                                            <td
-                                                              style={{
-                                                                padding: "0",
-                                                              }}
-                                                            >
-                                                              <table>
-                                                                <tr>
-                                                                  <td>
-                                                                    {this.findMatrixValues(
-                                                                      subGoal.id,
-                                                                      kpi.id,
-                                                                      organization.id,
-                                                                      dataGoalMetrix,
-                                                                      "YTD_BUDGET_VARIANCE"
-                                                                    )}
-                                                                  </td>
-                                                                  <td>
-                                                                    {" "}
-                                                                    <span
-                                                                      className={this.getStatus(
-                                                                        subGoal.id,
-                                                                        kpi.id,
-                                                                        organization.id,
-                                                                        dataGoalMetrix,
-                                                                        "YTD_BUDGET_VAR_SIGN"
-                                                                      )}
-                                                                    ></span>
-                                                                  </td>
-                                                                </tr>
-                                                              </table>
-                                                            </td>
-                                                            <td
-                                                              style={{
-                                                                width: "110px",
-                                                              }}
-                                                            >
-                                                              <table>
-                                                                <tr>
-                                                                  <td>
-                                                                    {this.findMatrixValues(
-                                                                      subGoal.id,
-                                                                      kpi.id,
-                                                                      organization.id,
-                                                                      dataGoalMetrix,
-                                                                      "YTD_PRIOR_YEAR_VARIANCE"
-                                                                    )}
-                                                                  </td>
-                                                                  <td>
-                                                                    {" "}
-                                                                    <span
-                                                                      className={this.getStatus(
-                                                                        subGoal.id,
-                                                                        kpi.id,
-                                                                        organization.id,
-                                                                        dataGoalMetrix,
-                                                                        "YTD_PRIOR_YEAR_VAR_SIGN"
-                                                                      )}
-                                                                    ></span>
-                                                                  </td>
-                                                                </tr>
-                                                              </table>
-                                                            </td>
-                                                          </tr>
-                                                        </table>
-                                                      </td>
-                                                      <td>
-                                                        <a
-                                                          href={this.findMatrixValues(
-                                                            subGoal.id,
-                                                            kpi.id,
-                                                            organization.id,
-                                                            dataGoalMetrix,
-                                                            "URL"
-                                                          )}
-                                                          target="_blank"
-                                                          className={`details ${this.findMatrixValues(
-                                                            subGoal.id,
-                                                            kpi.id,
-                                                            organization.id,
-                                                            dataGoalMetrix,
-                                                            "URL"
-                                                          ) === null
-                                                            ? "disabled"
-                                                            : ""
-                                                            }`}
+                                              return (
+                                                <>
+                                                  {divisionRows}
+                                                  {(allDivisionSelected ||
+                                                    isChecked) && (
+                                                      <tr className="organization_avg">
+                                                        <td
+                                                          style={{
+                                                            textAlign: "left",
+                                                          }}
                                                         >
-                                                          Click
-                                                        </a>
-                                                      </td>
-                                                    </tr>
-                                                  )}
-                                              </>
-                                            );
-                                          }
-                                        )}
-                                      </tbody>
-                                    </table>
-                                  ))}
-                                </div>
-                              ))}
+                                                          <button>
+                                                            {organization.name}{" "}
+                                                            (Agg.)
+                                                          </button>
+                                                        </td>
+                                                        <td
+                                                          style={{
+                                                            width: "50px",
+                                                          }}
+                                                        >
+                                                          {this.findMatrixValues(
+                                                            subGoal.id,
+                                                            kpi.id,
+                                                            organization.id,
+                                                            dataGoalMetrix,
+                                                            "ReportType"
+                                                          )}
+                                                        </td>
+                                                        <td
+                                                          style={{ padding: "0" }}
+                                                          className={
+                                                            this.findMatrixValues(
+                                                              subGoal.id,
+                                                              kpi.id,
+                                                              organization.id,
+                                                              dataGoalMetrix,
+                                                              "ActualVerify"
+                                                            ) == true
+                                                              ? "change_status"
+                                                              : ""
+                                                          }
+                                                        >
+                                                          <table>
+                                                            <tr>
+                                                              <td
+                                                                style={{
+                                                                  textAlign:
+                                                                    "center",
+                                                                  border: "0",
+                                                                }}
+                                                              >
+                                                                {this.findMatrixValues(
+                                                                  subGoal.id,
+                                                                  kpi.id,
+                                                                  organization.id,
+                                                                  dataGoalMetrix,
+                                                                  "MTD_ACTUAL"
+                                                                )}
+                                                              </td>
+                                                              <td
+                                                                style={{
+                                                                  textAlign:
+                                                                    "center",
+                                                                  borderTop: "0",
+                                                                  borderBottom: "0",
+                                                                  width: "80px",
+                                                                }}
+                                                              >
+                                                                {this.findMatrixValues(
+                                                                  subGoal.id,
+                                                                  kpi.id,
+                                                                  organization.id,
+                                                                  dataGoalMetrix,
+                                                                  "MTD_BUDGET"
+                                                                )}
+                                                              </td>
+
+                                                              <td
+                                                                style={{
+                                                                  textAlign:
+                                                                    "center",
+                                                                  border: "0",
+                                                                }}
+                                                              >
+                                                                {this.findMatrixValues(
+                                                                  subGoal.id,
+                                                                  kpi.id,
+                                                                  organization.id,
+                                                                  dataGoalMetrix,
+                                                                  "MTD_PRIOR_YEAR"
+                                                                )}
+                                                              </td>
+                                                            </tr>
+                                                          </table>
+                                                        </td>
+                                                        <td
+                                                          style={{ padding: "0" }}
+                                                          className={
+                                                            this.findMatrixValues(
+                                                              subGoal.id,
+                                                              kpi.id,
+                                                              organization.id,
+                                                              dataGoalMetrix,
+                                                              "TargetVerified"
+                                                            ) == true
+                                                              ? "change_status"
+                                                              : ""
+                                                          }
+                                                        >
+                                                          <table className="budget-py">
+                                                            <tr>
+                                                              <td>
+                                                                <table>
+                                                                  <tr>
+                                                                    <td>
+                                                                      {this.findMatrixValues(
+                                                                        subGoal.id,
+                                                                        kpi.id,
+                                                                        organization.id,
+                                                                        dataGoalMetrix,
+                                                                        "MTD_BUDGET_VARIANCE"
+                                                                      )}
+                                                                    </td>
+                                                                    <td>
+                                                                      { }
+                                                                      <span
+                                                                        className={this.getStatus(
+                                                                          subGoal.id,
+                                                                          kpi.id,
+                                                                          organization.id,
+                                                                          dataGoalMetrix,
+                                                                          "MTD_BUDGET_VAR_SIGN"
+                                                                        )}
+                                                                      ></span>
+                                                                    </td>
+                                                                  </tr>
+                                                                </table>
+                                                              </td>
+                                                              <td
+                                                                style={{
+                                                                  width: "110px",
+                                                                }}
+                                                              >
+                                                                <table>
+                                                                  <tr>
+                                                                    <td>
+                                                                      {this.findMatrixValues(
+                                                                        subGoal.id,
+                                                                        kpi.id,
+                                                                        organization.id,
+                                                                        dataGoalMetrix,
+                                                                        "MTD_PRIOR_YEAR_VARIANCE"
+                                                                      )}
+                                                                    </td>
+                                                                    <td>
+                                                                      <span
+                                                                        className={this.getStatus(
+                                                                          subGoal.id,
+                                                                          kpi.id,
+                                                                          organization.id,
+                                                                          dataGoalMetrix,
+                                                                          "MTD_PRIOR_YEAR_VAR_SIGN"
+                                                                        )}
+                                                                      ></span>
+                                                                    </td>
+                                                                  </tr>
+                                                                </table>
+                                                              </td>
+                                                            </tr>
+                                                          </table>
+                                                        </td>
+                                                        <td
+                                                          style={{ padding: "0" }}
+                                                        >
+                                                          <table>
+                                                            <tr>
+                                                              <td
+                                                                style={{
+                                                                  textAlign:
+                                                                    "center",
+                                                                  border: "0",
+                                                                }}
+                                                              >
+                                                                {this.findMatrixValues(
+                                                                  subGoal.id,
+                                                                  kpi.id,
+                                                                  organization.id,
+                                                                  dataGoalMetrix,
+                                                                  "YTD_ACTUAL"
+                                                                )}
+                                                              </td>
+                                                              <td
+                                                                style={{
+                                                                  textAlign:
+                                                                    "center",
+                                                                  borderTop: "0",
+                                                                  borderBottom: "0",
+                                                                  width: "80px",
+                                                                }}
+                                                              >
+                                                                {this.findMatrixValues(
+                                                                  subGoal.id,
+                                                                  kpi.id,
+                                                                  organization.id,
+                                                                  dataGoalMetrix,
+                                                                  "YTD_BUDGET"
+                                                                )}
+                                                              </td>
+                                                              <td
+                                                                style={{
+                                                                  textAlign:
+                                                                    "center",
+                                                                  border: "0",
+                                                                }}
+                                                              >
+                                                                {this.findMatrixValues(
+                                                                  subGoal.id,
+                                                                  kpi.id,
+                                                                  organization.id,
+                                                                  dataGoalMetrix,
+                                                                  "YTD_PRIOR_YEAR"
+                                                                )}
+                                                              </td>
+                                                            </tr>
+                                                          </table>
+                                                        </td>
+                                                        <td
+                                                          style={{ padding: "0" }}
+                                                        >
+                                                          <table className="budget-py">
+                                                            <tr>
+                                                              <td
+                                                                style={{
+                                                                  padding: "0",
+                                                                }}
+                                                              >
+                                                                <table>
+                                                                  <tr>
+                                                                    <td>
+                                                                      {this.findMatrixValues(
+                                                                        subGoal.id,
+                                                                        kpi.id,
+                                                                        organization.id,
+                                                                        dataGoalMetrix,
+                                                                        "YTD_BUDGET_VARIANCE"
+                                                                      )}
+                                                                    </td>
+                                                                    <td>
+                                                                      {" "}
+                                                                      <span
+                                                                        className={this.getStatus(
+                                                                          subGoal.id,
+                                                                          kpi.id,
+                                                                          organization.id,
+                                                                          dataGoalMetrix,
+                                                                          "YTD_BUDGET_VAR_SIGN"
+                                                                        )}
+                                                                      ></span>
+                                                                    </td>
+                                                                  </tr>
+                                                                </table>
+                                                              </td>
+                                                              <td
+                                                                style={{
+                                                                  width: "110px",
+                                                                }}
+                                                              >
+                                                                <table>
+                                                                  <tr>
+                                                                    <td>
+                                                                      {this.findMatrixValues(
+                                                                        subGoal.id,
+                                                                        kpi.id,
+                                                                        organization.id,
+                                                                        dataGoalMetrix,
+                                                                        "YTD_PRIOR_YEAR_VARIANCE"
+                                                                      )}
+                                                                    </td>
+                                                                    <td>
+                                                                      {" "}
+                                                                      <span
+                                                                        className={this.getStatus(
+                                                                          subGoal.id,
+                                                                          kpi.id,
+                                                                          organization.id,
+                                                                          dataGoalMetrix,
+                                                                          "YTD_PRIOR_YEAR_VAR_SIGN"
+                                                                        )}
+                                                                      ></span>
+                                                                    </td>
+                                                                  </tr>
+                                                                </table>
+                                                              </td>
+                                                            </tr>
+                                                          </table>
+                                                        </td>
+                                                        <td>
+                                                          <a
+                                                            href={this.findMatrixValues(
+                                                              subGoal.id,
+                                                              kpi.id,
+                                                              organization.id,
+                                                              dataGoalMetrix,
+                                                              "URL"
+                                                            )}
+                                                            target="_blank"
+                                                            className={`details ${this.findMatrixValues(
+                                                              subGoal.id,
+                                                              kpi.id,
+                                                              organization.id,
+                                                              dataGoalMetrix,
+                                                              "URL"
+                                                            ) === null
+                                                              ? "disabled"
+                                                              : ""
+                                                              }`}
+                                                          >
+                                                            Click
+                                                          </a>
+                                                        </td>
+                                                      </tr>
+                                                    )}
+                                                </>
+                                              );
+                                            }
+                                          )}
+                                        </tbody>
+                                      </table>
+                                    ))}
+                                  </div>
+                                ))}
+                              </div>
                             </div>
                           </div>
-                        </div>
-                      ))}
+                        ))}
+                      </div>
                     </div>
-                  </div>
-                </>
-              ))}
+                  </>
+                ))}
+              </div>
             </div>
           </div>
-        </div>
 
-        <div className={styles.dummy}></div>
-      </section>
+          <div className={styles.dummy}></div>
+        </section>
       </>
     );
   }

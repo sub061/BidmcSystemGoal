@@ -18,6 +18,7 @@ export interface ISystemGoalKpiProps {
   getOperatingModel: IOperatingModel[];
   getAllHospital: IHospital[];
   pdfHospitalData?: [];
+  isLoading?: boolean;
 }
 
 export interface ISystemGoalProps {
