@@ -607,6 +607,12 @@
 }
 
 // loader style
+.loading-class{
+  overflow: hidden !important;
+  *{
+    overflow: hidden !important;
+  }
+}
 .loader_container{
   display: flex;
   align-items: center;
