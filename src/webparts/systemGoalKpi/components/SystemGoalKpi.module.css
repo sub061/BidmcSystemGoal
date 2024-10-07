@@ -501,6 +501,13 @@
   padding: 0;
 }
 
+body.loading-class {
+  overflow: hidden !important;
+}
+body.loading-class * {
+  overflow: hidden !important;
+}
+
 .loader_container {
   display: flex;
   align-items: center;
