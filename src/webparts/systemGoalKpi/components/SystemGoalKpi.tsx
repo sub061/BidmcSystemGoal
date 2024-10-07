@@ -476,14 +476,11 @@ export default class SystemGoalKpi extends React.Component<
       dataAllHospital || []
     );
     const goalHirerachyData = this.getGoalHirerachy(dataKPI || []);
-    console.log("Asli matrix Data ---->", dataGoalMetrix);
+    console.log("aaaaaaaaaaaaaaaannnnnnnnnnnnnnnnnnnnnnnnn ---->", dataGoalMetrix);
 
     return (
       <>
-
-
-        <section>
-          {this.state.isloading && (
+{this.state.isloading && (
             <div className="loader_container">
               <div className="box_align">
                 <div className="lds-ring">
@@ -496,6 +493,9 @@ export default class SystemGoalKpi extends React.Component<
               </div>
             </div>
           )}
+
+        <section>
+          
           <div
             style={{
               width: "100%",
