@@ -99,7 +99,7 @@ export default class SystemGoalKpi extends React.Component<
   }
 
   componentDidUpdate(prevProps: any, prevState: any) {
-    
+
     console.log(prevProps);
     // Check if isLoading state has changed
     if (prevState.isloading !== this.state.isloading) {
@@ -187,7 +187,14 @@ export default class SystemGoalKpi extends React.Component<
         });
       });
     }
-    this.setState({ pdfDivisionIDs: updatedDivisionIds });
+
+    this.setState((prevState) => {
+      const updatedSelection = new Set(prevState.selectedHospitalsNew);
+      updatedSelection.add(22); // Adding 22 to the Set
+
+      return { selectedHospitalsNew: updatedSelection, pdfDivisionIDs: updatedDivisionIds };
+    });
+
   };
 
   private prepareHospitalHirerachy = (data: IHospital[]) => {
@@ -487,7 +494,7 @@ export default class SystemGoalKpi extends React.Component<
     );
     const goalHirerachyData = this.getGoalHirerachy(dataKPI || []);
     console.log(
-      "amitttttttttttttttttttttttttttttttttttttt vAAAAAAAAAAAAAAAAAAAAAA ---->",
+      "Sagar ZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ ---->",
       dataGoalMetrix
     );
 
