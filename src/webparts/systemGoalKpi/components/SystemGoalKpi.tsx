@@ -743,8 +743,8 @@ export default class SystemGoalKpi extends React.Component<
                                             >
                                               {kpi.title}
                                               <ReactTooltip
+                                              className="bilh_tooltip"
                                                 id={`tooltip-${kpi.id}`}
-                                                style={{ width: "250px" }}
                                               >
                                                 <div
                                                   style={{
@@ -961,11 +961,9 @@ export default class SystemGoalKpi extends React.Component<
                                                                 }}
                                                               >
                                                                 <ReactTooltip
+                                                                className="bilh_tooltip"
                                                                   id={`tooltip-${hospital.id}_${kpi.id}`}
-                                                                  style={{
-                                                                    width:
-                                                                      "250px",
-                                                                  }}
+                                                                 
                                                                 >
                                                                   <div
                                                                     style={{
@@ -975,7 +973,6 @@ export default class SystemGoalKpi extends React.Component<
                                                                         "column",
                                                                     }}
                                                                   >
-                                                                    <span>
                                                                       {this.findMatrixValues(
                                                                         subGoal.id,
                                                                         kpi.id,
@@ -983,7 +980,6 @@ export default class SystemGoalKpi extends React.Component<
                                                                         dataGoalMetrix,
                                                                         "Comment"
                                                                       ) || ""}
-                                                                    </span>
                                                                   </div>
                                                                 </ReactTooltip>
                                                                 <button>
@@ -1511,11 +1507,8 @@ export default class SystemGoalKpi extends React.Component<
                                                               }}
                                                             >
                                                               <ReactTooltip
+                                                              className="bilh_tooltip"
                                                                 id={`tooltip-${division.id}_${kpi.id}`}
-                                                                style={{
-                                                                  width:
-                                                                    "250px",
-                                                                }}
                                                               >
                                                                 <div
                                                                   style={{
@@ -1525,15 +1518,13 @@ export default class SystemGoalKpi extends React.Component<
                                                                       "column",
                                                                   }}
                                                                 >
-                                                                  <span>
                                                                     {this.findMatrixValues(
                                                                       subGoal.id,
                                                                       kpi.id,
-                                                                      organization.id,
+                                                                      division.id,
                                                                       dataGoalMetrix,
                                                                       "Comment"
                                                                     ) || ""}
-                                                                  </span>
                                                                 </div>
                                                               </ReactTooltip>
 
@@ -2064,10 +2055,9 @@ export default class SystemGoalKpi extends React.Component<
                                                           }}
                                                         >
                                                           <ReactTooltip
+                                                          className="bilh_tooltip"
                                                             id={`tooltip-${organization.id}_${kpi.id}`}
-                                                            style={{
-                                                              width: "250px",
-                                                            }}
+                                                            
                                                           >
                                                             <div
                                                               style={{
@@ -2076,15 +2066,13 @@ export default class SystemGoalKpi extends React.Component<
                                                                   "column",
                                                               }}
                                                             >
-                                                              <span>
-                                                                {this.findMatrixValues(
+                                                                 {this.findMatrixValues(
                                                                   subGoal.id,
                                                                   kpi.id,
                                                                   organization.id,
                                                                   dataGoalMetrix,
                                                                   "Comment"
                                                                 ) || ""}
-                                                              </span>
                                                             </div>
                                                           </ReactTooltip>
 

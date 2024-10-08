@@ -606,6 +606,13 @@
   }
 }
 
+// tooltip
+                                               
+.bilh_tooltip {
+  width: auto;
+  max-width: 250px;
+}
+
 // loader style
 body.loading-class{
   overflow: hidden !important;

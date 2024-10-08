@@ -501,6 +501,11 @@
   padding: 0;
 }
 
+.bilh_tooltip {
+  width: auto;
+  max-width: 250px;
+}
+
 body.loading-class {
   overflow: hidden !important;
 }
