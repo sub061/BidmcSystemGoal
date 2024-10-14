@@ -413,12 +413,20 @@ export default class SystemGoalKpi extends React.Component<
           return "success green";
         case a[key] === "G" && a[key2] === "D":
           return "error green";
-        case a[key] === "Y":
+        case a[key] === "G" && a[key2] === "N":
+          return "warning green";
+        case a[key] === "Y" && a[key2] === "U":
+          return "success yellow";
+        case a[key] === "Y" && a[key2] === "D":
+          return "error yellow";
+        case a[key] === "Y" && a[key2] === "N":
           return "warning yellow";
         case a[key] === "R" && a[key2] === "U":
           return "success red";
         case a[key] === "R" && a[key2] === "D":
           return "error red ";
+        case a[key] === "R" && a[key2] === "N":
+          return "warning red";
         default:
           return " ";
       }
