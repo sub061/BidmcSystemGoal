@@ -141,24 +141,30 @@
 }
 .system_goel_container .box_model .inner_container tbody td span.success::after {
   content: "\f062";
-  color: #7fba00;
   font-size: 12px;
   font-family: "Font Awesome 5 Free";
   font-weight: 900;
 }
 .system_goel_container .box_model .inner_container tbody td span.error::after {
   content: "\f063";
-  color: #f05916;
   font-size: 12px;
   font-family: "Font Awesome 5 Free";
   font-weight: 900;
 }
 .system_goel_container .box_model .inner_container tbody td span.warning::after {
   content: "\f068";
-  color: #ffc107;
   font-size: 16px;
   font-family: "Font Awesome 5 Free";
   font-weight: 900;
+}
+.system_goel_container .box_model .inner_container tbody td span.green::after {
+  color: #7fba00;
+}
+.system_goel_container .box_model .inner_container tbody td span.red::after {
+  color: #f05916;
+}
+.system_goel_container .box_model .inner_container tbody td span.yellow::after {
+  color: #ffc107;
 }
 .system_goel_container .box_model .inner_container tbody td button, .system_goel_container .box_model .inner_container tbody td a {
   background-color: transparent;

@@ -183,8 +183,7 @@
             &.success {
               // background-color: #7fba00;
               &::after{
-                content: "\f062";
-                color: #7fba00;
+                content: "\f062";                
                 font-size: 12px;
                 font-family: "Font Awesome\ 5 Free";
                 font-weight: 900;
@@ -193,8 +192,7 @@
             &.error {
               // background-color: #f05916;
               &::after{
-                content: "\f063";
-                color: #f05916;
+                content: "\f063";                
                 font-size: 12px;
                 font-family: "Font Awesome\ 5 Free";
                 font-weight: 900;
@@ -202,12 +200,32 @@
             }
             &.warning {
               // background-color: #eac20c;
-              &::after{
+              &::after {
                 content: "\f068";
-                color: #ffc107;
                 font-size: 16px;
                 font-family: "Font Awesome\ 5 Free";
                 font-weight: 900;
+              }
+            }
+
+            &.green {
+              &::after {
+                 color: #7fba00;
+              }
+             
+            }
+
+            &.red {
+              &::after {
+                color: #f05916;
+              }
+              
+            }
+
+            &.yellow {
+              
+              &::after {
+                color: #ffc107;
               }
             }
           }
