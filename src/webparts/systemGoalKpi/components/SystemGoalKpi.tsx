@@ -644,7 +644,27 @@ export default class SystemGoalKpi extends React.Component<
                               </span>
                             </button>
                             <ul className="dropdown-menu">
-                              <li>
+                              {goalHirerachyData.map((goal: any) => (
+                                <li>
+                                  <input
+                                    type="checkbox"
+                                    className="form-check-input"
+                                    id={goal.name}
+                                    checked={checkedSystemGoalsNew.has(goal.id)}
+                                    onChange={() =>
+                                      this.handleGoalChange(goal.id)
+                                    }
+                                  />
+                                  <label
+                                    htmlFor={goal.name}
+                                    className="dropdown-item"
+                                  >
+                                    {goal.name}
+                                  </label>
+                                </li>
+                              ))}
+
+                              {/* <li>
                                 <input
                                   type="checkbox"
                                   name="People"
@@ -705,7 +725,7 @@ export default class SystemGoalKpi extends React.Component<
                                 >
                                   Strategy
                                 </label>
-                              </li>
+                              </li> */}
                             </ul>
                           </div>
                           <button
