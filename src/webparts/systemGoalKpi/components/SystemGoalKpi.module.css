@@ -116,9 +116,6 @@
 .system_goel_container .box_model .inner_container tbody tr.organization_avg {
   background-color: #c4e7ff;
 }
-.system_goel_container .box_model .inner_container tbody tr.organization_avg td a {
-  background-color: #fff;
-}
 .system_goel_container .box_model .inner_container tbody td {
   padding: 0;
   font-size: 11px;
