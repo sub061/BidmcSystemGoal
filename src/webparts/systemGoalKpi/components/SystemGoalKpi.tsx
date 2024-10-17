@@ -637,6 +637,7 @@ export default class SystemGoalKpi extends React.Component<
                                   textAlign: "left",
                                   position: "relative",
                                   top: "-1px",
+                                  fontSize: '14px',
                                 }}
                               >
                                 {" "}
