@@ -95,7 +95,7 @@ export default class SystemGoalKpi extends React.Component<
       this.setState({
         isPageLoading: false,
       });
-    }, 2000);
+    }, 1000);
   }
 
   componentDidUpdate(prevProps: any, prevState: any) {
@@ -444,17 +444,37 @@ export default class SystemGoalKpi extends React.Component<
     return " ";
   };
 
-  handleCheckboxChange = (event: any) => {
-    const isChecked = event.target.checked;
-    this.setState((prev: any) => {
-      const updatedSelectedHospitals = !isChecked ? new Set([]) : new Set([22]);
-      const updatedSelectedDivsionId = !isChecked
-        ? prev.pdfDivisionIDs
-        : new Set([]);
+  // handleCheckboxChange = (event: any) => {
+  //   const isChecked = event.target.checked;
+  //   this.setState((prev: any) => {
+  //     const updatedSelectedHospitals = !isChecked ? new Set([]) : new Set([22]);
+  //     const updatedSelectedDivsionId = !isChecked
+  //       ? prev.pdfDivisionIDs
+  //       : new Set([]);
+  //     return {
+  //       isChecked: isChecked,
+  //       selectedHospitalsNew: updatedSelectedHospitals,
+  //       pdfDivisionIDs: updatedSelectedDivsionId,
+  //     };
+  //   });
+  // };
+
+  //by subhash
+
+  handleCheckboxChange = (hospitalId: number) => {
+    console.log("org Data ---->", hospitalId);
+
+    this.setState((prev) => {
+      const updatedSelectedHospitals = new Set(prev.selectedHospitalsNew);
+      if (updatedSelectedHospitals.has(hospitalId)) {
+        updatedSelectedHospitals.delete(hospitalId);
+      } else {
+        updatedSelectedHospitals.add(hospitalId);
+      }
+
       return {
-        isChecked: isChecked,
+        isChecked: false,
         selectedHospitalsNew: updatedSelectedHospitals,
-        pdfDivisionIDs: updatedSelectedDivsionId,
       };
     });
   };
@@ -616,10 +636,15 @@ export default class SystemGoalKpi extends React.Component<
                             <input
                               type="checkbox"
                               className="agg_checkbox"
-                              checked={isChecked}
-                              onChange={this.handleCheckboxChange}
+                              value={organization.id}
+                              checked={selectedHospitalsNew.has(
+                                organization.id
+                              )}
+                              onChange={(e) =>
+                                this.handleCheckboxChange(organization.id)
+                              }
                             />
-                            BILH (Agg.)
+                            {organization.name}
                           </span>
                         </div>
                         <div className="filter_right">
@@ -637,7 +662,7 @@ export default class SystemGoalKpi extends React.Component<
                                   textAlign: "left",
                                   position: "relative",
                                   top: "-1px",
-                                  fontSize: '14px',
+                                  fontSize: "14px",
                                 }}
                               >
                                 {" "}
