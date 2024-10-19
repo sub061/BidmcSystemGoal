@@ -292,7 +292,7 @@ export default class SystemGoalKpi extends React.Component<
       } else {
         updatedSelection.add(hospitalId);
       }
-      return { isChecked: false, selectedHospitalsNew: updatedSelection };
+      return { selectedHospitalsNew: updatedSelection };
     });
   };
 
@@ -325,7 +325,7 @@ export default class SystemGoalKpi extends React.Component<
         hospitalsToToggle.forEach((id) => updatedSelection.add(id));
       }
 
-      return { isChecked: false, selectedHospitalsNew: updatedSelection };
+      return { selectedHospitalsNew: updatedSelection };
     });
   };
 
@@ -359,7 +359,7 @@ export default class SystemGoalKpi extends React.Component<
 
       updatedSelection.add(22);
 
-      return { isChecked: false, selectedHospitalsNew: updatedSelection };
+      return { selectedHospitalsNew: updatedSelection };
     });
   };
 
@@ -461,23 +461,40 @@ export default class SystemGoalKpi extends React.Component<
 
   //by subhash
 
-  handleCheckboxChange = (hospitalId: number) => {
-    console.log("org Data ---->", hospitalId);
-
+  handleCheckboxChange = (event: any) => {
+    const isChecked = event.target.checked;
     this.setState((prev) => {
       const updatedSelectedHospitals = new Set(prev.selectedHospitalsNew);
-      if (updatedSelectedHospitals.has(hospitalId)) {
-        updatedSelectedHospitals.delete(hospitalId);
+      if (updatedSelectedHospitals.has(22)) {
+        updatedSelectedHospitals.delete(22);
       } else {
-        updatedSelectedHospitals.add(hospitalId);
+        updatedSelectedHospitals.add(22);
       }
-
       return {
-        isChecked: false,
+        isChecked: isChecked,
         selectedHospitalsNew: updatedSelectedHospitals,
+        // pdfDivisionIDs: updatedSelectedDivsionId,
       };
     });
   };
+
+  // handleCheckboxChange = (hospitalId: number) => {
+  //   console.log("org Data ---->", hospitalId);
+
+  //   this.setState((prev) => {
+  //     const updatedSelectedHospitals = new Set(prev.selectedHospitalsNew);
+  //     if (updatedSelectedHospitals.has(hospitalId)) {
+  //       updatedSelectedHospitals.delete(hospitalId);
+  //     } else {
+  //       updatedSelectedHospitals.add(hospitalId);
+  //     }
+
+  //     return {
+  //       isChecked: false,
+  //       selectedHospitalsNew: updatedSelectedHospitals,
+  //     };
+  //   });
+  // };
 
   private generatePrintFuctionRequest = async () => {
     const { selectedHospitalsNew, pdfDivisionIDs, checkedSystemGoalsNew } =
@@ -640,11 +657,12 @@ export default class SystemGoalKpi extends React.Component<
                               checked={selectedHospitalsNew.has(
                                 organization.id
                               )}
-                              onChange={(e) =>
-                                this.handleCheckboxChange(organization.id)
-                              }
+                              onChange={this.handleCheckboxChange}
+                              // onChange={(e) =>
+                              //   this.handleCheckboxChange(organization.id)
+                              // }
                             />
-                            {organization.name}
+                            {organization.name}(Agg.)
                           </span>
                         </div>
                         <div className="filter_right">
@@ -1069,11 +1087,11 @@ export default class SystemGoalKpi extends React.Component<
                                                                   ) !== -1
                                                                     ? "d-none"
                                                                     : ""
-                                                                } ${
-                                                                  isChecked
-                                                                    ? "d-none"
-                                                                    : ""
-                                                                }`}
+                                                                } 
+                                                              //  comment by subhash on 19 oct 
+                                                            
+                                                                
+                                                                  `}
                                                               >
                                                                 <td
                                                                   data-tooltip-id={`tooltip-${hospital.id}_${kpi.id}`}
@@ -1626,11 +1644,8 @@ export default class SystemGoalKpi extends React.Component<
                                                                 null
                                                                   ? "d-none"
                                                                   : ""
-                                                              } ${
-                                                                isChecked
-                                                                  ? "d-none"
-                                                                  : ""
-                                                              }`}
+                                                              } 
+                                                              `}
                                                             >
                                                               <td
                                                                 data-tooltip-id={`tooltip-${division.id}_${kpi.id}`}
@@ -2185,6 +2200,7 @@ export default class SystemGoalKpi extends React.Component<
                                                 return (
                                                   <>
                                                     {divisionRows}
+
                                                     {(allDivisionSelected ||
                                                       isChecked) && (
                                                       <tr className="organization_avg">
