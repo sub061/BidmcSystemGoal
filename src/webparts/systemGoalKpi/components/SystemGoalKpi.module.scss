@@ -589,7 +589,8 @@
           & + span {
             min-width: 100%;
             height: auto;
-            font-size: 14px;
+            font-size: 16px;
+            padding: 4px !important;
           }
           &:checked {
             & + span {
