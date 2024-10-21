@@ -356,13 +356,16 @@ export default class SystemGoalKpi extends React.Component<
       );
 
       if (allSelected) {
+        console.log("if");
         hospitalsToToggle.forEach((id) => updatedSelection.delete(id));
+        updatedSelection.delete(22);
       } else {
+        console.log("else");
         hospitalsToToggle.forEach((id) => updatedSelection.add(id));
+        updatedSelection.add(22);
       }
 
-      updatedSelection.add(22);
-      console.log("bilh checkbox value now -----------", isChecked);
+      console.log("bilh checkbox value now -----------", updatedSelection);
       return { isChecked: isChecked, selectedHospitalsNew: updatedSelection };
     });
   };
@@ -477,7 +480,7 @@ export default class SystemGoalKpi extends React.Component<
       return {
         isChecked: isChecked,
         selectedHospitalsNew: updatedSelectedHospitals,
-        // pdfDivisionIDs: updatedSelectedDivsionId,
+        //pdfDivisionIDs: updatedSelectedDivsionId,
       };
     });
   };
@@ -504,6 +507,8 @@ export default class SystemGoalKpi extends React.Component<
     const { selectedHospitalsNew, pdfDivisionIDs, checkedSystemGoalsNew } =
       this.state;
     // Merge and deduplicate hospital IDs
+    console.log("selected hospital---------------", selectedHospitalsNew);
+    console.log("selected division id-----", pdfDivisionIDs);
     const mergedHospitalIds = Array.from(
       new Set([...selectedHospitalsNew, ...pdfDivisionIDs])
     );
