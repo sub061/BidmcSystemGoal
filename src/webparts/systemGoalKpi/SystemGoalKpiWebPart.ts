@@ -229,6 +229,8 @@ export default class SystemGoalKpiWebPart extends BaseClientSideWebPart<ISystemG
       console.log("element ---->", element);
 
       if (domElement) {
+
+        console.log("dom inside");
         ReactDom.render(element, domElement);
       } else {
         console.error('The specified DOM element is not found.');

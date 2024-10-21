@@ -337,6 +337,10 @@ export default class SystemGoalKpi extends React.Component<
       const updatedSelection = new Set(prevState.selectedHospitalsNew);
       const hospitalsToToggle: any[] = [];
 
+      const isChecked: boolean = prevState.isChecked;
+
+      // Check if updatedSelection has id 22
+
       hirerachicalHospitalData.forEach((org: any) => {
         if (org.id === organizationId) {
           org.division.forEach((div: any) => {
@@ -358,8 +362,8 @@ export default class SystemGoalKpi extends React.Component<
       }
 
       updatedSelection.add(22);
-
-      return { selectedHospitalsNew: updatedSelection };
+      console.log("bilh checkbox value now -----------", isChecked);
+      return { isChecked: isChecked, selectedHospitalsNew: updatedSelection };
     });
   };
 
@@ -654,9 +658,10 @@ export default class SystemGoalKpi extends React.Component<
                               type="checkbox"
                               className="agg_checkbox"
                               value={organization.id}
-                              checked={selectedHospitalsNew.has(
-                                organization.id
-                              )}
+                              checked={isChecked}
+                              // checked={selectedHospitalsNew.has(
+                              //   organization.id
+                              // )}
                               onChange={this.handleCheckboxChange}
                               // onChange={(e) =>
                               //   this.handleCheckboxChange(organization.id)
