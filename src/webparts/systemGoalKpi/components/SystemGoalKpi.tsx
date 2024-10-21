@@ -359,6 +359,9 @@ export default class SystemGoalKpi extends React.Component<
         console.log("if");
         hospitalsToToggle.forEach((id) => updatedSelection.delete(id));
         updatedSelection.delete(22);
+        if (isChecked) {
+          updatedSelection.add(22);
+        }
       } else {
         console.log("else");
         hospitalsToToggle.forEach((id) => updatedSelection.add(id));
